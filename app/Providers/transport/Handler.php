@@ -39,7 +39,47 @@ class Handler {
             $res = $this->client->post($method, [
                 'form_params' => $params
             ]);
-            return new ResultDto($res['code'], $res['message'], $res['data']);
+            $response = json_decode($res->getBody()->getContents(), true);
+
+            return new ResultDto($response['code'], $response['message'], $response['data']);
+        } catch (Exception $e) {
+            Sentry\captureException($e);
+            return new ResultDto(400, $e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return ResultDto
+     */
+    public function put(string $method, array $params): ResultDto {
+        try {
+            $res = $this->client->put($method, [
+                'form_params' => $params
+            ]);
+            $response = json_decode($res->getBody()->getContents(), true);
+
+            return new ResultDto($response['code'], $response['message'], $response['data']);
+        } catch (Exception $e) {
+            Sentry\captureException($e);
+            return new ResultDto(400, $e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return ResultDto
+     */
+    public function get(string $method, array $params): ResultDto {
+        try {
+            $res = $this->client->get($method, [
+                'form_params' => $params
+            ]);
+            $response = json_decode($res->getBody()->getContents(), true);
+
+            return new ResultDto($response['code'], $response['message'], $response['data']);
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
