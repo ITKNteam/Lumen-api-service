@@ -26,6 +26,11 @@ class ResultDto {
     const FAIL = 0;
 
     /**
+     * Http success status
+     */
+    const HTTP_SUCCESS = 200;
+
+    /**
      * @var string
      */
     private $message;
@@ -62,7 +67,7 @@ class ResultDto {
      * @return bool
      */
     public function isSuccess(): bool {
-        return $this->res === self::OK;
+        return in_array($this->res, [self::OK, self::HTTP_SUCCESS]);
     }
 
     /**
@@ -77,5 +82,20 @@ class ResultDto {
      */
     public function getData(): array {
         return $this->data;
+    }
+
+    static public function createResult(int $code, string $message, array $data = []): array {
+        return [
+            'res' => $code,
+            'message' => $message,
+            'data' => $data
+        ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getRes(): int {
+        return $this->res;
     }
 }
