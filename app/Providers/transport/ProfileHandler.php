@@ -4,10 +4,17 @@ namespace App\Providers\transport;
 
 use App\Models\ResultDto;
 use App\Providers\Exceptions\IncorrectLoginException;
-use App\Providers\Exceptions\UserExistException;
-use App\Providers\Exceptions\UserNotFoundException;
 
 class ProfileHandler extends Handler {
+    /**
+     * NotifierHandler constructor.
+     * @param string $url
+     * @throws \Exception
+     */
+    function __construct(string $url) {
+        parent::__construct($url);
+        $this->serviceName = 'Biz';
+    }
 
     /**
      * @param array $options
@@ -19,7 +26,7 @@ class ProfileHandler extends Handler {
             throw new IncorrectLoginException();
         }
 
-        $options['loginIs'] = $this->loginIsEmailOrPhone($options['login']);
+        $options['loginIs'] = self::loginIsEmailOrPhone($options['login']);
 
         return $this->post('profile/create', $options);
     }
@@ -55,11 +62,11 @@ class ProfileHandler extends Handler {
      */
     public function loginUser(array $options): ResultDto {
         if (!$this->validateLogin($options['login'])) {
-            throw new IncorrectLoginException();
+            throw new IncorrectLoginException('Not valid login');
         }
-        $options['loginIs'] = $this->loginIsEmailOrPhone($options['login']);
+        $options['loginIs'] = self::loginIsEmailOrPhone($options['login']);
 
-        return $this->post('profile/login', $options);;
+        return $this->post('profile/login', $options);
     }
 
     /**
@@ -208,7 +215,7 @@ class ProfileHandler extends Handler {
      *
      * @return string
      */
-    public function loginIsEmailOrPhone($login): string {
+    static public function loginIsEmailOrPhone($login): string {
         return filter_var($login, FILTER_VALIDATE_EMAIL) === false ? 'phone' : 'email';
     }
 

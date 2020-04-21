@@ -4,6 +4,7 @@ namespace App\Providers\transport;
 
 use GuzzleHttp\Client;
 use Exception;
+use GuzzleHttp\Exception\BadResponseException;
 use Sentry;
 use App\Models\ResultDto;
 
@@ -12,6 +13,8 @@ class Handler {
      * @var Client
      */
     public $client;
+
+    protected $serviceName = 'Unknown';
 
     /**
      * Handler constructor.
@@ -39,9 +42,21 @@ class Handler {
             $res = $this->client->post($method, [
                 'form_params' => $params
             ]);
+
             $response = json_decode($res->getBody()->getContents(), true);
 
-            return new ResultDto($response['code'], $response['message'], $response['data']);
+            Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+                Sentry\Breadcrumb::LEVEL_ERROR,
+                Sentry\Breadcrumb::TYPE_ERROR,
+                $this->serviceName,
+                json_encode($response)
+            ));
+
+            $code = ($response['code'] ?? $response['res']) ?? 500;
+            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
+            $data = $response['data'] ?? ['response' => $response];
+
+            return new ResultDto($code, $message, $data);
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
@@ -58,7 +73,15 @@ class Handler {
             $res = $this->client->put($method, [
                 'form_params' => $params
             ]);
+
             $response = json_decode($res->getBody()->getContents(), true);
+
+            Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+                Sentry\Breadcrumb::LEVEL_ERROR,
+                Sentry\Breadcrumb::TYPE_ERROR,
+                $this->serviceName,
+                json_encode($response)
+            ));
 
             return new ResultDto($response['code'], $response['message'], $response['data']);
         } catch (Exception $e) {
@@ -77,7 +100,15 @@ class Handler {
             $res = $this->client->get($method, [
                 'form_params' => $params
             ]);
+
             $response = json_decode($res->getBody()->getContents(), true);
+
+            Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+                Sentry\Breadcrumb::LEVEL_ERROR,
+                Sentry\Breadcrumb::TYPE_ERROR,
+                $this->serviceName,
+                json_encode($response)
+            ));
 
             return new ResultDto($response['code'], $response['message'], $response['data']);
         } catch (Exception $e) {

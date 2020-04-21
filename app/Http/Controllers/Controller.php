@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Sentry;
+use Exception;
 
 class Controller extends BaseController {
     /**
@@ -18,5 +21,21 @@ class Controller extends BaseController {
                 abort(400, "Missing parameter: $key");
             }
         }
+    }
+
+    public function getRequestFields(Request $request, array $fields): array {
+        $this->requestHas($request, $fields);
+        $requestFields = [];
+
+        foreach ($fields as $field) {
+            $requestFields[$field] = $request->get($field);
+        }
+
+        return $requestFields;
+    }
+
+    public function sentryAbort(Exception $e) {
+        Sentry\captureException($e);
+        abort(in_array($e->getCode(), [200, 500, 409, 400, 404]) ? $e->getCode() : 500, $e->getMessage());
     }
 }

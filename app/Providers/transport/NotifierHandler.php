@@ -8,6 +8,16 @@ use App\Models\ResultDto;
 class NotifierHandler extends Handler {
 
     /**
+     * NotifierHandler constructor.
+     * @param string $url
+     * @throws \Exception
+     */
+    function __construct(string $url) {
+        parent::__construct($url);
+        $this->serviceName = 'Notifier';
+    }
+
+    /**
      * @param int $userId
      * @param string $code
      * @param string $phone
@@ -28,7 +38,7 @@ class NotifierHandler extends Handler {
             'phone' => $phone
         ];
 
-        return $this->post($options);
+        return $this->post('notifications/send', $options);
     }
 
 
@@ -56,6 +66,6 @@ class NotifierHandler extends Handler {
             'phone' => ''
         ];
 
-        return $this->post($options);
+        return $this->post('notifications/send', $options);
     }
 }
