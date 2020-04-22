@@ -31,31 +31,57 @@ class Handler {
         ]);
     }
 
+    private function createResult($res): ResultDto {
+        $response = json_decode($res->getBody()->getContents(), true);
+
+        Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+            Sentry\Breadcrumb::LEVEL_ERROR,
+            Sentry\Breadcrumb::TYPE_ERROR,
+            $this->serviceName,
+            json_encode($response)
+        ));
+
+        $code = $res->getStatusCode();
+
+        if (isset($response['code']) || isset($response['res'])) {
+            $code = ($response['code'] ?? $response['res']);
+        }
+
+        $message = 'Not found message';
+
+        if (isset($response['messages']) || isset($response['message'])) {
+            $message = ($response['messages'] ?? $response['message']);
+        }
+
+        $data = $response['data'] ?? $response;
+
+        return new ResultDto($code, $message, $data);
+    }
+
     /**
      * @param string $method
      * @param array $params
+     * @param array $options
      * @return ResultDto
      */
-    public function post(string $method, array $params): ResultDto {
+    public function post(string $method, array $params, array $options = []): ResultDto {
         try {
-            $res = $this->client->post($method, [
+            $form_params = [
                 'form_params' => $params
-            ]);
+            ];
 
-            $response = json_decode($res->getBody()->getContents(), true);
+            if (!empty($options)) {
+                $form_params = $options;
+            }
 
             Sentry\addBreadcrumb(new Sentry\Breadcrumb(
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode($response)
+                json_encode($options)
             ));
 
-            $code = ($response['code'] ?? $response['res']) ?? 500;
-            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
-            $data = $response['data'] ?? ['response' => $response];
-
-            return new ResultDto($code, $message, $data);
+            return $this->createResult($this->client->post($method, $form_params));
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
@@ -69,24 +95,18 @@ class Handler {
      */
     public function put(string $method, array $params): ResultDto {
         try {
-            $res = $this->client->put($method, [
+            $options = [
                 'form_params' => $params
-            ]);
-
-            $response = json_decode($res->getBody()->getContents(), true);
+            ];
 
             Sentry\addBreadcrumb(new Sentry\Breadcrumb(
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode($response)
+                json_encode($options)
             ));
 
-            $code = ($response['code'] ?? $response['res']) ?? 500;
-            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
-            $data = $response['data'] ?? ['response' => $response];
-
-            return new ResultDto($code, $message, $data);
+            return $this->createResult($this->client->put($method, $options));
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
@@ -113,27 +133,10 @@ class Handler {
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode([
-                    '$method' => $method, '$query' => $query
-                ])
+                json_encode($query)
             ));
 
-            $res = $this->client->get($method, $query);
-
-            $response = json_decode($res->getBody()->getContents(), true);
-
-            Sentry\addBreadcrumb(new Sentry\Breadcrumb(
-                Sentry\Breadcrumb::LEVEL_ERROR,
-                Sentry\Breadcrumb::TYPE_ERROR,
-                $this->serviceName,
-                json_encode($response)
-            ));
-
-            $code = ($response['code'] ?? $response['res']) ?? 500;
-            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
-            $data = $response['data'] ?? ['response' => $response];
-
-            return new ResultDto($code, $message, $data);
+            return $this->createResult($this->client->get($method, $query));
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
@@ -147,24 +150,18 @@ class Handler {
      */
     public function delete(string $method, array $params): ResultDto {
         try {
-            $res = $this->client->delete($method, [
+            $options = [
                 'query' => $params
-            ]);
-
-            $response = json_decode($res->getBody()->getContents(), true);
+            ];
 
             Sentry\addBreadcrumb(new Sentry\Breadcrumb(
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode($response)
+                json_encode($options)
             ));
 
-            $code = ($response['code'] ?? $response['res']) ?? 500;
-            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
-            $data = $response['data'] ?? ['response' => $response];
-
-            return new ResultDto($code, $message, $data);
+            return $this->createResult($this->client->delete($method, $options));
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
@@ -178,24 +175,18 @@ class Handler {
      */
     public function patch(string $method, array $params): ResultDto {
         try {
-            $res = $this->client->patch($method, [
+            $options = [
                 'query' => $params
-            ]);
-
-            $response = json_decode($res->getBody()->getContents(), true);
+            ];
 
             Sentry\addBreadcrumb(new Sentry\Breadcrumb(
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode($response)
+                json_encode($options)
             ));
 
-            $code = ($response['code'] ?? $response['res']) ?? 500;
-            $message = ($response['messages'] ?? $response['message']) ?? 'Not found message';
-            $data = $response['data'] ?? ['response' => $response];
-
-            return new ResultDto($code, $message, $data);
+            return $this->createResult($this->client->patch($method, $options));
         } catch (Exception $e) {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());

@@ -84,3 +84,16 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
     $router->get('/comments', "$controller@listClaimComments");
 });
 
+$router->group(['prefix' => '/handbooks'], function () use ($router) {
+    $controller = "HandbooksController";
+    
+    $router->get('/', "$controller@getHandbooks");
+    $router->post('/', "$controller@setHandbook");
+    $router->put('/', "$controller@updateHandbook");
+    $router->get('/value', "$controller@getHandbookData");
+    $router->post('/value', "$controller@setHandbookData");
+    $router->put('/value', "$controller@updateHandbookData");
+    //$router->get('/m/list', 'dumpHandbooks');
+
+});
+
