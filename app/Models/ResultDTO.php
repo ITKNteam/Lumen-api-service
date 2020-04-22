@@ -78,10 +78,11 @@ class ResultDto {
     }
 
     /**
+     * @param string $key
      * @return array
      */
-    public function getData(): array {
-        return $this->data;
+    public function getData(string $key = ''): array {
+        return empty($key) ? $this->data : $this->data[$key];
     }
 
     static public function createResult(int $code, string $message, array $data = []): array {

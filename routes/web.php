@@ -49,7 +49,6 @@ $router->group(['prefix' => '/user'], function () use ($router) {
     $router->post('/m/login', "$controller@mobileLogin");
 });
 
-
 $router->group(['prefix' => '/billing'], function () use ($router) {
     $controller = "BillingController";
     
@@ -68,5 +67,20 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
     $router->get('/writeOffs', "$controller@getAllWriteOffs");
     $router->get('/writeOffs/user', "$controller@getCurrentWriteOffs");
     $router->post('/writeOffs', "$controller@payRent");
+});
+
+$router->group(['prefix' => '/claim/m'], function () use ($router) {
+    $controller = "ClaimController";
+    
+    $router->post('/create', "$controller@createClaim");
+    $router->get('/list', "$controller@listClaim");
+    $router->put('/update', "$controller@updateClaim");
+
+    /***
+     * COMMENTS
+     */
+    
+    $router->post('/comment', "$controller@createClaimComment");
+    $router->get('/comments', "$controller@listClaimComments");
 });
 

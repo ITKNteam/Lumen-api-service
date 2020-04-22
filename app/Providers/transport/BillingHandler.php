@@ -12,7 +12,7 @@ class BillingHandler extends Handler {
      */
     function __construct(string $url) {
         parent::__construct($url);
-        $this->serviceName = 'billing';
+        $this->serviceName = 'biz-billing';
     }
 
     /**
