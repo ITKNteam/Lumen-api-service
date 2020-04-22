@@ -48,3 +48,25 @@ $router->group(['prefix' => '/user'], function () use ($router) {
     $router->post('/m/smsCode', "$controller@getSmsCode");
     $router->post('/m/login', "$controller@mobileLogin");
 });
+
+
+$router->group(['prefix' => '/billing'], function () use ($router) {
+    $controller = "BillingController";
+    
+    $router->post('/creditCard', "$controller@addCreditCard");
+    $router->get('/creditCard', "$controller@getCreditCard");
+    $router->delete('/creditCard', "$controller@deleteCreditCard");
+    $router->patch('/creditCard', "$controller@patchCreditCard");
+
+    $router->post('/pay', "$controller@addPay");
+
+    $router->post('/tariff', "$controller@createTariff");
+    $router->get('/tariffs', "$controller@getTariff");
+    $router->post('/tariff/bindUser', "$controller@bindTariffBindUser");
+    $router->get('/tariff/user', "$controller@getCurrentTariff");
+
+    $router->get('/writeOffs', "$controller@getAllWriteOffs");
+    $router->get('/writeOffs/user', "$controller@getCurrentWriteOffs");
+    $router->post('/writeOffs', "$controller@payRent");
+});
+
