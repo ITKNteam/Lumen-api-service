@@ -56,14 +56,18 @@ class MediaHandler extends Handler {
         return $this->get('file/fileUri?filehash=' . $options['filehash'], []);
     }
 
-    public function fileContent(array $options): ResultDto {
+    public function fileContent(array $options) {
         $fileUrl = $this->get('file/fileUri?filehash=' . $options['filehash'], []);
 
         if (!$fileUrl->isSuccess()) {
-            return ResultDto::createResult(500, 'Not call aws');
+            abort(500, 'Not call aws');
         }
 
         $data = $fileUrl->getData();
+
+        if (empty($data)) {
+            abort(400, 'Empty');
+        }
 
         $path = $data['path'];
         $query = $data['query'];

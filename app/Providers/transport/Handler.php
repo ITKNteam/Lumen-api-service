@@ -55,7 +55,7 @@ class Handler {
 
         $data = $response['data'] ?? $response;
 
-        return new ResultDto($code, $message, $data);
+        return new ResultDto($code, $message, $data ?? []);
     }
 
     /**

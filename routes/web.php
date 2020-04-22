@@ -101,6 +101,6 @@ $router->group(['prefix' => '/media'], function () use ($router) {
 
     $router->post('/picture', "$controller@uploadBase64File");
     $router->get('/user/fileUri/{filehash}', "$controller@fileUri");
-    $router->get('/media/fileContent/{filehash}', "$controller@fileContent");
+    $router->get('/fileContent/{filehash}', "$controller@fileContent");
 });
 

@@ -19,7 +19,7 @@ class MediaController extends Controller {
 
     public function uploadBase64File(Request $request): array {
         $this->getRequestFields($request, ['fileData']);
-        $base64data = $this->request->get('fileData');
+        $base64data = $request->get('fileData');
 
         return $this->mediaHandler->uploadBase64([
             'userId' => $this->userCntrl->getUserId($request),
