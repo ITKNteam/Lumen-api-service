@@ -94,6 +94,13 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
     $router->post('/value', "$controller@setHandbookData");
     $router->put('/value', "$controller@updateHandbookData");
     //$router->get('/m/list', 'dumpHandbooks');
+});
 
+$router->group(['prefix' => '/media'], function () use ($router) {
+    $controller = "MediaController";
+
+    $router->post('/picture', "$controller@uploadBase64File");
+    $router->get('/user/fileUri/{filehash}', "$controller@fileUri");
+    $router->get('/media/fileContent/{filehash}', "$controller@fileContent");
 });
 
