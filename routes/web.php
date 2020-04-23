@@ -104,3 +104,17 @@ $router->group(['prefix' => '/media'], function () use ($router) {
     $router->get('/fileContent/{filehash}', "$controller@fileContent");
 });
 
+$router->group(['prefix' => '/media'], function () use ($router) {
+    $controller = "MediaController";
+
+    $router->post('/picture', "$controller@uploadBase64File");
+    $router->get('/user/fileUri/{filehash}', "$controller@fileUri");
+    $router->get('/fileContent/{filehash}', "$controller@fileContent");
+});
+
+$router->group(['prefix' => '/notifications'], function () use ($router) {
+    $controller = "NotificationsController";
+
+    $router->post('/send', "$controller@sendNotifications");
+});
+
