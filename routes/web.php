@@ -118,3 +118,42 @@ $router->group(['prefix' => '/notifications'], function () use ($router) {
     $router->post('/send', "$controller@sendNotifications");
 });
 
+$router->group(['prefix' => '/objects'], function () use ($router) {
+    $controller = "ObjectsController";
+
+    $router->get('/types', "$controller@getObjectTypes");
+    $router->post('/types', "$controller@setObjectType");
+    $router->put('/types', "$controller@updateObjectType");
+
+    $router->get('/subtypes', "$controller@getObjectSubtypes");
+    $router->post('/subtypes', "$controller@setObjectSubtype");
+    $router->put('/subtypes', "$controller@updateObjectSubtype");
+
+    $router->get('/list', "$controller@getListObjects");
+    $router->get('/user', "$controller@getUserObjects");
+
+    $router->get('/', "$controller@getPublicObjects");
+    $router->post('/', "$controller@setObject");
+    $router->put('/', "$controller@updateObject");
+    $router->delete('/', "$controller@deleteObjects");
+
+    $router->get('/comments', "$controller@getComments");
+    $router->post('/comments', "$controller@setComment");
+    $router->put('/comments', "$controller@updateComment");
+    $router->delete('/comments', "$controller@deleteComments");
+
+    $router->get('/audit', "$controller@getAudit");
+
+    $router->get('/file/types', "$controller@getFileTypes");
+    $router->post('/file/types', "$controller@setFileType");
+    $router->put('/file/types', "$controller@updateFileType");
+
+    $router->get('/file/attached', "$controller@getAttachedFiles");
+    $router->post('/file/attached', "$controller@setAttachedFile");
+    $router->delete('/file/attached', "$controller@deleteAttachedFiles");
+    $router->put('/file/attached', "$controller@updateAttachedFile");
+
+    $router->post('/file/attached/link', "$controller@linkFileToFile");
+    $router->put('/file/attached/link', "$controller@unlinkFileFromFile");
+});
+
