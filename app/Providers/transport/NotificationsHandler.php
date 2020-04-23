@@ -15,19 +15,6 @@ class NotificationsHandler extends Handler {
         $this->serviceName = 'biz-claim';
     }
 
-    private function prepareMultipartForm(array $input = []) {
-        $prepare = [];
-
-        foreach ($input as $key => $value) {
-            $prepare[] = [
-                'name' => $key,
-                'contents' => $value
-            ];
-        }
-
-        return $prepare;
-    }
-
     public function sendNotifications(array $input): ResultDto {
         return $this->post('notifications/send', [
             'multipart' => $this->prepareMultipartForm($input)

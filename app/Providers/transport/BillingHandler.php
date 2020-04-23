@@ -15,24 +15,6 @@ class BillingHandler extends Handler {
         $this->serviceName = 'biz-billing';
     }
 
-    /**
-     * @param array $input
-     * @return array
-     */
-    private function prepareGetParams(array $input = []): array {
-        $prepare = [];
-
-        foreach ($input as $key => $value) {
-            if ($key === '_url') {
-                continue;
-            }
-
-            $prepare[$key] = $value;
-        }
-
-        return $prepare;
-    }
-
     public function deleteCreditCard(array $input): ResultDto {
         return $this->delete('billing/creditCard', $this->prepareGetParams($input));
     }

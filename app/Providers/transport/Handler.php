@@ -15,6 +15,8 @@ class Handler {
 
     protected $serviceName = 'Unknown';
 
+    protected $tmpDir;
+
     /**
      * Handler constructor.
      * @param string $url
@@ -191,5 +193,50 @@ class Handler {
             Sentry\captureException($e);
             return new ResultDto(400, $e->getMessage());
         }
+    }
+
+    public function prepareMultipartForm(array $input = [], $files = null) {
+        $prepare = [];
+
+        foreach ($input as $key => $value) {
+            $prepare[] = [
+                'name' => $key,
+                'contents' => $value
+            ];
+        }
+
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                $pathFile = $this->tmpDir . $input['userId'] . '_' . time() . '_' . $file->getName();
+                $file->moveTo($pathFile);
+
+                $prepare[] = [
+                    'name' => 'files[]',
+                    'contents' => fopen($pathFile, 'r')
+                ];
+
+                unlink($pathFile);
+            }
+        }
+
+        return $prepare;
+    }
+
+    /**
+     * @param array $input
+     * @return array
+     */
+    public function prepareGetParams(array $input = []): array {
+        $prepare = [];
+
+        foreach ($input as $key => $value) {
+            if ($key === '_url') {
+                continue;
+            }
+
+            $prepare[$key] = $value;
+        }
+
+        return $prepare;
     }
 }

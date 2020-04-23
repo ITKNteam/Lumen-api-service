@@ -6,8 +6,6 @@ use App\Models\ResultDto;
 
 class HandbooksHandler extends Handler {
 
-    private $tmpDir;
-
     /**
      * HandbooksHandler constructor.
      * @param string $url
@@ -17,49 +15,6 @@ class HandbooksHandler extends Handler {
         parent::__construct($url);
         $this->serviceName = 'biz-handbooks';
         $this->tmpDir = env('TMP_DIR');
-    }
-
-    /**
-     * @param array $input
-     * @return array
-     */
-    private function prepareGetParams(array $input = []): array {
-        $prepare = [];
-
-        foreach ($input as $key => $value) {
-            if ($key === '_url') {
-                continue;
-            }
-
-            $prepare[$key] = $value;
-        }
-
-        return $prepare;
-    }
-
-    private function prepareMultipartForm(array $input = [], $files = null): ResultDto {
-        $prepare = [];
-
-        foreach ($input as $key => $value) {
-            $prepare[] = [
-                'name' => $key,
-                'contents' => $value
-            ];
-        }
-
-        foreach ($files as $file) {
-            $pathFile = $this->tmpDir . $input['userId'] . '_' . time() . '_' . $file->getName();
-            $file->moveTo($pathFile);
-
-            $prepare[] = [
-                'name' => 'posterFiles[]',
-                'contents' => fopen($pathFile, 'r')
-            ];
-
-            unlink($pathFile);
-        }
-
-        return $prepare;
     }
 
     public function getHandbooks(array $input): ResultDto {
