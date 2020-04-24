@@ -157,3 +157,37 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
     $router->put('/file/attached/link', "$controller@unlinkFileFromFile");
 });
 
+$router->group(['prefix' => '/routes'], function () use ($router) {
+    $controller = "RoutesController";
+
+    $router->get('/welcome', "$controller@index");
+    $router->get('/headings', "$controller@getHeadings");
+    $router->post('/headings', "$controller@setHeading");
+    $router->put('/headings', "$controller@updateHeading");
+
+    $router->get('/', "$controller@getRoutes");
+    $router->post('/', "$controller@setRoute");
+    $router->put('/', "$controller@updateRoute");
+    $router->delete('/', "$controller@deleteRoutes");
+
+    $router->get('/user', "$controller@getUserRoutes");
+
+    $router->post('/poster', "$controller@updatePosterRoute");
+
+    $router->post('/paid', "$controller@paidRoute");
+
+    $router->get('/points', "$controller@getPoints");
+    $router->post('/points', "$controller@setPoint");
+    $router->put('/points', "$controller@updatePoint");
+    $router->delete('/points', "$controller@deletePoints");
+
+    $router->post('/points/arr', "$controller@setPointArr");
+
+    $router->get('/comments', "$controller@getComments");
+    $router->post('/comments', "$controller@setComment");
+    $router->put('/comments', "$controller@updateComment");
+    $router->delete('/comments', "$controller@deleteComments");
+
+    $router->get('/audit', "$controller@getAudit");
+});
+

@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Exception;
 use Sentry;
 use App\Models\ResultDto;
+use Illuminate\Http\UploadedFile;
 
 class Handler {
     /**
@@ -207,15 +208,24 @@ class Handler {
 
         if (is_array($files)) {
             foreach ($files as $file) {
-                $pathFile = $this->tmpDir . $input['userId'] . '_' . time() . '_' . $file->getName();
-                $file->moveTo($pathFile);
+                $pathFile = $this->tmpDir . $input['userId'] . '_' . time() . '_' . $file->getPathName();
+                $file->move($pathFile);
 
                 $prepare[] = [
                     'name' => 'files[]',
                     'contents' => fopen($pathFile, 'r')
                 ];
 
-                unlink($pathFile);
+                if (is_file($pathFile)) {
+                    unlink($pathFile);
+                } else {
+                    Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+                        Sentry\Breadcrumb::LEVEL_ERROR,
+                        Sentry\Breadcrumb::TYPE_ERROR,
+                        $this->serviceName,
+                        'Cannot delete path to file: ' . $pathFile
+                    ));
+                }
             }
         }
 
