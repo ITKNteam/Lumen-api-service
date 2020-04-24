@@ -12,7 +12,7 @@ class RoutesHandler extends Handler {
      */
     function __construct(string $url) {
         parent::__construct($url);
-        $this->serviceName = 'biz-claim';
+        $this->serviceName = 'routes';
     }
 
     public function index($input): ResultDto {
