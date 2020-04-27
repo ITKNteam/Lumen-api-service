@@ -116,6 +116,14 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
     require __DIR__.'/../routes/translations.php';
     require __DIR__.'/../routes/tech.php';
+    require __DIR__.'/../routes/claim.php';
+    require __DIR__.'/../routes/billing.php';
+    require __DIR__.'/../routes/handbooks.php';
+    require __DIR__.'/../routes/media.php';
+    require __DIR__.'/../routes/notifications.php';
+    require __DIR__.'/../routes/objects.php';
+    require __DIR__.'/../routes/routes.php';
+    require __DIR__.'/../routes/user.php';
 });
 
 return $app;
