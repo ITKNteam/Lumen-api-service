@@ -14,8 +14,9 @@ class TechHandler extends Handler {
     private $qlick;
 
     /**
-     * NotifierHandler constructor.
+     * TechHandler constructor.
      * @param string $url
+     * @param string $qlickUri
      * @throws \Exception
      */
     function __construct(string $url, string $qlickUri) {

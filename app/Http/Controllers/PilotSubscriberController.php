@@ -17,11 +17,11 @@ class PilotSubscriberController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->techHandler = new TechHandler(env('tech_uri'));
+        $this->techHandler = new TechHandler(env('tech_uri'), env('tech_lumen_uri'));
         $this->userCntrl = new UserController();
     }
 
     public function pilotSubscriber(Request $request): array { // ???
-        $this->techHandler->pilotSubscriber()->getResult();
+        $this->techHandler->pilotSubscriber([])->getResult();
     }
 }

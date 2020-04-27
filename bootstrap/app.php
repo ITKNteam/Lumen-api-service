@@ -124,6 +124,7 @@ $app->router->group([
     require __DIR__.'/../routes/objects.php';
     require __DIR__.'/../routes/routes.php';
     require __DIR__.'/../routes/user.php';
+    require __DIR__.'/../routes/pilot.php';
 });
 
 return $app;
