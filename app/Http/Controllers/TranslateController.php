@@ -8,7 +8,7 @@ use Exception;
 
 class TranslateController extends Controller {
 
-    private $routesHandler;
+    private $translateHandler;
 
     private $userCntrl;
 
@@ -17,7 +17,7 @@ class TranslateController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->routesHandler = new TranslateHandler(env('routes_uri'));
+        $this->translateHandler = new TranslateHandler(env('biz_uri'));
         $this->userCntrl = new UserController();
     }
 
@@ -26,21 +26,22 @@ class TranslateController extends Controller {
      * производится для определения факта наличия изменений.
      */
     public function getCurrentKey(Request $request): array {
-        return $this->translateHandler->getCurrentKey();
+        return $this->translateHandler->getCurrentKey([])->getResult();
     }
 
     /**
      * Метод маршрута для получения словаря.
      */
     public function getTranslations(Request $request): array {
-        return $this->translateHandler->getTranslations($request->all());
+        $this->getRequestFields($request, ['language']);
+        return $this->translateHandler->getTranslations($request->all())->getResult();
     }
 
     /**
      * Метод маршрута для получения списка переводов с пагинацией.
      */
     public function getItems(Request $request): array {
-        return $this->translateHandler->getItems($request->all());
+        return $this->translateHandler->getItems($request->all())->getResult();
     }
 
     /**
@@ -50,7 +51,7 @@ class TranslateController extends Controller {
         $this->getRequestFields($request, ['keyword']);
         $params = $request->all();
         $params['userId'] = $this->userCntrl->getUserId($request);
-        return $this->translateHandler->setItem($params);
+        return $this->translateHandler->setItem($params)->getResult();
     }
 
     /**
@@ -60,7 +61,7 @@ class TranslateController extends Controller {
         $this->getRequestFields($request, ['id', 'keyword']);
         $params = $request->all();
         $params['userId'] = $this->userCntrl->getUserId($request);
-        return $this->translateHandler->updateItem($params);
+        return $this->translateHandler->updateItem($params)->getResult();
     }
 
     /**
@@ -72,7 +73,6 @@ class TranslateController extends Controller {
         }
         $params = $request->all();
         $params['userId'] = $this->userCntrl->getUserId($request);
-        return $this->translateHandler->deleteItems($params);
+        return $this->translateHandler->deleteItems($params)->getResult();
     }
-
 }

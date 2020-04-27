@@ -20,7 +20,7 @@ class TranslateHandler extends Handler {
     }
 
     public function getTranslations(array $input): ResultDto {
-        return $this->get('translations/hash', $input);
+        return $this->get('translations/list', $input);
     }
 
     public function getItems(array $input): ResultDto {

@@ -79,9 +79,9 @@ class ResultDto {
 
     /**
      * @param string $key
-     * @return array
+     * @return array|mixed
      */
-    public function getData(string $key = ''): array {
+    public function getData(string $key = '') {
         return empty($key) ? $this->data : $this->data[$key];
     }
 
