@@ -114,6 +114,8 @@ $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/translations.php';
+    require __DIR__.'/../routes/tech.php';
 });
 
 return $app;
