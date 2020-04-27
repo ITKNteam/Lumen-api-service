@@ -28,6 +28,7 @@ class MediaController extends Controller {
     }
 
     public function fileUri($filehash): array {
+        //TODO not work
         return $this->mediaHandler->fileUri(['filehash' => $filehash])->getResult();
     }
 
@@ -41,6 +42,7 @@ class MediaController extends Controller {
 
         $stream = $response->getBody()->read($response->getHeaders()['Content-Length'][0]);
 
+        //TODO not work
         echo $stream;
         exit;
     }

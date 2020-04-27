@@ -223,6 +223,7 @@ class UserController extends Controller {
             $this->getRequestFields($request, ['password', 'rePassword', 'code', 'phone'])
         );
 
+        //TODO выполняет запрос верно, но отвечает 500
         if ($resSetPassword->isSuccess()) {
             return $this->authHandler
                 ->login(['user_id' => $resSetPassword->getData()['userId']])
@@ -245,6 +246,7 @@ class UserController extends Controller {
             $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
         }
 
+        //TODO выполняет запрос верно, но отвечает 500
         return $this->authHandler->login(['user_id' => $profileHandler->getData()['userId']])->getResult();
     }
 
