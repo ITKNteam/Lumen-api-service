@@ -24,7 +24,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/welcome', "$controller@index");
+    $router->get('/welcome', $controller . 'index');
     /**
      * @OA\Get(
      *     path="/routes/headings",
@@ -76,7 +76,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/headings', ['middleware' => 'auth', "uses" => "$controller@getHeadings"]);
+    $router->get('/headings', ['middleware' => 'auth', "uses" => $controller . 'getHeadings']);
     /**
      * @OA\Post(
      *     path="/routes/headings",
@@ -128,7 +128,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/headings', ['middleware' => 'auth', "uses" => "$controller@setHeading"]);
+    $router->post('/headings', ['middleware' => 'auth', "uses" => $controller . 'setHeading']);
     /**
      * @OA\Put(
      *     path="/routes/headings",
@@ -183,7 +183,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/headings', ['middleware' => 'auth', "uses" => "$controller@updateHeading"]);
+    $router->put('/headings', ['middleware' => 'auth', "uses" => $controller . 'updateHeading']);
 
     /**
      * @OA\Get(
@@ -297,7 +297,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/', ['middleware' => 'auth', "uses" => "$controller@getRoutes"]);
+    $router->get('/', ['middleware' => 'auth', "uses" => $controller . 'getRoutes']);
     /**
      * @OA\Post(
      *     path="/routes",
@@ -380,7 +380,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/', ['middleware' => 'auth', "uses" => "$controller@setRoute"]);
+    $router->post('/', ['middleware' => 'auth', "uses" => $controller . 'setRoute']);
     /**
      * @OA\Put(
      *     path="/routes",
@@ -455,7 +455,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/', ['middleware' => 'auth', "uses" => "$controller@updateRoute"]);
+    $router->put('/', ['middleware' => 'auth', "uses" => $controller . 'updateRoute']);
     /**
      * @OA\Delete(
      *     path="/routes",
@@ -509,7 +509,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/', ['middleware' => 'auth', "uses" => "$controller@deleteRoutes"]);
+    $router->delete('/', ['middleware' => 'auth', "uses" => $controller . 'deleteRoutes']);
 
     /**
      * @OA\Get(
@@ -617,7 +617,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/user', ['middleware' => 'auth', "uses" => "$controller@getUserRoutes"]);
+    $router->get('/user', ['middleware' => 'auth', "uses" => $controller . 'getUserRoutes']);
     /**
      * @OA\Post(
      *     path="/routes/poster",
@@ -680,7 +680,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/poster', ['middleware' => 'auth', "uses" => "$controller@updatePosterRoute"]);
+    $router->post('/poster', ['middleware' => 'auth', "uses" => $controller . 'updatePosterRoute']);
 
     /**
      * @OA\Post(
@@ -739,7 +739,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/paid', ['middleware' => 'auth', "uses" => "$controller@paidRoute"]);
+    $router->post('/paid', ['middleware' => 'auth', "uses" => $controller . 'paidRoute']);
 
     /**
      * @OA\Get(
@@ -828,7 +828,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      * )
      */
 
-    $router->get('/points', ['middleware' => 'auth', "uses" => "$controller@getPoints"]);
+    $router->get('/points', ['middleware' => 'auth', "uses" => $controller . 'getPoints']);
     /**
      * @OA\Post(
      *     path="/routes/points",
@@ -906,7 +906,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/points', ['middleware' => 'auth', "uses" => "$controller@setPoint"]);
+    $router->post('/points', ['middleware' => 'auth', "uses" => $controller . 'setPoint']);
     /**
      * @OA\Put(
      *     path="/routes/points",
@@ -971,7 +971,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/points', ['middleware' => 'auth', "uses" => "$controller@updatePoint"]);
+    $router->put('/points', ['middleware' => 'auth', "uses" => $controller . 'updatePoint']);
     /**
      * @OA\Delete(
      *     path="/routes/points",
@@ -1025,7 +1025,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/points', ['middleware' => 'auth', "uses" => "$controller@deletePoints"]);
+    $router->delete('/points', ['middleware' => 'auth', "uses" => $controller . 'deletePoints']);
 
     /**
      * @OA\Post(
@@ -1120,7 +1120,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/points/arr', ['middleware' => 'auth', "uses" => "$controller@setPointArr"]);
+    $router->post('/points/arr', ['middleware' => 'auth', "uses" => $controller . 'setPointArr']);
 
     /**
      * @OA\Get(
@@ -1229,7 +1229,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/comments', ['middleware' => 'auth', "uses" => "$controller@getComments"]);
+    $router->get('/comments', ['middleware' => 'auth', "uses" => $controller . 'getComments']);
     /**
      * @OA\Post(
      *     path="/routes/comments",
@@ -1296,7 +1296,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/comments', ['middleware' => 'auth', "uses" => "$controller@setComment"]);
+    $router->post('/comments', ['middleware' => 'auth', "uses" => $controller . 'setComment']);
     /**
      * @OA\Put(
      *     path="/routes/comments",
@@ -1360,7 +1360,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/comments', ['middleware' => 'auth', "uses" => "$controller@updateComment"]);
+    $router->put('/comments', ['middleware' => 'auth', "uses" => $controller . 'updateComment']);
     /**
      * @OA\Delete(
      *     path="/routes/comments",
@@ -1414,7 +1414,7 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/comments', ['middleware' => 'auth', "uses" => "$controller@deleteComments"]);
+    $router->delete('/comments', ['middleware' => 'auth', "uses" => $controller . 'deleteComments']);
 
     /**
      * @OA\Get(
@@ -1513,5 +1513,5 @@ $router->group(['prefix' => '/routes'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/audit', ['middleware' => 'auth', "uses" => "$controller@getAudit"]);
+    $router->get('/audit', ['middleware' => 'auth', "uses" => $controller . 'getAudit']);
 });
