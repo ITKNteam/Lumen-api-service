@@ -45,7 +45,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/creditCard', ['middleware' => 'auth', "uses" => $controller . 'addCreditCard']);
+    $router->post('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'addCreditCard']);
     /**
      * @OA\Get(path="/billing/creditCard",
      *   tags={"billing"},
@@ -58,7 +58,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->get('/creditCard', ['middleware' => 'auth', "uses" => $controller . 'getCreditCard']);
+    $router->get('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'getCreditCard']);
     /**
      * @OA\DELETE(path="/billing/creditCard",
      *   tags={"billing"},
@@ -81,7 +81,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->delete('/creditCard', ['middleware' => 'auth', "uses" => $controller . 'deleteCreditCard']);
+    $router->delete('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'deleteCreditCard']);
     /**
      * @OA\PATCH(path="/billing/creditCard",
      *   tags={"billing"},
@@ -104,7 +104,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->patch('/creditCard', ['middleware' => 'auth', "uses" => $controller . 'patchCreditCard']);
+    $router->patch('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'patchCreditCard']);
 
     /**
      * @OA\Post(path="/billing/addPay",

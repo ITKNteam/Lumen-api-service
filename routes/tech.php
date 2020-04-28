@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/tech'], function () use ($router) {
-    $controller = "TechController";
+    $controller = 'TechController';
 
     /**
      * @OA\Put(path="/tech/putPhoneCoordinates",
@@ -44,7 +44,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->put('/putPhoneCoordinates', ['middleware' => 'auth', "uses" => $controller . 'putCoordinates']);
+    $router->put('/putPhoneCoordinates', ['middleware' => 'auth', 'uses' => $controller . 'putCoordinates']);
 
     /**
      * @OA\Post(path="/tech/unlock",
@@ -84,7 +84,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/unlock', ['middleware' => 'auth', "uses" => $controller . 'unlock']);
+    $router->post('/unlock', ['middleware' => 'auth', 'uses' => $controller . 'unlock']);
 
     /**
      * @OA\Post(path="/tech/booking",
@@ -114,7 +114,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/booking', ['middleware' => 'auth', "uses" => $controller . 'booking']);
+    $router->post('/booking', ['middleware' => 'auth', 'uses' => $controller . 'booking']);
 
     /**
      * @OA\Post(path="/tech/parking",
@@ -144,7 +144,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/parking', ['middleware' => 'auth', "uses" => $controller . 'parking']);
+    $router->post('/parking', ['middleware' => 'auth', 'uses' => $controller . 'parking']);
 
     /**
      * @OA\Post(path="/tech/rentEnd",
@@ -174,7 +174,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/rentEnd', ['middleware' => 'auth', "uses" => $controller . 'rentEnd']);
+    $router->post('/rentEnd', ['middleware' => 'auth', 'uses' => $controller . 'rentEnd']);
 
     /**
      * @OA\Post(path="/tech/ring",
@@ -204,7 +204,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/ring', ['middleware' => 'auth', "uses" => $controller . 'ring']);
+    $router->post('/ring', ['middleware' => 'auth', 'uses' => $controller . 'ring']);
 
     /**
      * @OA\Get(path="/tech/vehicleInfo",
@@ -225,7 +225,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/vehicleInfo', ['middleware' => 'auth', "uses" => $controller . 'vehicleInfo']);
+    $router->get('/vehicleInfo', ['middleware' => 'auth', 'uses' => $controller . 'vehicleInfo']);
 
     /**
      * @OA\Get(path="/tech/userTechInfo",
@@ -238,7 +238,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/userTechInfo', ['middleware' => 'auth', "uses" => $controller . 'userTechInfo']);
+    $router->get('/userTechInfo', ['middleware' => 'auth', 'uses' => $controller . 'userTechInfo']);
 
     /**
      * @OA\Get(path="/tech/vehicleStatus",
@@ -284,7 +284,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="phone not found")
      * )
      */
-    $router->get('/vehicleStatus', ['middleware' => 'auth', "uses" => $controller . 'vehicleStatus']);
+    $router->get('/vehicleStatus', ['middleware' => 'auth', 'uses' => $controller . 'vehicleStatus']);
 
     /**
      * @OA\Get(path="/tech/m/availableTransport",
@@ -322,7 +322,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="phone not found")
      * )
      */
-    $router->get('/m/availableTransport', ['middleware' => 'auth', "uses" => $controller . 'availableTransport']);
+    $router->get('/m/availableTransport', ['middleware' => 'auth', 'uses' => $controller . 'availableTransport']);
 
     /**
      * @OA\Post(path="/tech/m/unlock",
@@ -359,7 +359,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/unlock', ['middleware' => 'auth', "uses" => $controller . 'unlockMobile']);
+    $router->post('/m/unlock', ['middleware' => 'auth', 'uses' => $controller . 'unlockMobile']);
 
     /**
      * @OA\Post(path="/tech/m/rentStart",
@@ -389,7 +389,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/rentStart', ['middleware' => 'auth', "uses" => $controller . 'rentStartMobile']);
+    $router->post('/m/rentStart', ['middleware' => 'auth', 'uses' => $controller . 'rentStartMobile']);
 
     /**
      * @OA\Post(path="/tech/m/checkByQrCode",
@@ -419,7 +419,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/checkByQrCode', ['middleware' => 'auth', "uses" => $controller . 'checkByQrCode']);
+    $router->post('/m/checkByQrCode', ['middleware' => 'auth', 'uses' => $controller . 'checkByQrCode']);
 
     /**
      * @OA\Post(path="/tech/m/booking",
@@ -449,7 +449,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/booking', ['middleware' => 'auth', "uses" => $controller . 'booking']);
+    $router->post('/m/booking', ['middleware' => 'auth', 'uses' => $controller . 'booking']);
 
     /**
      * @OA\Post(path="/tech/m/parking",
@@ -479,7 +479,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/parking', ['middleware' => 'auth', "uses" => $controller . 'parking']);
+    $router->post('/m/parking', ['middleware' => 'auth', 'uses' => $controller . 'parking']);
 
     /**
      * @OA\Post(path="/tech/m/rentEnd",
@@ -509,7 +509,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/rentEnd', ['middleware' => 'auth', "uses" => $controller . 'rentEnd']);
+    $router->post('/m/rentEnd', ['middleware' => 'auth', 'uses' => $controller . 'rentEnd']);
 
     /**
      * @OA\Post(path="/tech/m/ring",
@@ -539,7 +539,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/m/ring', ['middleware' => 'auth', "uses" => $controller . 'ring']);
+    $router->post('/m/ring', ['middleware' => 'auth', 'uses' => $controller . 'ring']);
 
     /**
      * @OA\GET(path="/m/ridesShort",
@@ -567,7 +567,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/m/ridesShort', ['middleware' => 'auth', "uses" => $controller . 'getRidesShort']);
+    $router->get('/m/ridesShort', ['middleware' => 'auth', 'uses' => $controller . 'getRidesShort']);
 
     /***************************************************************/
     //ГЕОЗОНЫ GEOZONES
@@ -601,7 +601,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->delete('/geozone', ['middleware' => 'auth', "uses" => $controller . 'deleteGeozone']);
+    $router->delete('/geozone', ['middleware' => 'auth', 'uses' => $controller . 'deleteGeozone']);
 
     /**
      * @OA\GET(path="/tech/geozones",
@@ -646,7 +646,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/geozones', ['middleware' => 'auth', "uses" => $controller . 'getGeozone']);
+    $router->get('/geozones', ['middleware' => 'auth', 'uses' => $controller . 'getGeozone']);
 
     /**
      * @OA\Post(path="/tech/geozone",
@@ -711,7 +711,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/geozone', ['middleware' => 'auth', "uses" => $controller . 'addGeozone']);
+    $router->post('/geozone', ['middleware' => 'auth', 'uses' => $controller . 'addGeozone']);
 
     /**
      * @OA\Get(path="/tech/m/geozones",
@@ -741,7 +741,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="phone not found")
      * )
      */
-    $router->get('/m/geozones', ['middleware' => 'auth', "uses" => $controller . 'geozonesMobile']);
+    $router->get('/m/geozones', ['middleware' => 'auth', 'uses' => $controller . 'geozonesMobile']);
 
     /**
      * @OA\Get(path="/tech/m/checkGeozoneType",
@@ -771,7 +771,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="phone not found")
      * )
      */
-    $router->get('/m/checkGeozoneType', ['middleware' => 'auth', "uses" => $controller . 'checkGeozoneType']);
+    $router->get('/m/checkGeozoneType', ['middleware' => 'auth', 'uses' => $controller . 'checkGeozoneType']);
 
     /***************************************************************/
     //КОНЕЦ ГЕОЗОНЫ  END GEOZONES
@@ -798,7 +798,7 @@ $router->group(['prefix' => '/tech'], function () use ($router) {
      *   @OA\Response(response=404, description="phone not found")
      * )
      */
-    $router->get('/m/onlineSessionCost', ['middleware' => 'auth', "uses" => $controller . 'onlineSessionCost']);
+    $router->get('/m/onlineSessionCost', ['middleware' => 'auth', 'uses' => $controller . 'onlineSessionCost']);
 
-    $router->get('/insurance-company', ['middleware' => 'auth', "uses" => $controller . 'insuranceCompany']);
+    $router->get('/insurance-company', ['middleware' => 'auth', 'uses' => $controller . 'insuranceCompany']);
 });

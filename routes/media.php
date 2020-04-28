@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/media'], function () use ($router) {
-    $controller = "MediaController";
+    $controller = 'MediaController';
 
     /**
      * @OA\Post(path="/media/picture",
