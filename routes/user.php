@@ -66,7 +66,8 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found")
      * )
      */
-    $router->get('/profile', "$controller@getUser");
+    $router->get('/profile', ['middleware' => 'auth', "uses" => "$controller@getUser"]);
+    //$router->get('/profile', "$controller@getUser");
     /**
      * @OA\Put(path="/user/profile",
      *   tags={"user"},
@@ -171,7 +172,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->put('/profile', "$controller@updateUser");
+    $router->put('/profile', ['middleware' => 'auth', "uses" => "$controller@updateUser"]);
     /**
      * @OA\Get(path="/user/list",
      *   tags={"user"},
@@ -184,7 +185,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found")
      * )
      */
-    $router->get('/list', "$controller@getUsers");
+    $router->get('/list', ['middleware' => 'auth', "uses" => "$controller@getUsers"]);
     /**
      * @OA\Post(path="/user/resetPassword/{phone}",
      *   tags={"user"},
@@ -212,7 +213,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/resetPassword', "$controller@resetPassword");
+    $router->post('/resetPassword', ['middleware' => 'auth', "uses" => "$controller@resetPassword"]);
     /**
      * @OA\Post(path="/user/setPasswordApplyByPhone",
      *   tags={"user"},
@@ -264,7 +265,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByPhone', "$controller@setPasswordApplyByPhone");
+    $router->post('/setPasswordApplyByPhone', ['middleware' => 'auth', "uses" => "$controller@setPasswordApplyByPhone"]);
     /**
      * @OA\Post(path="/user/setPasswordApplyByEmail",
      *   tags={"user"},
@@ -307,7 +308,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByEmail', "$controller@setPasswordApplyByEmail");
+    $router->post('/setPasswordApplyByEmail', ['middleware' => 'auth', "uses" => "$controller@setPasswordApplyByEmail"]);
     /**
      * @OA\Post(path="/user/logout",
      *   tags={"user"},
@@ -328,7 +329,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/logout', "$controller@logout");
+    $router->post('/logout', ['middleware' => 'auth', "uses" => "$controller@logout"]);
     /**
      * @OA\Post(path="/user/changeEmail",
      *   tags={"user"},
@@ -357,7 +358,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/changeEmail', "$controller@changeEmail");
+    $router->post('/changeEmail', ['middleware' => 'auth', "uses" => "$controller@changeEmail"]);
     /**
      * @OA\Post(path="/user/activateEmail",
      *   tags={"user"},
@@ -386,7 +387,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/activateEmail', "$controller@activateEmail");
+    $router->post('/activateEmail', ['middleware' => 'auth', "uses" => "$controller@activateEmail"]);
     /**
      * @OA\Post(path="/user/changePhone",
      *   tags={"user"},
@@ -423,7 +424,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/changePhone', "$controller@changePhone");
+    $router->post('/changePhone', ['middleware' => 'auth', "uses" => "$controller@changePhone"]);
     /**
      * @OA\Post(path="/user/activatePhone",
      *   tags={"user"},
@@ -459,7 +460,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/activatePhone', "$controller@activatePhone");
+    $router->post('/activatePhone', ['middleware' => 'auth', "uses" => "$controller@activatePhone"]);
     /**
      * @OA\Post(path="/user/resetEmail",
      *   tags={"user"},
@@ -487,7 +488,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/resetEmail', "$controller@resetEmail");
+    $router->post('/resetEmail', ['middleware' => 'auth', "uses" => "$controller@resetEmail"]);
     /**
      * @OA\Post(path="/user/resetPhone",
      *   tags={"user"},
@@ -522,7 +523,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system")
      * )
      */
-    $router->post('/resetPhone', "$controller@resetPhone");
+    $router->post('/resetPhone', ['middleware' => 'auth', "uses" => "$controller@resetPhone"]);
     /**
      * @OA\Put(path="/user/setPushToken",
      *   tags={"user"},
@@ -572,7 +573,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="erro to saving, see logs")
      * )
      */
-    $router->put('/setPushToken', "$controller@setPushToken");
+    $router->put('/setPushToken', ['middleware' => 'auth', "uses" => "$controller@setPushToken"]);
     /**
      * @OA\Post(path="/user/create/promo",
      *   tags={"user"},

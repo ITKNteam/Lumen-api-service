@@ -129,7 +129,7 @@ class UserController extends Controller {
      * @return array
      */
     public function getUser(Request $request): array {
-        return $this->profileHandler->getUser(['id' => $this->getUserId($request)])->getResult();
+        return $this->profileHandler->getUser(['id' => $request->user()->getId()])->getResult();
     }
 
     /**
@@ -163,19 +163,6 @@ class UserController extends Controller {
     }
 
     /**
-     * @param Request $request
-     * @return int
-     */
-    public function getUserId(Request $request): int {
-        $userId = (int)$this->getAuthUser($request)->getData()['user_id'];
-        if (empty($userId)) {
-            abort(403, 'Permission denied');
-        }
-
-        return $userId;
-    }
-
-    /**
      * get user fields for create or update user in profile service
      *
      * @return array
@@ -204,7 +191,7 @@ class UserController extends Controller {
         $this->requestHas($request, $this->getUserFields());
 
         $requestParams = [
-            'id' => $this->getUserId($request)
+            'id' => $request->user()->getId()
         ];
 
         foreach ($this->getUserFields() as $field) {
@@ -259,7 +246,7 @@ class UserController extends Controller {
     public function changeEmail(Request $request): array {
         $this->requestHas($request, 'email');
 
-        $userId = $this->getUserId($request);
+        $userId = $request->user()->getId();
         $email = $request->get('email');
         $profileHandler = $this->profileHandler->addNotActiveEmailToUser([
             'userId' => $userId,
@@ -320,7 +307,7 @@ class UserController extends Controller {
 
         $profileHandler = $this->profileHandler->addNotActivePhoneToUser([
             'phone' => $number,
-            'userId' => $this->getUserId($request),
+            'userId' => $request->user()->getId(),
             'country_code' => $countryCode
         ]);
 
@@ -414,7 +401,7 @@ class UserController extends Controller {
     public function setPushToken(Request $request): array {
         return $this->profileHandler->setPushToken(
             array_merge(
-                ['user_id' => $this->getUserId($request)],
+                ['user_id' => $request->user()->getId()],
                 $this->getRequestFields($request, ['push_token', 'is_android', 'device_id', 'device_brand'])
             )
         )->getResult();
@@ -426,7 +413,7 @@ class UserController extends Controller {
      */
     public function addPay(Request $request): array {
         return $this->profileHandler->addPay(array_merge(
-            ['user_id' => $this->getUserId($request)],
+            ['user_id' => $request->user()->getId()],
             $this->getRequestFields($request, ['ammount', 'orderId'])
         ))->getResult();
     }

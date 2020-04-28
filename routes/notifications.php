@@ -96,5 +96,5 @@ $router->group(['prefix' => '/notifications'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/send', "$controller@sendNotifications");
+    $router->post('/send', ['middleware' => 'auth', "uses" => "$controller@sendNotifications"]);
 });

@@ -24,31 +24,31 @@ class BillingController extends Controller {
 
     public function addCreditCard(Request $request): array {
         $params = $this->getRequestFields($request, ['cardNumber', 'cvv2', 'expiryDate']);
-        $params['user_id'] = $this->userCntrl->getUserId($request);
+        $params['user_id'] = $request->user()->getId();
         return $this->billingHandler->addCreditCard($params)->getResult();
     }
 
     public function getCreditCard(Request $request): array {
         return $this->billingHandler->getCreditCard([
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ])->getResult();
     }
 
     public function deleteCreditCard(Request $request): array {
         $params = $this->getRequestFields($request, ['cardId']);
-        $params['user_id'] = $this->userCntrl->getUserId($request);
+        $params['user_id'] = $request->user()->getId();
         return $this->billingHandler->deleteCreditCard($params)->getResult();
     }
 
     public function patchCreditCard(Request $request): array {
         $params = $this->getRequestFields($request, ['cardId']);
-        $params['user_id'] = $this->userCntrl->getUserId($request);
+        $params['user_id'] = $request->user()->getId();
         return $this->billingHandler->patchCreditCard($params)->getResult();
     }
 
     public function addPay(Request $request): array {
         $params = $this->getRequestFields($request, ['amount', 'orderId']);
-        $params['user_id'] = $this->userCntrl->getUserId($request);
+        $params['user_id'] = $request->user()->getId();
 
         return $this->billingHandler->addPay($params)->getResult();
     }
@@ -86,7 +86,7 @@ class BillingController extends Controller {
             'dtEnd' => $dtEnd,
             'sessionDelayMinutes' => $sessionDelayMinutes,
             'countFreeSessions' => $countFreeSessions,
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ];
 
         return $this->billingHandler->createTariff($options)->getResult();
@@ -95,13 +95,13 @@ class BillingController extends Controller {
 
     public function getTariff(Request $request): array {
         return $this->billingHandler->getTariffs([
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ])->getResult();
     }
 
     public function changeStatusTariff(Request $request): array {
         $params = $this->getRequestFields($request, ['tariff_id', 'status_id']);
-        $params['user_id'] = $this->userCntrl->getUserId($request);
+        $params['user_id'] = $request->user()->getId();
 
         return $this->billingHandler->changeStatusTariff($params)->getResult();
     }
@@ -118,7 +118,7 @@ class BillingController extends Controller {
 
     public function getCurrentWriteOffs(Request $request): array {
         return $this->billingHandler->getUserWriteOffs([
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ])->getResult();
     }
 
@@ -134,7 +134,7 @@ class BillingController extends Controller {
 
     public function getCurrentTariff(Request $request): array {
         return $this->billingHandler->getTariffUser([
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ])->getResult();
     }
 }

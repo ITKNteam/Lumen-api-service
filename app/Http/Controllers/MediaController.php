@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Providers\MediaServiceProvider;
 use App\Providers\transport\MediaHandler;
 use Illuminate\Http\Request;
 
@@ -10,11 +9,8 @@ class MediaController extends Controller {
 
     private $mediaHandler;
 
-    private $userCntrl;
-
     function __construct() {
         $this->mediaHandler = new MediaHandler(env('media_uri'));
-        $this->userCntrl = new UserController();
     }
 
     public function uploadBase64File(Request $request): array {
@@ -22,7 +18,7 @@ class MediaController extends Controller {
         $base64data = $request->get('fileData');
 
         return $this->mediaHandler->uploadBase64([
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'fileData' => $base64data
         ])->getResult();
     }

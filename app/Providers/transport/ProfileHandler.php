@@ -52,7 +52,7 @@ class ProfileHandler extends Handler {
      * @return ResultDto
      */
     public function getUser(array $options): ResultDto {
-        return $this->get('profile/' . $options['id']);
+        return $this->get('profile/' . $options['id'], []);
     }
 
     /**
