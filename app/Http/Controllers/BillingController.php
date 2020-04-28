@@ -10,16 +10,12 @@ class BillingController extends Controller {
 
     private $billingHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->billingHandler = new BillingHandler(env('biz_uri'));
-        $this->userCntrl = new UserController();
-
     }
 
     public function addCreditCard(Request $request): array {

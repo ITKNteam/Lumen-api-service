@@ -13,15 +13,12 @@ class ClaimController extends Controller {
 
     private $mediaHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->claimHandler = new ClaimHandler(env('biz_uri'));
-        $this->userCntrl = new UserController();
         $this->mediaHandler = new MediaHandler(env('media_uri'));
     }
 
