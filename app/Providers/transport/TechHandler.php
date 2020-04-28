@@ -379,26 +379,4 @@ class TechHandler extends Handler {
 
         return new ResultDto(1, 'insuranceCompany', $data);
     }
-
-    /**
-     * Сохраняет сырые данные из подписчика
-     *
-     * @param $data
-     *
-     * @return array
-     */
-    public function pilotSubscriber(array $data): ResultDto {
-        $list = 'pilot_subscriber';
-        $redis = new RedisHelper($this->config);
-
-        $insInx = $redis->updateBufferData($list, $data);
-
-        $ch_data = [];
-        $d = $redis->getBufferData($list, -$insInx, 10);
-        foreach ($d as $read_row) {
-            $ch_data[] = json_decode($read_row, true);
-        }
-
-        return new ResultDto(1, 'pilotSubscriber', ['data' => $data, 'last10' => $ch_data]);
-    }
 }
