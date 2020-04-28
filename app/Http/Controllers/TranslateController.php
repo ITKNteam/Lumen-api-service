@@ -10,15 +10,12 @@ class TranslateController extends Controller {
 
     private $translateHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->translateHandler = new TranslateHandler(env('biz_uri'));
-        $this->userCntrl = new UserController();
     }
 
     /**
@@ -50,7 +47,7 @@ class TranslateController extends Controller {
     public function setItem(Request $request): array {
         $this->getRequestFields($request, ['keyword']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->translateHandler->setItem($params)->getResult();
     }
 
@@ -60,7 +57,7 @@ class TranslateController extends Controller {
     public function updateItem(Request $request): array {
         $this->getRequestFields($request, ['id', 'keyword']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->translateHandler->updateItem($params)->getResult();
     }
 
@@ -72,7 +69,7 @@ class TranslateController extends Controller {
             abort(400, 'Missing parameter: id or listId');
         }
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->translateHandler->deleteItems($params)->getResult();
     }
 }

@@ -10,15 +10,12 @@ class RoutesController extends Controller {
 
     private $routesHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->routesHandler = new RoutesHandler(env('routes_uri'));
-        $this->userCntrl = new UserController();
     }
 
     /**
@@ -43,7 +40,7 @@ class RoutesController extends Controller {
     public function setHeading(Request $request): array {
         $this->getRequestFields($request, ['name']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->setHeading($params)->getResult();
     }
 
@@ -53,7 +50,7 @@ class RoutesController extends Controller {
     public function updateHeading(Request $request): array {
         $this->getRequestFields($request, ['id', 'name']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->updateHeading($params)->getResult();
     }
 
@@ -62,7 +59,7 @@ class RoutesController extends Controller {
      */
     public function getRoutes(Request $request): array {
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->getRoutes($params)->getResult();
     }
 
@@ -71,7 +68,7 @@ class RoutesController extends Controller {
      */
     public function getUserRoutes(Request $request): array {
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->getUserRoutes($params)->getResult();
     }
 
@@ -81,7 +78,7 @@ class RoutesController extends Controller {
     public function setRoute(Request $request): array {
         $this->getRequestFields($request, ['name']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->setRoute($params, $request->allFiles())->getResult();
     }
 
@@ -91,7 +88,7 @@ class RoutesController extends Controller {
     public function updatePosterRoute(Request $request): array {
         $this->getRequestFields($request, ['id']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->updatePosterRoute($params, $request->allFiles())->getResult();
     }
 
@@ -101,7 +98,7 @@ class RoutesController extends Controller {
     public function updateRoute(Request $request): array {
         $this->getRequestFields($request, ['id', 'name']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->updateRoute($params)->getResult();
     }
 
@@ -113,7 +110,7 @@ class RoutesController extends Controller {
             abort(400, 'Missing parameter: id or listId');
         }
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->deleteRoutes($params)->getResult();
     }
 
@@ -123,7 +120,7 @@ class RoutesController extends Controller {
     public function paidRoute(Request $request): array {
         $this->getRequestFields($request, ['routeId']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->paidRoute($params)->getResult();
     }
 
@@ -142,7 +139,7 @@ class RoutesController extends Controller {
     public function setPoint(Request $request): array {
         $this->getRequestFields($request, ['routeId', 'lat', 'lng', 'placeName']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->setPoint($params)->getResult();
     }
 
@@ -161,7 +158,7 @@ class RoutesController extends Controller {
     public function updatePoint(Request $request): array {
         $this->getRequestFields($request, ['id', 'lat', 'lng', 'placeName']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->updatePoint($params)->getResult();
     }
 
@@ -173,7 +170,7 @@ class RoutesController extends Controller {
             abort(400, 'Missing parameter: id or listId');
         }
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->deletePoints($params)->getResult();
     }
 
@@ -183,7 +180,7 @@ class RoutesController extends Controller {
     public function getComments(Request $request): array {
         $this->getRequestFields($request, ['routeId']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->getComments($params)->getResult();
     }
 
@@ -193,7 +190,7 @@ class RoutesController extends Controller {
     public function setComment(Request $request): array {
         $this->getRequestFields($request, ['routeId', 'commentary']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->setComment($params)->getResult();
     }
 
@@ -203,7 +200,7 @@ class RoutesController extends Controller {
     public function updateComment(Request $request): array {
         $this->getRequestFields($request, ['id', 'commentary']);
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->updateComment($params)->getResult();
     }
 
@@ -215,7 +212,7 @@ class RoutesController extends Controller {
             abort(400, 'Missing parameter: id or listId');
         }
         $params = $request->all();
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->routesHandler->deleteComments($params)->getResult();
     }
 

@@ -10,15 +10,12 @@ class ObjectsController extends Controller {
 
     private $objectsHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->objectsHandler = new ObjectsHandler(env('objects_uri'));
-        $this->userCntrl = new UserController();
     }
 
 
@@ -42,7 +39,7 @@ class ObjectsController extends Controller {
     public function setObjectType(Request $request): array {
         $this->getRequestFields($request, ['name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->setObjectType($requestFields)->getResult();
     }
 
@@ -52,7 +49,7 @@ class ObjectsController extends Controller {
     public function updateObjectType(Request $request): array {
         $this->getRequestFields($request, ['name', 'id']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->updateObjectType($requestFields)->getResult();
     }
 
@@ -71,7 +68,7 @@ class ObjectsController extends Controller {
     public function setObjectSubtype(Request $request): array {
         $this->getRequestFields($request, ['typeId', 'name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->setObjectSubtype($requestFields)->getResult();
     }
 
@@ -83,7 +80,7 @@ class ObjectsController extends Controller {
     public function updateObjectSubtype(Request $request): array {
         $this->getRequestFields($request, ['id', 'typeId', 'name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->updateObjectSubtype($requestFields)->getResult();
     }
 
@@ -92,7 +89,7 @@ class ObjectsController extends Controller {
      */
     public function getPublicObjects(Request $request): array {
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->getPublicObjects($requestFields)->getResult();
     }
 
@@ -109,7 +106,7 @@ class ObjectsController extends Controller {
      */
     public function getUserObjects(Request $request): array {
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->getUserObjects($requestFields)->getResult();
     }
 
@@ -119,7 +116,7 @@ class ObjectsController extends Controller {
     public function setObject(Request $request): array {
         $this->getRequestFields($request, ['subtypeId', 'lat', 'lng', 'name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->setObject($requestFields)->getResult();
     }
 
@@ -129,7 +126,7 @@ class ObjectsController extends Controller {
     public function updateObject(Request $request): array {
         $this->getRequestFields($request, ['id', 'subtypeId', 'lat', 'lng', 'name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->updateObject($requestFields)->getResult();
     }
 
@@ -142,7 +139,7 @@ class ObjectsController extends Controller {
         }
 
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->deleteObjects($requestFields)->getResult();
     }
 
@@ -161,7 +158,7 @@ class ObjectsController extends Controller {
     public function setComment(Request $request): array {
         $this->getRequestFields($request, ['objectId', 'commentary']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->setComment($requestFields)->getResult();
     }
 
@@ -171,7 +168,7 @@ class ObjectsController extends Controller {
     public function updateComment(Request $request): array {
         $this->getRequestFields($request, ['id', 'commentary']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->updateComment($requestFields)->getResult();
     }
 
@@ -183,7 +180,7 @@ class ObjectsController extends Controller {
             abort(400, 'Missing parameter: id or listId');
         }
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->deleteComments($requestFields)->getResult();
     }
 
@@ -210,7 +207,7 @@ class ObjectsController extends Controller {
     public function setFileType(Request $request): array {
         $this->getRequestFields($request, ['name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->setFileType($requestFields)->getResult();
     }
 
@@ -220,7 +217,7 @@ class ObjectsController extends Controller {
     public function updateFileType(Request $request): array {
         $this->getRequestFields($request, ['id', 'name']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->updateFileType($requestFields)->getResult();
     }
 
@@ -240,7 +237,7 @@ class ObjectsController extends Controller {
     public function setAttachedFile(Request $request): array {
         $this->getRequestFields($request, ['objectId']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
 
         return $request->hasFile()
             ? $this->objectsHandler->setAttachedFile($requestFields, $this->request->getUploadedFiles())
@@ -274,7 +271,7 @@ class ObjectsController extends Controller {
     public function linkFileToFile(Request $request): array {
         $this->getRequestFields($request, ['id', 'objectId']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $request->hasFile()
             ? $this->objectsHandler->linkFileToFile($requestFields, $this->request->getUploadedFiles())->getResult()
             : $this->objectsHandler->linkFileToFile($requestFields)->getResult();
@@ -286,7 +283,7 @@ class ObjectsController extends Controller {
     public function unlinkFileFromFile(Request $request): array {
         $this->getRequestFields($request, ['id']);
         $requestFields = $request->all();
-        $requestFields['userId'] = $this->userCntrl->getUserId($request);
+        $requestFields['userId'] = $request->user()->getId();
         return $this->objectsHandler->unlinkFileFromFile($requestFields)->getResult();
     }
 

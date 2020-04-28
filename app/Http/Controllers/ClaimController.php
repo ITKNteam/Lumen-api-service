@@ -13,15 +13,12 @@ class ClaimController extends Controller {
 
     private $mediaHandler;
 
-    private $userCntrl;
-
     /**
      * UserController constructor.
      * @throws Exception
      */
     function __construct() {
         $this->claimHandler = new ClaimHandler(env('biz_uri'));
-        $this->userCntrl = new UserController();
         $this->mediaHandler = new MediaHandler(env('media_uri'));
     }
 
@@ -54,7 +51,7 @@ class ClaimController extends Controller {
             'description' => $description,
             'vehicleId' => $vehicleId,
             'photos' => json_encode($photosHashs),
-            'userId' => $this->userCntrl->getUserId($request)
+            'userId' => $request->user()->getId()
         ];
 
         $claimHandler = $this->claimHandler->createClaim($fields);
@@ -81,7 +78,7 @@ class ClaimController extends Controller {
             'claimId' => $claimId,
             'statusId' => $statusId,
             'photos' => $photos,
-            'userId' => $this->userCntrl->getUserId($request)
+            'userId' => $request->user()->getId()
         ];
 
         $claimHandler = $this->claimHandler->changeClaimStatus($fields);
@@ -95,7 +92,7 @@ class ClaimController extends Controller {
 
     public function listClaim(Request $request): array {
         $claimHandler = $this->claimHandler->listClaims([
-            'userId' => $this->userCntrl->getUserId($request)
+            'userId' => $request->user()->getId()
         ]);
 
         if ($claimHandler->isSuccess()) {
@@ -115,7 +112,7 @@ class ClaimController extends Controller {
             'photos'
         ]);
 
-        $fields['userId'] = $this->userCntrl->getUserId($request);
+        $fields['userId'] = $request->user()->getId();
 
         $claimHandler = $this->claimHandler->createClaimComment($fields);
         if ($claimHandler->isSuccess()) {
@@ -127,7 +124,7 @@ class ClaimController extends Controller {
 
     public function listClaimComments(Request $request): array {
         $claimHandler = $this->claimHandler->listClaimComments([
-            'userId' => $this->userCntrl->getUserId($request)
+            'userId' => $request->user()->getId()
         ]);
 
         if ($claimHandler->isSuccess()) {

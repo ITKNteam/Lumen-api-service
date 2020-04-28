@@ -80,9 +80,9 @@ $app->configure('app');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+ $app->routeMiddleware([
+     'auth' => App\Http\Middleware\Authenticate::class,
+ ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ $app->configure('app');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -124,7 +124,6 @@ $app->router->group([
     require __DIR__.'/../routes/objects.php';
     require __DIR__.'/../routes/routes.php';
     require __DIR__.'/../routes/user.php';
-    require __DIR__.'/../routes/pilot.php';
 });
 
 return $app;

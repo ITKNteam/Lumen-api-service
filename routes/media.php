@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/media'], function () use ($router) {
-    $controller = "MediaController";
+    $controller = 'MediaController';
 
     /**
      * @OA\Post(path="/media/picture",
@@ -18,12 +18,12 @@ $router->group(['prefix' => '/media'], function () use ($router) {
      *         type="string"
      *     )
      *   ),
-     *   @OA\Response(response=200, description="User logged out"),
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=200, description="User logged out'),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      * )
      */
-    $router->post('/picture', "$controller@uploadBase64File");
+    $router->post('/picture', $controller . 'uploadBase64File');
     /**
      * @OA\Get(path="/user/fileUri/{filehash}",
      *   tags={"media"},
@@ -38,12 +38,12 @@ $router->group(['prefix' => '/media'], function () use ($router) {
      *         type="string"
      *     )
      *   ),
-     *   @OA\Response(response=200, description="Successful operation"),
-     *   @OA\Response(response=400, description="Invalid code"),
-     *   @OA\Response(response=404, description="phone not found")
+     *   @OA\Response(response=200, description="Successful operation'),
+     *   @OA\Response(response=400, description="Invalid code'),
+     *   @OA\Response(response=404, description="phone not found')
      * )
      */
-    $router->get('/user/fileUri/{filehash}', "$controller@fileUri");
+    $router->get('/user/fileUri/{filehash}', $controller . 'fileUri');
     /**
      * @OA\Get(path="/media/fileContent/{filehash}",
      *   tags={"media"},
@@ -58,10 +58,10 @@ $router->group(['prefix' => '/media'], function () use ($router) {
      *         type="string"
      *     )
      *   ),
-     *   @OA\Response(response=200, description="Successful operation"),
-     *   @OA\Response(response=400, description="Invalid code"),
-     *   @OA\Response(response=404, description="phone not found")
+     *   @OA\Response(response=200, description="Successful operation'),
+     *   @OA\Response(response=400, description="Invalid code'),
+     *   @OA\Response(response=404, description="phone not found')
      * )
      */
-    $router->get('/fileContent/{filehash}', "$controller@fileContent");
+    $router->get('/fileContent/{filehash}', $controller . 'fileContent');
 });

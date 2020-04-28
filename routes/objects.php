@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/objects'], function () use ($router) {
-    $controller = "ObjectsController";
+    $controller = 'ObjectsController';
 
     /**
      * @OA\Get(
@@ -53,7 +53,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/types', "$controller@getObjectTypes");
+    $router->get('/types', ['middleware' => 'auth', 'uses' => $controller . 'getObjectTypes']);
     /**
      * @OA\Post(
      *     path="/objects/types",
@@ -105,7 +105,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/types', "$controller@setObjectType");
+    $router->post('/types', ['middleware' => 'auth', 'uses' => $controller . 'setObjectType']);
     /**
      * @OA\Put(
      *     path="/objects/types",
@@ -160,7 +160,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/types', "$controller@updateObjectType");
+    $router->put('/types', ['middleware' => 'auth', 'uses' => $controller . 'updateObjectType']);
 
     /**
      * @OA\Get(
@@ -232,7 +232,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/subtypes', "$controller@getObjectSubtypes");
+    $router->get('/subtypes', ['middleware' => 'auth', 'uses' => $controller . 'getObjectSubtypes']);
     /**
      * @OA\Post(
      *     path="/objects/subtypes",
@@ -290,7 +290,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/subtypes', "$controller@setObjectSubtype");
+    $router->post('/subtypes', ['middleware' => 'auth', 'uses' => $controller . 'setObjectSubtype']);
     /**
      * @OA\Put(
      *     path="/object/subtypes",
@@ -351,7 +351,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/subtypes', "$controller@updateObjectSubtype");
+    $router->put('/subtypes', ['middleware' => 'auth', 'uses' => $controller . 'updateObjectSubtype']);
 
     /**
      * @OA\Get(
@@ -492,7 +492,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/list', "$controller@getListObjects");
+    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . 'getListObjects']);
     /**
      * @OA\Get(
      *     path="/objects/user",
@@ -601,7 +601,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/user', "$controller@getUserObjects");
+    $router->get('/user', ['middleware' => 'auth', 'uses' => $controller . 'getUserObjects']);
 
     /**
      * @OA\Get(
@@ -716,7 +716,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/', "$controller@getPublicObjects");
+    $router->get('/', ['middleware' => 'auth', 'uses' => $controller . 'getPublicObjects']);
     /**
      * @OA\Post(
      *     path="/objects",
@@ -789,7 +789,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/', "$controller@setObject");
+    $router->post('/', ['middleware' => 'auth', 'uses' => $controller . 'setObject']);
     /**
      * @OA\Put(
      *     path="/objects",
@@ -865,7 +865,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/', "$controller@updateObject");
+    $router->put('/', ['middleware' => 'auth', 'uses' => $controller . 'updateObject']);
     /**
      * @OA\Delete(
      *     path="/objects",
@@ -919,7 +919,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/', "$controller@deleteObjects");
+    $router->delete('/', ['middleware' => 'auth', 'uses' => $controller . 'deleteObjects']);
 
     /**
      * @OA\Get(
@@ -1023,7 +1023,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/comments', "$controller@getComments");
+    $router->get('/comments', ['middleware' => 'auth', 'uses' => $controller . 'getComments']);
     /**
      * @OA\Post(
      *     path="/objects/comments",
@@ -1081,7 +1081,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/comments', "$controller@setComment");
+    $router->post('/comments', ['middleware' => 'auth', 'uses' => $controller . 'setComment']);
     /**
      * @OA\Put(
      *     path="/objects/comments",
@@ -1136,7 +1136,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/comments', "$controller@updateComment");
+    $router->put('/comments', ['middleware' => 'auth', 'uses' => $controller . 'updateComment']);
     /**
      * @OA\Delete(
      *     path="/objects/comments",
@@ -1190,7 +1190,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/comments', "$controller@deleteComments");
+    $router->delete('/comments', ['middleware' => 'auth', 'uses' => $controller . 'deleteComments']);
 
     /**
      * @OA\Get(
@@ -1279,7 +1279,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/audit', "$controller@getAudit");
+    $router->get('/audit', ['middleware' => 'auth', 'uses' => $controller . 'getAudit']);
 
     /**
      * @OA\Get(
@@ -1332,7 +1332,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/file/types', "$controller@getFileTypes");
+    $router->get('/file/types', ['middleware' => 'auth', 'uses' => $controller . 'getFileTypes']);
     /**
      * @OA\Post(
      *     path="/objects/file/types",
@@ -1384,7 +1384,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/file/types', "$controller@setFileType");
+    $router->post('/file/types', ['middleware' => 'auth', 'uses' => $controller . 'setFileType']);
     /**
      * @OA\Put(
      *     path="/objects/file/types",
@@ -1439,7 +1439,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/file/types', "$controller@updateFileType");
+    $router->put('/file/types', ['middleware' => 'auth', 'uses' => $controller . 'updateFileType']);
 
     /**
      * @OA\Get(
@@ -1538,7 +1538,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/file/attached', "$controller@getAttachedFiles");
+    $router->get('/file/attached', ['middleware' => 'auth', 'uses' => $controller . 'getAttachedFiles']);
     /**
      * @OA\Post(
      *     path="/objects/file/attached",
@@ -1593,7 +1593,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/file/attached', "$controller@setAttachedFile");
+    $router->post('/file/attached', ['middleware' => 'auth', 'uses' => $controller . 'setAttachedFile']);
     /**
      * @OA\Delete(
      *     path="/objects/file/attached",
@@ -1647,7 +1647,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/file/attached', "$controller@deleteAttachedFiles");
+    $router->delete('/file/attached', ['middleware' => 'auth', 'uses' => $controller . 'deleteAttachedFiles']);
     /**
      * @OA\Put(
      *     path="/objects/file/attached",
@@ -1714,7 +1714,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/file/attached', "$controller@updateAttachedFile");
+    $router->put('/file/attached', ['middleware' => 'auth', 'uses' => $controller . 'updateAttachedFile']);
 
     /**
      * @OA\Post(
@@ -1785,7 +1785,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/file/attached/link', "$controller@linkFileToFile");
+    $router->post('/file/attached/link', ['middleware' => 'auth', 'uses' => $controller . 'linkFileToFile']);
     /**
      * @OA\Put(
      *     path="/objects/file/attached/link",
@@ -1835,5 +1835,5 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/file/attached/link', "$controller@unlinkFileFromFile");
+    $router->put('/file/attached/link', ['middleware' => 'auth', 'uses' => $controller . 'unlinkFileFromFile']);
 });

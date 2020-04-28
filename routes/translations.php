@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/translations'], function () use ($router) {
-    $controller = "TranslateController";
+    $controller = 'TranslateController';
 
     /**
      * @OA\Get(
@@ -34,7 +34,7 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/hash', "$controller@getCurrentKey");
+    $router->get('/hash', ['middleware' => 'auth', 'uses' => $controller . 'getCurrentKey']);
 
     /**
      * @OA\Get(
@@ -79,7 +79,7 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/list', "$controller@getTranslations");
+    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . 'getTranslations']);
 
     /**
      * @OA\Get(
@@ -227,7 +227,7 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/', "$controller@getItems");
+    $router->get('/', ['middleware' => 'auth', 'uses' => $controller . 'getItems']);
 
     /**
      * @OA\Post(
@@ -295,7 +295,7 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/', "$controller@setItem");
+    $router->post('/', ['middleware' => 'auth', 'uses' => $controller . 'setItem']);
 
     /**
      * @OA\Put(
@@ -366,7 +366,7 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/', "$controller@updateItem");
+    $router->put('/', ['middleware' => 'auth', 'uses' => $controller . 'updateItem']);
 
     /**
      * @OA\Delete(
@@ -421,5 +421,5 @@ $router->group(['prefix' => '/translations'], function () use ($router) {
      *     )
      * )
      */
-    $router->delete('/', "$controller@deleteItems");
+    $router->delete('/', ['middleware' => 'auth', 'uses' => $controller . 'deleteItems']);
 });

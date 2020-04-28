@@ -12,8 +12,6 @@ class TechController extends Controller {
 
     private $techHandler;
 
-    private $userCntrl;
-
     private $billingHandler;
 
     /**
@@ -22,7 +20,6 @@ class TechController extends Controller {
      */
     function __construct() {
         $this->techHandler = new TechHandler(env('tech_uri'), env('tech_lumen_uri'));
-        $this->userCntrl = new UserController();
         $this->billingHandler = new BillingHandler(env('biz_uri'));
     }
 
@@ -38,7 +35,7 @@ class TechController extends Controller {
      */
     public function putCoordinates(Request $request): array {
         return $this->techHandler->putCoordinates(
-            $this->userCntrl->getUserId($request),
+            $request->user()->getId(),
             $request->get('lat'),
             $request->get('lon'),
             $request->get('battery')
@@ -51,7 +48,7 @@ class TechController extends Controller {
         }
 
         $data = $request->all();
-        $data['userId'] = $this->userCntrl->getUserId($request);
+        $data['userId'] = $request->user()->getId();
 
         //TODO 500
         return $this->techHandler->unlock($data)->getResult();
@@ -69,7 +66,7 @@ class TechController extends Controller {
         $this->getRequestFields($request, ['id']);
         $idVehicle = $request->get('id');
 
-        $userId = $this->userCntrl->getUserId($request);
+        $userId = $request->user()->getId();
 
         $resTech = $this->techHandler->rentEnd([
             'vehicleId' => $idVehicle,
@@ -112,7 +109,7 @@ class TechController extends Controller {
         $idVehicle = $request->get('id');
         $resTech = $this->techHandler->ring([
             'vehicleId' => $idVehicle,
-            'userId' => $this->userCntrl->getUserId($request)
+            'userId' => $request->user()->getId()
         ]);
 
         return $resTech->getResult();
@@ -123,7 +120,7 @@ class TechController extends Controller {
 
         //TODO {"res":500,"message":"Not found message","data":[]}
         return $this->techHandler->booking([
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'vehicleId' => $request->get('id')
         ])->getResult();
     }
@@ -132,7 +129,7 @@ class TechController extends Controller {
         $this->getRequestFields($request, ['qrCode']);
 
         return $this->techHandler->checkByQrCode([
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'qrCode' => $request->get('qrCode')
         ])->getResult();
     }
@@ -142,19 +139,19 @@ class TechController extends Controller {
 
         //TODO {"res":500,"message":"Not found message","data":[]}
         return $this->techHandler->parking([
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'vehicleId' => $request->get('id')
         ])->getResult();
     }
 
     public function getRidesShort(Request $request): array {
-        $params = array_merge($request->all(), ['userId' => $this->userCntrl->getUserId($request)]);
+        $params = array_merge($request->all(), ['userId' => $request->user()->getId()]);
 
         return $this->techHandler->getRidesShort($params)->getResult();
     }
 
     public function userTechInfo(Request $request): array {
-        return $this->techHandler->userTechInfo(['userId' => $this->userCntrl->getUserId($request)])->getResult();
+        return $this->techHandler->userTechInfo(['userId' => $request->user()->getId()])->getResult();
     }
 
     public function vehicleStatus(Request $request): array {
@@ -173,7 +170,7 @@ class TechController extends Controller {
 
         return $this->techHandler->unlock([
             'vehicleId' => $idVehicle,
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'qrCode' => $qrCode
         ])->getResult();
     }
@@ -184,7 +181,7 @@ class TechController extends Controller {
 
         return $this->techHandler->unlock([
             'vehicleId' => $idVehicle,
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'qrCode' => $qrCode
         ])->getResult();
     }
@@ -197,7 +194,7 @@ class TechController extends Controller {
         }
 
         $resTariff = $this->billingHandler->getTariffUser([
-            'user_id' => $this->userCntrl->getUserId($request)
+            'user_id' => $request->user()->getId()
         ]);
 
         if (!$resTariff->isSuccess()) {
@@ -247,14 +244,14 @@ class TechController extends Controller {
     public function checkGeozoneType(Request $request): array {
         return $this->techHandler->checkGeozoneType(
             $request->all(),
-            ['userId' => $this->userCntrl->getUserId($request)]
+            ['userId' => $request->user()->getId()]
         );
     }
 
 
     public function addGeozone(Request $request): array {
         $params = $this->getRequestFields($request, ['name', 'cityId', 'partnerId', 'geoJson', 'statusId', 'typeId']);
-        $params['userId'] = $this->userCntrl->getUserId($request);
+        $params['userId'] = $request->user()->getId();
         return $this->techHandler->addGeozone($params)->getResult();
     }
 
@@ -265,7 +262,7 @@ class TechController extends Controller {
 
     public function deleteGeozone(Request $request): array {
         return $this->techHandler->deleteGeozone([
-            'userId' => $this->userCntrl->getUserId($request),
+            'userId' => $request->user()->getId(),
             'id' => $request->get('id')
         ])->getResult();
     }

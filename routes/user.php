@@ -1,6 +1,6 @@
 <?php
 $router->group(['prefix' => '/user'], function () use ($router) {
-    $controller = "UserController";
+    $controller = 'UserController';
 
     /**
      * @OA\Post(path="/user/login",
@@ -13,13 +13,13 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *       description="user login object",
      *       @OA\MediaType(
      *           mediaType="multipart/form-data",
-     *           @OA\Schema(ref="#/components/schemas/UserLogin")
+     *           @OA\Schema(ref="#/components/schemas/UserLogin')
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/login', "$controller@login");
+    $router->post('/login', $controller . '@login');
     /**
      * @OA\Post(path="/user/create",
      *   tags={"user"},
@@ -50,10 +50,10 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *          )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/create', "$controller@registration");
+    $router->post('/create', $controller . '@registration');
     /**
      * @OA\Get(path="/user/profile",
      *   tags={"user"},
@@ -61,12 +61,13 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   description="",
      *   operationId="getUserById",
      *   security={{"bearerAuth":{}}},
-     *   @OA\Response(response=200, description="successful operation", @OA\Schema(ref="#/components/schemas/User")),
-     *   @OA\Response(response=400, description="Invalid usern id supplied"),
-     *   @OA\Response(response=404, description="User not found")
+     *   @OA\Response(response=200, description="successful operation", @OA\Schema(ref="#/components/schemas/User')),
+     *   @OA\Response(response=400, description="Invalid usern id supplied'),
+     *   @OA\Response(response=404, description="User not found')
      * )
      */
-    $router->get('/profile', "$controller@getUser");
+    $router->get('/profile', ['middleware' => 'auth', 'uses' => $controller . '@getUser']);
+    //$router->get('/profile', $controller . '@getUser');
     /**
      * @OA\Put(path="/user/profile",
      *   tags={"user"},
@@ -74,8 +75,8 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   description="This can only be done by the logged in user.",
      *   operationId="updateUser",
      *   security={{"bearerAuth":{}}},
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      *   @OA\RequestBody(
      *       required=true,
      *       description="Updated user object",
@@ -171,7 +172,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->put('/profile', "$controller@updateUser");
+    $router->put('/profile', ['middleware' => 'auth', 'uses' => $controller . '@updateUser']);
     /**
      * @OA\Get(path="/user/list",
      *   tags={"user"},
@@ -179,12 +180,12 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   description="",
      *   operationId="getUsers",
      *   security={{"bearerAuth":{}}},
-     *   @OA\Response(response=200, description="successful operation", @OA\Schema(ref="#/components/schemas/User")),
-     *   @OA\Response(response=400, description="Invalid usern id supplied"),
-     *   @OA\Response(response=404, description="User not found")
+     *   @OA\Response(response=200, description="successful operation", @OA\Schema(ref="#/components/schemas/User')),
+     *   @OA\Response(response=400, description="Invalid usern id supplied'),
+     *   @OA\Response(response=404, description="User not found')
      * )
      */
-    $router->get('/list', "$controller@getUsers");
+    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . '@getUsers']);
     /**
      * @OA\Post(path="/user/resetPassword/{phone}",
      *   tags={"user"},
@@ -200,28 +201,28 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *         type="string"
      *     )
      *   ),
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      *   @OA\RequestBody(
      *       required=true,
      *       description="Updated user object",
      *       @OA\MediaType(
      *           mediaType="multipart/form-data",
-     *           @OA\Schema(ref="#/components/schemas/User")
+     *           @OA\Schema(ref="#/components/schemas/User')
      *       )
      *   ),
      * )
      */
-    $router->post('/resetPassword', "$controller@resetPassword");
+    $router->post('/resetPassword', ['middleware' => 'auth', 'uses' => $controller . '@resetPassword']);
     /**
      * @OA\Post(path="/user/setPasswordApplyByPhone",
      *   tags={"user"},
      *   summary="установка первого пароля",
      *   description="установка первого пароля",
      *   operationId="setPasswordApplyByPhone",
-     *   @OA\Response(response=200, description="User logged in"),
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=200, description="User logged in'),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      *   @OA\RequestBody(
      *       required=true,
      *       description="Updated user object",
@@ -264,16 +265,16 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByPhone', "$controller@setPasswordApplyByPhone");
+    $router->post('/setPasswordApplyByPhone', ['middleware' => 'auth', 'uses' => $controller . '@setPasswordApplyByPhone']);
     /**
      * @OA\Post(path="/user/setPasswordApplyByEmail",
      *   tags={"user"},
      *   summary="установка первого пароля",
      *   description="установка первого пароля",
      *   operationId="setPasswordApplyByEmail",
-     *   @OA\Response(response=200, description="User logged in"),
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=200, description="User logged in'),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      *   @OA\RequestBody(
      *       required=true,
      *       description="Updated user object",
@@ -307,7 +308,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByEmail', "$controller@setPasswordApplyByEmail");
+    $router->post('/setPasswordApplyByEmail', ['middleware' => 'auth', 'uses' => $controller . '@setPasswordApplyByEmail']);
     /**
      * @OA\Post(path="/user/logout",
      *   tags={"user"},
@@ -323,12 +324,12 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *         type="string"
      *     )
      *   ),
-     *   @OA\Response(response=200, description="User logged out"),
-     *   @OA\Response(response=400, description="Invalid user supplied"),
-     *   @OA\Response(response=404, description="User not found"),
+     *   @OA\Response(response=200, description="User logged out'),
+     *   @OA\Response(response=400, description="Invalid user supplied'),
+     *   @OA\Response(response=404, description="User not found'),
      * )
      */
-    $router->post('/logout', "$controller@logout");
+    $router->post('/logout', ['middleware' => 'auth', 'uses' => $controller . '@logout']);
     /**
      * @OA\Post(path="/user/changeEmail",
      *   tags={"user"},
@@ -353,11 +354,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/changeEmail', "$controller@changeEmail");
+    $router->post('/changeEmail', ['middleware' => 'auth', 'uses' => $controller . '@changeEmail']);
     /**
      * @OA\Post(path="/user/activateEmail",
      *   tags={"user"},
@@ -382,11 +383,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/activateEmail', "$controller@activateEmail");
+    $router->post('/activateEmail', ['middleware' => 'auth', 'uses' => $controller . '@activateEmail']);
     /**
      * @OA\Post(path="/user/changePhone",
      *   tags={"user"},
@@ -419,11 +420,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/changePhone', "$controller@changePhone");
+    $router->post('/changePhone', ['middleware' => 'auth', 'uses' => $controller . '@changePhone']);
     /**
      * @OA\Post(path="/user/activatePhone",
      *   tags={"user"},
@@ -455,11 +456,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/activatePhone', "$controller@activatePhone");
+    $router->post('/activatePhone', ['middleware' => 'auth', 'uses' => $controller . '@activatePhone']);
     /**
      * @OA\Post(path="/user/resetEmail",
      *   tags={"user"},
@@ -483,11 +484,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/resetEmail', "$controller@resetEmail");
+    $router->post('/resetEmail', ['middleware' => 'auth', 'uses' => $controller . '@resetEmail']);
     /**
      * @OA\Post(path="/user/resetPhone",
      *   tags={"user"},
@@ -518,11 +519,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/resetPhone', "$controller@resetPhone");
+    $router->post('/resetPhone', ['middleware' => 'auth', 'uses' => $controller . '@resetPhone']);
     /**
      * @OA\Put(path="/user/setPushToken",
      *   tags={"user"},
@@ -568,11 +569,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response=200, description="save push token"),
-     *   @OA\Response(response=400, description="erro to saving, see logs")
+     *   @OA\Response(response=200, description="save push token'),
+     *   @OA\Response(response=400, description="erro to saving, see logs')
      * )
      */
-    $router->put('/setPushToken', "$controller@setPushToken");
+    $router->put('/setPushToken', ['middleware' => 'auth', 'uses' => $controller . '@setPushToken']);
     /**
      * @OA\Post(path="/user/create/promo",
      *   tags={"user"},
@@ -640,10 +641,10 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *           )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->put('/create/promo', "$controller@registrationPromo");
+    $router->put('/create/promo', $controller . '@registrationPromo');
     /**
      * @OA\Post(path="/user/m/create",
      *   tags={"mobile"},
@@ -674,10 +675,10 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *          )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/m/create', "$controller@mobileCreateUser");
+    $router->post('/m/create', $controller . '@mobileCreateUser');
     /**
      * @OA\Post(path="/user/m/registration",
      *   tags={"mobile"},
@@ -722,10 +723,10 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *          )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/m/registration', "$controller@mobileRegistartionUser");
+    $router->post('/m/registration', $controller . '@mobileRegistartionUser');
     /**
      * @OA\Post(path="/user/m/confirmTerm",
      *   tags={"mobile"},
@@ -733,11 +734,11 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   description="confirm Term",
      *   operationId="confirmTerm",
      *   security={{"bearerAuth":{}}},
-     *   @OA\Response(response=200, description="Bind to user not active email"),
-     *   @OA\Response(response=400, description="This email has been exists in system")
+     *   @OA\Response(response=200, description="Bind to user not active email'),
+     *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/m/confirmTerm', "$controller@mobileConfirmTerm");
+    $router->post('/m/confirmTerm', $controller . '@mobileConfirmTerm');
     /**
      * @OA\Post(path="/user/m/smsCode",
      *   tags={"mobile"},
@@ -768,10 +769,10 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *          )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/m/smsCode', "$controller@getSmsCode");
+    $router->post('/m/smsCode', $controller . '@getSmsCode');
     /**
      * @OA\Post(path="/user/m/login",
      *   tags={"mobile"},
@@ -809,8 +810,8 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *          )
      *       )
      *   ),
-     *   @OA\Response(response="default", description="successful operation")
+     *   @OA\Response(response="default", description="successful operation')
      * )
      */
-    $router->post('/m/login', "$controller@mobileLogin");
+    $router->post('/m/login', $controller . '@mobileLogin');
 });
