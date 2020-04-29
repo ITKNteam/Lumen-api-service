@@ -24,17 +24,17 @@ class HandbooksController extends Controller {
     /**
      * Метод маршрута для получения списка справочников.
      */
-    public function getHandbooks(Request $request): array {
-        return $this->handbooksHandler->getHandbooks([
+    public function getHandbooks(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->getHandbooks([
             'filters' => $request->get('filters')
-        ])->getResult();
+        ]));
     }
 
     /**
      * Метод маршрута для создания справочника.
      */
-    public function setHandbook(Request $request): array {
-        return $this->handbooksHandler->setHandbook(
+    public function setHandbook(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->setHandbook(
             array_merge(
                 $this->getRequestFields($request, [
                     'userId', 'name'
@@ -43,37 +43,37 @@ class HandbooksController extends Controller {
                     'parentId' => $request->get('parentId')
                 ]
             )
-        )->getResult();
+        ));
     }
 
     /**
      * Метод маршрута для редактирования справочника.
      */
-    public function updateHandbook(Request $request): array {
-        return $this->handbooksHandler->updateHandbook(array_merge(
+    public function updateHandbook(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->updateHandbook(array_merge(
             $this->getRequestFields($request, [
                 'id', 'userId', 'name'
             ]),
             [
                 'parentId' => $request->get('parentId')
             ]
-        ))->getResult();
+        )));
     }
 
     /**
      * Метод маршрута для получения списка значений справочника.
      */
-    public function getHandbookData(Request $request): array {
-        return $this->handbooksHandler->getHandbookData([
+    public function getHandbookData(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->getHandbookData([
             'filters' => $request->get('filters')
-        ])->getResult();
+        ]));
     }
 
     /**
      * Метод маршрута для создания значения справочника.
      */
-    public function setHandbookData(Request $request): array {
-        return $this->handbooksHandler->setHandbookData(array_merge(
+    public function setHandbookData(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->setHandbookData(array_merge(
             $this->getRequestFields($request, [
                 'handbookId', 'userId', 'value'
             ]),
@@ -83,14 +83,14 @@ class HandbooksController extends Controller {
                 'symbol' => $request->get('symbol'),
                 'description' => $request->get('description'),
             ]
-        ))->getResult();
+        )));
     }
 
     /**
      * Метод маршрута для редактирования значения справочника.
      */
-    public function updateHandbookData(Request $request): array {
-        return $this->handbooksHandler->updateHandbookData(array_merge(
+    public function updateHandbookData(Request $request) {
+        return $this->responseJSON($this->handbooksHandler->updateHandbookData(array_merge(
             $this->getRequestFields($request, [
                 'id', 'handbookId', 'userId', 'value'
             ]),
@@ -100,14 +100,14 @@ class HandbooksController extends Controller {
                 'symbol' => $request->get('symbol'),
                 'description' => $request->get('description'),
             ]
-        ))->getResult();
+        )));
     }
 
-    public function dumpHandbooks(Request $request): array {
+    public function dumpHandbooks(Request $request) {
         $handbooksHandler = $this->handbooksHandler->dumpHandbooks();
 
         if ($handbooksHandler->isSuccess()) {
-            return $handbooksHandler->getResult();
+            return $this->responseJSON($handbooksHandler);
         } else {
             $$this->sentryAbort(new Exception($handbooksHandler->getMessage(), $handbooksHandler->getRes()));
         }

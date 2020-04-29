@@ -22,54 +22,54 @@ class ObjectsController extends Controller {
     /**
      * Метод базового маршрута
      */
-    public function index(Request $request): array {
-        return $this->objectsHandler->index($request->all())->getResult();
+    public function index(Request $request) {
+        return $this->responseJSON($this->objectsHandler->index($request->all()));
     }
 
     /**
      * Метод маршрута для получения списка типов объекта.
      */
     public function getObjectTypes(Request $request) {
-        return $this->objectsHandler->getObjectTypes($request->all())->getResult();
+        return $this->responseJSON($this->objectsHandler->getObjectTypes($request->all()));
     }
 
     /**
      * Метод маршрута для создания типа объекта.
      */
-    public function setObjectType(Request $request): array {
+    public function setObjectType(Request $request) {
         $this->getRequestFields($request, ['name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->setObjectType($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->setObjectType($requestFields));
     }
 
     /**
      * Метод маршрута для редактирования типа объекта.
      */
-    public function updateObjectType(Request $request): array {
+    public function updateObjectType(Request $request) {
         $this->getRequestFields($request, ['name', 'id']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->updateObjectType($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->updateObjectType($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка подтипов объекта.
      */
-    public function getObjectSubtypes(Request $request): array {
+    public function getObjectSubtypes(Request $request) {
         $this->getRequestFields($request, ['typeId']);
         $requestFields = $request->all();
-        return $this->objectsHandler->getObjectSubtypes($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getObjectSubtypes($requestFields));
     }
 
     /**
      * Метод маршрута для создания подтипа объекта.
      */
-    public function setObjectSubtype(Request $request): array {
+    public function setObjectSubtype(Request $request) {
         $this->getRequestFields($request, ['typeId', 'name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->setObjectSubtype($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->setObjectSubtype($requestFields));
     }
 
     /**
@@ -77,144 +77,144 @@ class ObjectsController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function updateObjectSubtype(Request $request): array {
+    public function updateObjectSubtype(Request $request) {
         $this->getRequestFields($request, ['id', 'typeId', 'name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->updateObjectSubtype($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->updateObjectSubtype($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка публичных объектов.
      */
-    public function getPublicObjects(Request $request): array {
+    public function getPublicObjects(Request $request) {
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->getPublicObjects($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getPublicObjects($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка объектов.
      */
-    public function getListObjects(Request $request): array {
+    public function getListObjects(Request $request) {
         $requestFields = $request->all();
-        return $this->objectsHandler->getListObjects($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getListObjects($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка объектов пользователя.
      */
-    public function getUserObjects(Request $request): array {
+    public function getUserObjects(Request $request) {
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->getUserObjects($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getUserObjects($requestFields));
     }
 
     /**
      * Метод маршрута для создания объекта.
      */
-    public function setObject(Request $request): array {
+    public function setObject(Request $request) {
         $this->getRequestFields($request, ['subtypeId', 'lat', 'lng', 'name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->setObject($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->setObject($requestFields));
     }
 
     /**
      * Метод маршрута для редактирования объекта.
      */
-    public function updateObject(Request $request): array {
+    public function updateObject(Request $request) {
         $this->getRequestFields($request, ['id', 'subtypeId', 'lat', 'lng', 'name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->updateObject($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->updateObject($requestFields));
     }
 
     /**
      * Метод маршрута для удаления объектов.
      */
-    public function deleteObjects(Request $request): array {
+    public function deleteObjects(Request $request) {
         if (!$request->has('id') && !$request->has('listId')) {
             abort(400, 'Missing parameter: id or listId');
         }
 
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->deleteObjects($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->deleteObjects($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка комментариев к объекту.
      */
-    public function getComments(Request $request): array {
+    public function getComments(Request $request) {
         $this->getRequestFields($request, ['objectId']);
         $requestFields = $request->all();
-        return $this->objectsHandler->getComments($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getComments($requestFields));
     }
 
     /**
      * Метод маршрута для создания комментария к объекту.
      */
-    public function setComment(Request $request): array {
+    public function setComment(Request $request) {
         $this->getRequestFields($request, ['objectId', 'commentary']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->setComment($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->setComment($requestFields));
     }
 
     /**
      * Метод маршрута для редактирования комментария к объекту.
      */
-    public function updateComment(Request $request): array {
+    public function updateComment(Request $request) {
         $this->getRequestFields($request, ['id', 'commentary']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->updateComment($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->updateComment($requestFields));
     }
 
     /**
      * Метод маршрута для удаления комментария к объекту.
      */
-    public function deleteComments(Request $request): array {
+    public function deleteComments(Request $request) {
         if (!$request->has('id') && !$request->has('listId')) {
             abort(400, 'Missing parameter: id or listId');
         }
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->deleteComments($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->deleteComments($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка действий пользователей.
      * Для выборки действий пользователя нужно указать его идентификатор.
      */
-    public function getAudit(Request $request): array {
+    public function getAudit(Request $request) {
         $requestFields = $request->all();
-        return $this->objectsHandler->getAudit($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getAudit($requestFields));
     }
 
     /**
      * Метод маршрута для получения списка типов файлов.
      */
-    public function getFileTypes(Request $request): array {
+    public function getFileTypes(Request $request) {
         $requestFields = $request->all();
-        return $this->objectsHandler->getFileTypes($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getFileTypes($requestFields));
     }
 
     /**
      * Метод маршрута для создания типа файла.
      */
-    public function setFileType(Request $request): array {
+    public function setFileType(Request $request) {
         $this->getRequestFields($request, ['name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->setFileType($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->setFileType($requestFields));
     }
 
     /**
      * Метод маршрута для редактирования типа файла.
      */
-    public function updateFileType(Request $request): array {
+    public function updateFileType(Request $request) {
         $this->getRequestFields($request, ['id', 'name']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
@@ -224,67 +224,70 @@ class ObjectsController extends Controller {
     /**
      * Метод маршрута для получения списка прикрепленных файлов к объекту.
      */
-    public function getAttachedFiles(Request $request): array {
+    public function getAttachedFiles(Request $request) {
         $this->getRequestFields($request, ['objectId']);
         $requestFields = $request->all();
-        return $this->objectsHandler->getAttachedFiles($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->getAttachedFiles($requestFields));
     }
 
     /**
      * Метод маршрута для прикрепления файлов к объекту.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function setAttachedFile(Request $request): array {
+    public function setAttachedFile(Request $request) {
         $this->getRequestFields($request, ['objectId']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
 
-        return $request->hasFile()
-            ? $this->objectsHandler->setAttachedFile($requestFields, $this->request->getUploadedFiles())
-            : $this->objectsHandler->setAttachedFile($requestFields);
+        return $this->responseJSON(
+            $request->hasFile()
+                ? $this->objectsHandler->setAttachedFile($requestFields, $this->request->getUploadedFiles())
+                : $this->objectsHandler->setAttachedFile($requestFields)
+        );
     }
 
     /**
      * Метод маршрута для открепления прикрепленных файлов к объекту.
      */
-    public function deleteAttachedFiles(Request $request): array {
+    public function deleteAttachedFiles(Request $request) {
         if (!$request->has('id') && !$request->has('listId')) {
             abort(400, 'Missing parameter: id or listId');
         }
         $requestFields = $request->all();
-        return $this->objectsHandler->deleteAttachedFiles($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->deleteAttachedFiles($requestFields));
     }
 
     /**
      * Метод маршрута для редактирования файла.
      */
-    public function updateAttachedFile(Request $request): array {
+    public function updateAttachedFile(Request $request) {
         $this->getRequestFields($request, ['id', 'index']);
         $requestFields = $request->all();
-        return $this->objectsHandler->updateAttachedFile($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->updateAttachedFile($requestFields));
     }
 
     /**
      * Метод маршрута для прикрепления файлов к файлу объекта.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function linkFileToFile(Request $request): array {
+    public function linkFileToFile(Request $request) {
         $this->getRequestFields($request, ['id', 'objectId']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $request->hasFile()
-            ? $this->objectsHandler->linkFileToFile($requestFields, $this->request->getUploadedFiles())->getResult()
-            : $this->objectsHandler->linkFileToFile($requestFields)->getResult();
+        return $this->responseJSON(
+            $request->hasFile()
+                ? $this->objectsHandler->linkFileToFile($requestFields, $this->request->getUploadedFiles())
+                : $this->objectsHandler->linkFileToFile($requestFields)
+        );
     }
 
     /**
      * Метод маршрута для разгрупировки файлов.
      */
-    public function unlinkFileFromFile(Request $request): array {
+    public function unlinkFileFromFile(Request $request) {
         $this->getRequestFields($request, ['id']);
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->objectsHandler->unlinkFileFromFile($requestFields)->getResult();
+        return $this->responseJSON($this->objectsHandler->unlinkFileFromFile($requestFields));
     }
-
 }

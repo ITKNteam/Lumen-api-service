@@ -13,22 +13,22 @@ class MediaController extends Controller {
         $this->mediaHandler = new MediaHandler(env('MEDIA_URI'));
     }
 
-    public function uploadBase64File(Request $request): array {
+    public function uploadBase64File(Request $request) {
         $this->getRequestFields($request, ['fileData']);
         $base64data = $request->get('fileData');
 
-        return $this->mediaHandler->uploadBase64([
+        return $this->responseJSON($this->mediaHandler->uploadBase64([
             'userId' => $request->user()->getId(),
             'fileData' => $base64data
-        ])->getResult();
+        ]));
     }
 
-    public function fileUri($filehash): array {
+    public function fileUri($filehash) {
         //TODO not work
         return $this->mediaHandler->fileUri(['filehash' => $filehash])->getResult();
     }
 
-    public function fileContent($filehash): array {
+    public function fileContent($filehash) {
         $response = $this->mediaHandler->fileContent(['filehash' => $filehash]);
 
         header("Content-Type: ". $response->getHeaders()['Content-Type'][0]);

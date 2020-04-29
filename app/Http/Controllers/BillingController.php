@@ -18,38 +18,38 @@ class BillingController extends Controller {
         $this->billingHandler = new BillingHandler(env('BIZ_URI'));
     }
 
-    public function addCreditCard(Request $request): array {
+    public function addCreditCard(Request $request) {
         $params = $this->getRequestFields($request, ['cardNumber', 'cvv2', 'expiryDate']);
         $params['user_id'] = $request->user()->getId();
-        return $this->billingHandler->addCreditCard($params)->getResult();
+        return $this->responseJSON($this->billingHandler->addCreditCard($params));
     }
 
-    public function getCreditCard(Request $request): array {
-        return $this->billingHandler->getCreditCard([
+    public function getCreditCard(Request $request) {
+        return $this->responseJSON($this->billingHandler->getCreditCard([
             'user_id' => $request->user()->getId()
-        ])->getResult();
+        ]));
     }
 
-    public function deleteCreditCard(Request $request): array {
+    public function deleteCreditCard(Request $request) {
         $params = $this->getRequestFields($request, ['cardId']);
         $params['user_id'] = $request->user()->getId();
-        return $this->billingHandler->deleteCreditCard($params)->getResult();
+        return $this->responseJSON($this->billingHandler->deleteCreditCard($params));
     }
 
-    public function patchCreditCard(Request $request): array {
+    public function patchCreditCard(Request $request) {
         $params = $this->getRequestFields($request, ['cardId']);
         $params['user_id'] = $request->user()->getId();
-        return $this->billingHandler->patchCreditCard($params)->getResult();
+        return $this->responseJSON($this->billingHandler->patchCreditCard($params));
     }
 
-    public function addPay(Request $request): array {
+    public function addPay(Request $request) {
         $params = $this->getRequestFields($request, ['amount', 'orderId']);
         $params['user_id'] = $request->user()->getId();
 
-        return $this->billingHandler->addPay($params)->getResult();
+        return $this->responseJSON($this->billingHandler->addPay($params));
     }
 
-    public function createTariff(Request $request): array {
+    public function createTariff(Request $request) {
         $this->getRequestFields($request, ['name', 'cost']);
 
         $name = (string)$request->get('name');  //string
@@ -85,52 +85,52 @@ class BillingController extends Controller {
             'user_id' => $request->user()->getId()
         ];
 
-        return $this->billingHandler->createTariff($options)->getResult();
+        return $this->responseJSON($this->billingHandler->createTariff($options));
     }
 
 
-    public function getTariff(Request $request): array {
+    public function getTariff(Request $request) {
         return $this->billingHandler->getTariffs([
             'user_id' => $request->user()->getId()
         ])->getResult();
     }
 
-    public function changeStatusTariff(Request $request): array {
+    public function changeStatusTariff(Request $request) {
         $params = $this->getRequestFields($request, ['tariff_id', 'status_id']);
         $params['user_id'] = $request->user()->getId();
 
-        return $this->billingHandler->changeStatusTariff($params)->getResult();
+        return $this->responseJSON($this->billingHandler->changeStatusTariff($params));
     }
 
-    public function bindTariffBindUser(Request $request): array {
-        return $this->billingHandler->bindTariffToUser(
+    public function bindTariffBindUser(Request $request) {
+        return $this->responseJSON($this->billingHandler->bindTariffToUser(
             $this->getRequestFields($request, ['user_id', 'tariff_id'])
-        )->getResult();
+        ));
     }
 
-    public function getAllWriteOffs(Request $request): array {
+    public function getAllWriteOffs(Request $request) {
         return $this->billingHandler->getAllWriteOffs([])->getResult();
     }
 
-    public function getCurrentWriteOffs(Request $request): array {
-        return $this->billingHandler->getUserWriteOffs([
+    public function getCurrentWriteOffs(Request $request) {
+        return $this->responseJSON($this->billingHandler->getUserWriteOffs([
             'user_id' => $request->user()->getId()
-        ])->getResult();
+        ]));
     }
 
-    public function getUserWriteOffs(Request $request): array {
-        return $this->billingHandler->getUserWriteOffs();
+    public function getUserWriteOffs(Request $request) {
+        return $this->responseJSON($this->billingHandler->getUserWriteOffs());
     }
 
-    public function payRent(Request $request): array {
-        return $this->billingHandler->payRent(
+    public function payRent(Request $request) {
+        return $this->responseJSON($this->billingHandler->payRent(
             $this->getRequestFields($request, ['user_id', 'history_json'])
-        )->getResult();
+        ));
     }
 
-    public function getCurrentTariff(Request $request): array {
-        return $this->billingHandler->getTariffUser([
+    public function getCurrentTariff(Request $request) {
+        return $this->responseJSON($this->billingHandler->getTariffUser([
             'user_id' => $request->user()->getId()
-        ])->getResult();
+        ]));
     }
 }

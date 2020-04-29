@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ResultDto;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Sentry;
@@ -37,5 +38,9 @@ class Controller extends BaseController {
     public function sentryAbort(Exception $e) {
         Sentry\captureException($e);
         abort(in_array($e->getCode(), [200, 500, 409, 400, 404]) ? $e->getCode() : 500, $e->getMessage());
+    }
+
+    public function responseJSON(ResultDto $result) {
+        return response()->json($result->getResult());
     }
 }

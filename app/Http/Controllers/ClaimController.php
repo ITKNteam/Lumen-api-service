@@ -22,7 +22,7 @@ class ClaimController extends Controller {
         $this->mediaHandler = new MediaHandler(env('MEDIA_URI'));
     }
 
-    public function createClaim(Request $request): array {
+    public function createClaim(Request $request) {
         $this->getRequestFields($request, [
             'typeId',
             'description',
@@ -57,13 +57,13 @@ class ClaimController extends Controller {
         $claimHandler = $this->claimHandler->createClaim($fields);
 
         if ($claimHandler->isSuccess()) {
-            return $claimHandler->getResult();
+            return $this->responseJSON($claimHandler);
         } else {
             $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
         }
     }
 
-    public function updateClaim(Request $request): array {
+    public function updateClaim(Request $request) {
         $this->getRequestFields($request, [
             'claimId',
             'statusId'
@@ -84,28 +84,25 @@ class ClaimController extends Controller {
         $claimHandler = $this->claimHandler->changeClaimStatus($fields);
 
         if ($claimHandler->isSuccess()) {
-            return $claimHandler->getResult();
+            return $this->responseJSON($claimHandler);
         } else {
             $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
         }
     }
 
-    public function listClaim(Request $request): array {
+    public function listClaim(Request $request) {
         $claimHandler = $this->claimHandler->listClaims([
             'userId' => $request->user()->getId()
         ]);
 
         if ($claimHandler->isSuccess()) {
-            return $claimHandler->getResult();
-            $this->buildSuccessResponse(
-                200, $ret['messages'], $ret['data'] ?? []
-            );
+            return $this->responseJSON($claimHandler);
         } else {
             $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
         }
     }
 
-    public function createClaimComment(Request $request): array {
+    public function createClaimComment(Request $request) {
         $fields = $this->getRequestFields($request, [
             'claimId',
             'txt',
@@ -116,22 +113,19 @@ class ClaimController extends Controller {
 
         $claimHandler = $this->claimHandler->createClaimComment($fields);
         if ($claimHandler->isSuccess()) {
-            return $claimHandler->getResult();
+            return $this->responseJSON($claimHandler);
         } else {
             $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
         }
     }
 
-    public function listClaimComments(Request $request): array {
+    public function listClaimComments(Request $request) {
         $claimHandler = $this->claimHandler->listClaimComments([
             'userId' => $request->user()->getId()
         ]);
 
         if ($claimHandler->isSuccess()) {
-            return $claimHandler->getResult();
-            $this->buildSuccessResponse(
-                200, $ret['message'], $ret['data'] ?? []
-            );
+            return $this->responseJSON($claimHandler);
         } else {
             $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
         }

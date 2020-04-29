@@ -37,7 +37,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function login(Request $request): array {
+    public function login(Request $request) {
         $this->requestHas($request, ['login', 'password']);
 
         $login = $request->get('login');
@@ -71,7 +71,7 @@ class UserController extends Controller {
             $this->sentryAbort(new Exception($resProfile->getMessage(), $resProfile->getRes()));
         }
 
-        return $resAuth->getResult();
+        return $this->responseJSON($resAuth);
     }
 
 
@@ -80,7 +80,7 @@ class UserController extends Controller {
      * @return array
      * @throws \App\Providers\Exceptions\IncorrectLoginException
      */
-    public function registration(Request $request): array {
+    public function registration(Request $request) {
         $this->requestHas($request, ['login']);
 
 
@@ -121,29 +121,29 @@ class UserController extends Controller {
                 ->getResult();
         }
 
-        return ResultDto::createResult(200, 'Success create', $data);
+        return $this->responseJSON(new ResultDto(200, 'Success create', $data));
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function getUser(Request $request): array {
-        return $this->profileHandler->getUser(['id' => $request->user()->getId()])->getResult();
+    public function getUser(Request $request) {
+        return $this->responseJSON($this->profileHandler->getUser(['id' => $request->user()->getId()]));
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function getUsers(Request $request): array {
+    public function getUsers(Request $request) {
         $auth = $this->getAuthUser($request);
 
         if (!$auth->isSuccess()) {
             return $auth->getResult();
         }
 
-        return $this->profileHandler->getUsers([])->getResult();
+        return $this->responseJSON($this->profileHandler->getUsers([]));
     }
 
     /**
@@ -167,7 +167,7 @@ class UserController extends Controller {
      *
      * @return array
      */
-    private function getUserFields(): array {
+    private function getUserFields() {
         return [
             'name',
             'lastName',
@@ -187,7 +187,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function updateUser(Request $request): array {
+    public function updateUser(Request $request) {
         $this->requestHas($request, $this->getUserFields());
 
         $requestParams = [
@@ -198,23 +198,23 @@ class UserController extends Controller {
             $requestParams[$field] = $request->get($field);
         }
 
-        return $this->profileHandler->updateUser($requestParams)->getResult();
+        return $this->responseJSON($this->profileHandler->updateUser($requestParams));
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function setPasswordApplyByPhone(Request $request): array {
+    public function setPasswordApplyByPhone(Request $request) {
         $resSetPassword = $this->profileHandler->setPasswordApplyByPhone(
             $this->getRequestFields($request, ['password', 'rePassword', 'code', 'phone'])
         );
 
         //TODO выполняет запрос верно, но отвечает 500
         if ($resSetPassword->isSuccess()) {
-            return $this->authHandler
-                ->login(['user_id' => $resSetPassword->getData()['userId']])
-                ->getResult();
+            return $this->responseJSON(
+                $this->authHandler->login(['user_id' => $resSetPassword->getData()['userId']])
+            );
         } else {
             $this->sentryAbort(new Exception($resSetPassword->getMessage(), $resSetPassword->getRes()));
         }
@@ -224,7 +224,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function setPasswordApplyByEmail(Request $request): array {
+    public function setPasswordApplyByEmail(Request $request) {
         $profileHandler = $this->profileHandler->setPasswordApplyByEmail(
             $this->getRequestFields($request, ['password', 'rePassword', 'hash'])
         );
@@ -234,7 +234,7 @@ class UserController extends Controller {
         }
 
         //TODO выполняет запрос верно, но отвечает 500
-        return $this->authHandler->login(['user_id' => $profileHandler->getData()['userId']])->getResult();
+        return $this->responseJSON($this->authHandler->login(['user_id' => $profileHandler->getData()['userId']]));
     }
 
 
@@ -243,7 +243,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function changeEmail(Request $request): array {
+    public function changeEmail(Request $request) {
         $this->requestHas($request, 'email');
 
         $userId = $request->user()->getId();
@@ -267,12 +267,14 @@ class UserController extends Controller {
                 $email
             );
 
-            return ResultDto::createResult(200, $profileHandler->getMessage(), array_merge(
-                $profileHandler->getData(),
-                [
-                    'sendEmailResult' => $notifierHandler->getResult()
-                ]
-            ));
+            return $this->responseJSON(
+                new ResultDto(200, $profileHandler->getMessage(), array_merge(
+                    $profileHandler->getData(),
+                    [
+                        'sendEmailResult' => $notifierHandler->getResult()
+                    ]
+                ))
+            );
         } else {
             abort(400, $profileHandler->getMessage());
         }
@@ -283,7 +285,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function activateEmail(Request $request): array {
+    public function activateEmail(Request $request) {
         $this->requestHas($request, ['hash']);
         $profileHandler = $this->profileHandler->activateEmail(['hash' => $request->get('hash')]);
 
@@ -291,7 +293,7 @@ class UserController extends Controller {
             $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
         }
 
-        return $profileHandler->getResult();
+        return $this->responseJSON($profileHandler);
     }
 
     /**
@@ -299,7 +301,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function changePhone(Request $request): array {
+    public function changePhone(Request $request) {
         $this->requestHas($request, ['phone', 'country_code']);
 
         $number = $request->get('phone');
@@ -325,7 +327,7 @@ class UserController extends Controller {
         $data = $profileHandler->getResult();
         $data['sendSmsResult'] = $resNotifier->getResult();
 
-        return ResultDto::createResult(200, $profileHandler->getMessage(), $data);
+        return $this->responseJSON(new ResultDto(200, $profileHandler->getMessage(), $data));
     }
 
     /**
@@ -333,10 +335,10 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function activatePhone(Request $request): array {
-        return $this->profileHandler->activatePhone(
+    public function activatePhone(Request $request) {
+        return $this->responseJSON($this->profileHandler->activatePhone(
             $this->getRequestFields($request, ['phone', 'code'])
-        )->getResult();
+        ));
     }
 
     /**
@@ -344,7 +346,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function resetEmail(Request $request): array {
+    public function resetEmail(Request $request) {
         $this->getRequestFields($request, ['email']);
 
         $email = $request->get('email');
@@ -360,14 +362,14 @@ class UserController extends Controller {
         $result = $res->getResult();
         $result['notifier'] = $this->notifierHandler->sendEmailHash(0, $res->getData()['hash'], $emailActivationUri, $email)->getResult();
 
-        return $result;
+        return $this->responseJSON(new ResultDto(200, $res->getMessage(), $result));
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function resetPhone(Request $request): array {
+    public function resetPhone(Request $request) {
         $this->requestHas($request, ['phone', 'country_code']);
 
         $phone = $request->get('phone');
@@ -389,43 +391,49 @@ class UserController extends Controller {
         $resNotifier = $this->notifierHandler->sendSmsCode(0, $hash, $phoneNumber)->getResult();
         $resNotifier['hash'] = $hash;
 
-        return ResultDto::createResult(200, $profileHandler->getMessage(), [
-            'sendSmsResult' => $resNotifier
-        ]);
+        return $this->responseJSON(
+            new ResultDto(200, $profileHandler->getMessage(), ['sendSmsResult' => $resNotifier])
+        );
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function setPushToken(Request $request): array {
-        return $this->profileHandler->setPushToken(
-            array_merge(
-                ['user_id' => $request->user()->getId()],
-                $this->getRequestFields($request, ['push_token', 'is_android', 'device_id', 'device_brand'])
+    public function setPushToken(Request $request) {
+        return $this->responseJSON(
+            $this->profileHandler->setPushToken(
+                array_merge(
+                    ['user_id' => $request->user()->getId()],
+                    $this->getRequestFields($request, ['push_token', 'is_android', 'device_id', 'device_brand'])
+                )
             )
-        )->getResult();
+        );
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function addPay(Request $request): array {
-        return $this->profileHandler->addPay(array_merge(
-            ['user_id' => $request->user()->getId()],
-            $this->getRequestFields($request, ['ammount', 'orderId'])
-        ))->getResult();
+    public function addPay(Request $request) {
+        return $this->responseJSON(
+            $this->profileHandler->addPay(array_merge(
+                ['user_id' => $request->user()->getId()],
+                $this->getRequestFields($request, ['ammount', 'orderId'])
+            ))
+        );
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function deleteUserByPhone(Request $request): array {
-        return $this->profileHandler->deleteUserByPhone(
-            $this->getRequestFields($request, ['phone'])
-        )->getResult();
+    public function deleteUserByPhone(Request $request) {
+        return $this->responseJSON(
+            $this->profileHandler->deleteUserByPhone(
+                $this->getRequestFields($request, ['phone'])
+            )
+        );
     }
 
     /**
@@ -434,7 +442,7 @@ class UserController extends Controller {
      * @return array
      * @throws Exception
      */
-    public function registrationPromo(Request $request): array {
+    public function registrationPromo(Request $request) {
         $this->requestHas($request, [
             'userName',
             'email',
@@ -478,7 +486,7 @@ class UserController extends Controller {
             $data['sendEmailResult'] = $resEmailNotifier;
         }
 
-        return ResultDto::createResult(200, 'Success create', $data);
+        return $this->responseJSON(new ResultDto(200, 'Success create', $data));
     }
 
     /**
@@ -487,7 +495,7 @@ class UserController extends Controller {
      * @return array
      * @throws Exception
      */
-    public function mobileCreateUser(Request $request): array {
+    public function mobileCreateUser(Request $request) {
         //biz
         $profileHandler = $this->profileHandler->mobileCreateUser($this->getRequestFields(
             $request,
@@ -515,17 +523,17 @@ class UserController extends Controller {
             $countryCode . $phone
         );
 
-        return ResultDto::createResult(200, 'Success', [
+        return $this->responseJSON(new ResultDto(200, 'Success', [
             'secret' => $hashOrSmsCode,
             'sendSmsResult' => $resNotifier
-        ]);
+        ]));
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function mobileRegistartionUser(Request $request): array {
+    public function mobileRegistartionUser(Request $request) {
         $retProfile = $this->profileHandler->mobileRegistartionUser(
             $this->getRequestFields($request, [
                 'phone',
@@ -539,9 +547,9 @@ class UserController extends Controller {
             $this->sentryAbort(new Exception($retProfile->getMessage(), $retProfile->getRes()));
         }
 
-        return $this->authHandler->login([
+        return $this->responseJSON($this->authHandler->login([
             'id' => $retProfile->getData()['userId']
-        ])->getResult();
+        ]));
     }
 
 
@@ -549,7 +557,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return array
      */
-    public function mobileConfirmTerm(Request $request): array {
+    public function mobileConfirmTerm(Request $request) {
         $token = $request->header('authorization');
         if (empty($token)) {
             abort(403, 'Permission denied');
@@ -560,7 +568,7 @@ class UserController extends Controller {
 
         $userId = $this->authHandler->validateToken(['token' => $token])->getData()['user_id'];
 
-        return $this->profileHandler->mobileConfirmTerm(['userId' => $userId])->getResult();
+        return $token-$this->responseJSON($this->profileHandler->mobileConfirmTerm(['userId' => $userId]));
     }
 
 
@@ -569,7 +577,7 @@ class UserController extends Controller {
      * @return array
      * @throws Exception
      */
-    public function getSmsCode(Request $request): array {
+    public function getSmsCode(Request $request) {
         $profileHandler = $this->profileHandler->getSmsCode(
             $this->getRequestFields($request, [
                 'phone',
@@ -593,14 +601,14 @@ class UserController extends Controller {
         $phone = $request->get('phone');
         $result = $this->notifierHandler->sendSmsCode(0, $hashOrSmsCode, $countryCode . $phone)->getResult();
         $result['hash'] = $hashOrSmsCode;
-        return $result;
+        return $this->responseJSON(200, 'Sms code', $result);
     }
 
     /**
      * @param Request $request
      * @return array
      */
-    public function mobileLogin(Request $request): array {
+    public function mobileLogin(Request $request) {
         $profileHandler = $this->profileHandler->mobileLoginUser(
             $this->getRequestFields($request, [
                 'phone',
@@ -628,9 +636,11 @@ class UserController extends Controller {
             $token = $token . self::TMP_TOKEN_SALT;
         }
 
-        return ResultDto::createResult(200, 'Confirm OK', [
-            'token' => $token,
-            'confirmTerm' => $confirmTerm
-        ]);
+        return $this->responseJSON(
+            new ResultDto(200, 'Confirm OK', [
+                'token' => $token,
+                'confirmTerm' => $confirmTerm
+            ])
+        );
     }
 }

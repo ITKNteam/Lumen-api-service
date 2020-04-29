@@ -28,6 +28,6 @@ class NotificationsController extends Controller {
         $fields['ios_token'] = $request->get('ios_token');
         $fields['send_dt'] = $request->get('send_dt');
 
-        return $this->notificationsHandler->sendNotifications($fields)->getResult();
+        return $this->responseJSON($this->notificationsHandler->sendNotifications($fields));
     }
 }
