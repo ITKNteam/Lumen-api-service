@@ -70,7 +70,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/', $controller . 'getHandbooks');
+    $router->get('/', $controller . '@getHandbooks');
     /**
      * @OA\Post(
      *     path="/handbooks",
@@ -141,7 +141,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/', $controller . 'setHandbook');
+    $router->post('/', $controller . '@setHandbook');
     /**
      * @OA\Put(
      *     path="/handbooks",
@@ -216,7 +216,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/', $controller . 'updateHandbook');
+    $router->put('/', $controller . '@updateHandbook');
 
     /**
      * @OA\Get(
@@ -306,7 +306,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/value', $controller . 'getHandbookData');
+    $router->get('/value', $controller . '@getHandbookData');
     /**
      * @OA\Post(
      *     path="/handbooks/value",
@@ -402,7 +402,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/value', $controller . 'setHandbookData');
+    $router->post('/value', $controller . '@setHandbookData');
     /**
      * @OA\Put(
      *     path="/handbooks/value",
@@ -503,7 +503,7 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/value', $controller . 'updateHandbookData');
+    $router->put('/value', $controller . '@updateHandbookData');
     /**
      * @OA\GET(path="/m/list",
      *   tags={"Справочники"},
@@ -530,5 +530,5 @@ $router->group(['prefix' => '/handbooks'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found'),
      * )
      */
-    $router->get('/m/list', $controller . 'dumpHandbooks');
+    $router->get('/m/list', $controller . '@dumpHandbooks');
 });

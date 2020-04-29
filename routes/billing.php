@@ -45,7 +45,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'addCreditCard']);
+    $router->post('/creditCard', ['middleware' => 'auth', 'uses' => $controller . '@addCreditCard']);
     /**
      * @OA\Get(path="/billing/creditCard",
      *   tags={"billing"},
@@ -58,7 +58,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->get('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'getCreditCard']);
+    $router->get('/creditCard', ['middleware' => 'auth', 'uses' => $controller . '@getCreditCard']);
     /**
      * @OA\DELETE(path="/billing/creditCard",
      *   tags={"billing"},
@@ -81,7 +81,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->delete('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'deleteCreditCard']);
+    $router->delete('/creditCard', ['middleware' => 'auth', 'uses' => $controller . '@deleteCreditCard']);
     /**
      * @OA\PATCH(path="/billing/creditCard",
      *   tags={"billing"},
@@ -104,7 +104,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="card not found")
      * )
      */
-    $router->patch('/creditCard', ['middleware' => 'auth', 'uses' => $controller . 'patchCreditCard']);
+    $router->patch('/creditCard', ['middleware' => 'auth', 'uses' => $controller . '@patchCreditCard']);
 
     /**
      * @OA\Post(path="/billing/addPay",
@@ -142,7 +142,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/pay', ['middleware' => 'auth', "uses" => $controller . 'addPay']);
+    $router->post('/pay', ['middleware' => 'auth', "uses" => $controller . '@addPay']);
 
     /**
      * @OA\Post(path="/billing/tariff",
@@ -258,8 +258,8 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/tariff', ['middleware' => 'auth', "uses" => $controller . 'createTariff']);
-    $router->get('/tariffs', ['middleware' => 'auth', "uses" => $controller . 'getTariff']);
+    $router->post('/tariff', ['middleware' => 'auth', "uses" => $controller . '@createTariff']);
+    $router->get('/tariffs', ['middleware' => 'auth', "uses" => $controller . '@getTariff']);
     /**
      * @OA\Post(path="/tariff/bindUser",
      *   tags={"billing"},
@@ -297,8 +297,8 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/tariff/bindUser', ['middleware' => 'auth', "uses" => $controller . 'bindTariffBindUser']);
-    $router->get('/tariff/user', ['middleware' => 'auth', "uses" => $controller . 'getCurrentTariff']);
+    $router->post('/tariff/bindUser', ['middleware' => 'auth', "uses" => $controller . '@bindTariffBindUser']);
+    $router->get('/tariff/user', ['middleware' => 'auth', "uses" => $controller . '@getCurrentTariff']);
 
     /**
      * @OA\GET(path="/writeOffs",
@@ -312,7 +312,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/writeOffs', ['middleware' => 'auth', "uses" => $controller . 'getAllWriteOffs']);
+    $router->get('/writeOffs', ['middleware' => 'auth', "uses" => $controller . '@getAllWriteOffs']);
     /**
      * @OA\Post(path="/writeOffs",
      *   tags={"billing"},
@@ -350,7 +350,7 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->get('/writeOffs/user', ['middleware' => 'auth', "uses" => $controller . 'getCurrentWriteOffs']);
+    $router->get('/writeOffs/user', ['middleware' => 'auth', "uses" => $controller . '@getCurrentWriteOffs']);
     /**
      * @OA\GET(path="/tariff/user",
      *   tags={"billing"},
@@ -363,5 +363,5 @@ $router->group(['prefix' => '/billing'], function () use ($router) {
      *   @OA\Response(response=404, description="User not found"),
      * )
      */
-    $router->post('/writeOffs', ['middleware' => 'auth', "uses" => $controller . 'payRent']);
+    $router->post('/writeOffs', ['middleware' => 'auth', "uses" => $controller . '@payRent']);
 });

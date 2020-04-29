@@ -69,7 +69,7 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/create', ['middleware' => 'auth', 'uses' => $controller . 'createClaim']);
+    $router->post('/create', ['middleware' => 'auth', 'uses' => $controller . '@createClaim']);
     /**
      * @OA\Get(
      *     path="/claim/m/list",
@@ -186,7 +186,7 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . 'listClaim']);
+    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . '@listClaim']);
     /**
      * @OA\Put(
      *     path="/claim/m/update",
@@ -242,7 +242,7 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
      *     )
      * )
      */
-    $router->put('/update', ['middleware' => 'auth', 'uses' => $controller . 'updateClaim']);
+    $router->put('/update', ['middleware' => 'auth', 'uses' => $controller . '@updateClaim']);
 
     /***
      * COMMENTS
@@ -310,7 +310,7 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
      *     )
      * )
      */
-    $router->post('/comment', ['middleware' => 'auth', 'uses' => $controller . 'createClaimComment']);
+    $router->post('/comment', ['middleware' => 'auth', 'uses' => $controller . '@createClaimComment']);
     /**
      * @OA\Get(
      *     path="/claim/m/comments",
@@ -418,5 +418,5 @@ $router->group(['prefix' => '/claim/m'], function () use ($router) {
      *     )
      * )
      */
-    $router->get('/comments', ['middleware' => 'auth', 'uses' => $controller . 'listClaimComments']);
+    $router->get('/comments', ['middleware' => 'auth', 'uses' => $controller . '@listClaimComments']);
 });
