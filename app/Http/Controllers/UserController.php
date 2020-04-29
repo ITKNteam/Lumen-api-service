@@ -28,9 +28,9 @@ class UserController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->authHandler = new AuthHandler(getenv('auth_uri'));
-        $this->profileHandler = new ProfileHandler(getenv('biz_uri'));
-        $this->notifierHandler = new NotifierHandler(getenv('notifier_uri'));
+        $this->authHandler = new AuthHandler(getenv('AUTH_URI'));
+        $this->profileHandler = new ProfileHandler(getenv('BIZ_URI'));
+        $this->notifierHandler = new NotifierHandler(getenv('NOTIFIER_URI'));
     }
 
     /**
@@ -106,7 +106,7 @@ class UserController extends Controller {
         if (ProfileHandler::loginIsEmailOrPhone($login) === 'email') {
             //notifier
             // отправка проверочного hash
-            $emailActivationUri = env('email_activation_uri');
+            $emailActivationUri = env('EMAIL_ACTIVATION_URI');
 
             $data['sendEmailResult'] = $this->notifierHandler
                 ->sendEmailHash($profileData['userId'], $hashOrSmsCode, $emailActivationUri, $login)
@@ -254,7 +254,7 @@ class UserController extends Controller {
         ]);
 
         if ($profileHandler->isSuccess()) {
-            $emailActivationUri = env('email_activation_uri');
+            $emailActivationUri = env('EMAIL_ACTIVATION_URI');
 
             if (empty($emailActivationUri)) {
                 abort(500, 'Missing env parameter for email activation uri');
@@ -355,7 +355,7 @@ class UserController extends Controller {
             $this->sentryAbort(new Exception($res->getMessage(), $res->getRes()));
         }
 
-        $emailActivationUri = env('email_activation_uri');
+        $emailActivationUri = env('EMAIL_ACTIVATION_URI');
 
         $result = $res->getResult();
         $result['notifier'] = $this->notifierHandler->sendEmailHash(0, $res->getData()['hash'], $emailActivationUri, $email)->getResult();
@@ -463,7 +463,7 @@ class UserController extends Controller {
             $resEmailNotifier = $this->notifierHandler->sendEmailHash(
                 $res['userId'],
                 $res['hashEmail'],
-                env('email_activation_uri'),
+                env('EMAIL_ACTIVATION_URI'),
                 $request->get('email')
             );
         }

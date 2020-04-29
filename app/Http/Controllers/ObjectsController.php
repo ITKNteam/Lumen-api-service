@@ -15,7 +15,7 @@ class ObjectsController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->objectsHandler = new ObjectsHandler(env('objects_uri'));
+        $this->objectsHandler = new ObjectsHandler(env('OBJECTS_URI'));
     }
 
 

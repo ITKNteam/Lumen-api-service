@@ -15,7 +15,7 @@ class BillingController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->billingHandler = new BillingHandler(env('biz_uri'));
+        $this->billingHandler = new BillingHandler(env('BIZ_URI'));
     }
 
     public function addCreditCard(Request $request): array {

@@ -15,7 +15,7 @@ class TranslateController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->translateHandler = new TranslateHandler(env('biz_uri'));
+        $this->translateHandler = new TranslateHandler(env('BIZ_URI'));
     }
 
     /**

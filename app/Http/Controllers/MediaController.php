@@ -10,7 +10,7 @@ class MediaController extends Controller {
     private $mediaHandler;
 
     function __construct() {
-        $this->mediaHandler = new MediaHandler(env('media_uri'));
+        $this->mediaHandler = new MediaHandler(env('MEDIA_URI'));
     }
 
     public function uploadBase64File(Request $request): array {

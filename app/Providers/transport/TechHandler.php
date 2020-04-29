@@ -306,7 +306,7 @@ class TechHandler extends Handler {
     }
 
     public function userVehicle($user_id): ResultDto {
-        $mediaUrl = env('media_uri');
+        $mediaUrl = env('MEDIA_URI');
 
         return new ResultDto(
             1,

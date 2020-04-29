@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider {
 
     function __construct($app) {
         parent::__construct($app);
-        $this->authHandler = new AuthHandler(env('auth_uri'));
+        $this->authHandler = new AuthHandler(env('AUTH_URI'));
     }
 
     /**

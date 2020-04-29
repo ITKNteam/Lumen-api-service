@@ -18,8 +18,8 @@ class ClaimController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->claimHandler = new ClaimHandler(env('biz_uri'));
-        $this->mediaHandler = new MediaHandler(env('media_uri'));
+        $this->claimHandler = new ClaimHandler(env('BIZ_URI'));
+        $this->mediaHandler = new MediaHandler(env('MEDIA_URI'));
     }
 
     public function createClaim(Request $request): array {

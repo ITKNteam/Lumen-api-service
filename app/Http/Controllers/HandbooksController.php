@@ -17,7 +17,7 @@ class HandbooksController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->handbooksHandler = new HandbooksHandler(env('biz_uri'));
+        $this->handbooksHandler = new HandbooksHandler(env('BIZ_URI'));
         $this->userCntrl = new UserController();
     }
 

@@ -19,8 +19,8 @@ class TechController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->techHandler = new TechHandler(env('tech_uri'), env('tech_lumen_uri'));
-        $this->billingHandler = new BillingHandler(env('biz_uri'));
+        $this->techHandler = new TechHandler(env('TECH_URI'), env('TECH_LUMEN_URI'));
+        $this->billingHandler = new BillingHandler(env('BIZ_URI'));
     }
 
     public function getCoordinates(Request $request): array {

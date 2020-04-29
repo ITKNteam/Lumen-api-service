@@ -15,7 +15,7 @@ class RoutesController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->routesHandler = new RoutesHandler(env('routes_uri'));
+        $this->routesHandler = new RoutesHandler(env('ROUTES_URI'));
     }
 
     /**

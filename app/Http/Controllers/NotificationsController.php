@@ -15,7 +15,7 @@ class NotificationsController extends Controller {
      * @throws Exception
      */
     function __construct() {
-        $this->notificationsHandler = new NotificationsHandler(env('notifier_uri'));
+        $this->notificationsHandler = new NotificationsHandler(env('NOTIFIER_URI'));
     }
 
     public function sendNotifications(Request $request) {
