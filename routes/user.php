@@ -265,7 +265,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByPhone', ['middleware' => 'auth', 'uses' => $controller . '@setPasswordApplyByPhone']);
+    $router->post('/setPasswordApplyByPhone', $controller.'@setPasswordApplyByPhone');
     /**
      * @OA\Post(path="/user/setPasswordApplyByEmail",
      *   tags={"user"},
@@ -308,7 +308,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   ),
      * )
      */
-    $router->post('/setPasswordApplyByEmail', ['middleware' => 'auth', 'uses' => $controller . '@setPasswordApplyByEmail']);
+    $router->post('/setPasswordApplyByEmail', $controller . '@setPasswordApplyByEmail');
     /**
      * @OA\Post(path="/user/logout",
      *   tags={"user"},
@@ -387,7 +387,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/activateEmail', ['middleware' => 'auth', 'uses' => $controller . '@activateEmail']);
+    $router->post('/activateEmail', $controller . '@activateEmail');
     /**
      * @OA\Post(path="/user/changePhone",
      *   tags={"user"},
@@ -460,7 +460,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/activatePhone', ['middleware' => 'auth', 'uses' => $controller . '@activatePhone']);
+    $router->post('/activatePhone', $controller . '@activatePhone');
     /**
      * @OA\Post(path="/user/resetEmail",
      *   tags={"user"},
@@ -738,7 +738,7 @@ $router->group(['prefix' => '/user'], function () use ($router) {
      *   @OA\Response(response=400, description="This email has been exists in system')
      * )
      */
-    $router->post('/m/confirmTerm', $controller . '@mobileConfirmTerm');
+    $router->post('/m/confirmTerm', ['middleware' => 'auth', 'uses' => $controller . '@mobileConfirmTerm']);
     /**
      * @OA\Post(path="/user/m/smsCode",
      *   tags={"mobile"},
