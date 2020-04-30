@@ -58,7 +58,7 @@ class UserController extends Controller {
             return ResultDto::createResult($e->getCode(), $e->getMessage());
         }
 
-        if (!$resProfile->isSuccess()) {
+        if (!$resProfile->isSuccess() || empty($resProfile->getData())) {
             $this->sentryAbort(new Exception($resProfile->getMessage(), $resProfile->getRes()));
         }
 
