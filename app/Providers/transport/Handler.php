@@ -47,7 +47,7 @@ class Handler {
         $code = $res->getStatusCode();
 
         if (isset($response['code']) || isset($response['res'])) {
-            $code = ($response['code'] ?? $response['res']);
+            $code = ($response['res'] ?? $response['code']);
         }
 
         $message = 'Not found message';
