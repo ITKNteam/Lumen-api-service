@@ -109,7 +109,7 @@ class HandbooksController extends Controller {
         if ($handbooksHandler->isSuccess()) {
             return $this->responseJSON($handbooksHandler);
         } else {
-            $$this->sentryAbort(new Exception($handbooksHandler->getMessage(), $handbooksHandler->getRes()));
+            return $this->failResponse($handbooksHandler);
         }
     }
 }

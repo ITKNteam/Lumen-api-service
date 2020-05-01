@@ -40,6 +40,11 @@ class Controller extends BaseController {
         abort(in_array($e->getCode(), [200, 500, 409, 400, 404]) ? $e->getCode() : 500, $e->getMessage());
     }
 
+    public function failResponse(ResultDto $resultDto) {
+        http_response_code(in_array($resultDto->getRes(), [200, 500, 409, 400, 404]) ? $resultDto->getRes() : 500);
+        return $resultDto->getResult();
+    }
+
     public function responseJSON(ResultDto $result) {
         return response()->json($result->getResult());
     }
