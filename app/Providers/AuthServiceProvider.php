@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ResultDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -29,19 +30,28 @@ class AuthServiceProvider extends ServiceProvider {
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            return new User($this->getAuthUserId($request));
+            $resultAuth = $this->getAuthUserId($request);
+            if($resultAuth->isSuccess()){
+                return new User($resultAuth->getData('user_id'));
+            }
         });
+        return null;
     }
 
-    private function getAuthUserId(Request $request): int {
+    private function getAuthUserId(Request $request) {
         $token = $request->header('authorization');
 
         if (empty($token)) {
-            abort(403, 'Invalid token.');
+            return  (new ResultDto(0, 'Invalid token.', [], 403));
         }
 
-        return (int) $this->authHandler->validateToken([
+         $resValidateToken = $this->authHandler->validateToken([
             'token' => trim(str_replace("Bearer", "", $token))
-        ])->getData('user_id');
+        ]);
+        if ($resValidateToken->isSuccess()){
+            return $resValidateToken;
+        } else {
+            return  (new ResultDto(0, 'Invalid token.', [], 403));
+        }
     }
 }

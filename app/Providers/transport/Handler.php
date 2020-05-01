@@ -9,6 +9,8 @@ use App\Models\ResultDto;
 use Illuminate\Http\UploadedFile;
 
 class Handler {
+
+    const XDEBUG = 0;
     /**
      * @var Client
      */
@@ -17,7 +19,6 @@ class Handler {
     protected $serviceName = 'Unknown';
 
     protected $tmpDir;
-
     /**
      * Handler constructor.
      * @param string $url
@@ -46,9 +47,13 @@ class Handler {
 
         $code = $res->getStatusCode();
 
+        /**
         if (isset($response['code']) || isset($response['res'])) {
             $code = ($response['code'] ?? $response['res']);
         }
+         */
+
+
 
         $message = 'Not found message';
 
@@ -57,8 +62,9 @@ class Handler {
         }
 
         $data = $response['data'] ?? $response;
+        $result = $response['res'] ?? ResultDto::FAIL;
 
-        return new ResultDto($code, $message, $data ?? []);
+        return new ResultDto($result, $message, $data ?? [], $code);
     }
 
     /**
@@ -69,6 +75,9 @@ class Handler {
      */
     public function post(string $method, array $params, array $options = []): ResultDto {
         try {
+            if ( self::XDEBUG === 1){
+                $params['XDEBUG_SESSION_START'] = 'PHPSTORM';
+            }
             $form_params = [
                 'form_params' => $params
             ];
@@ -87,7 +96,7 @@ class Handler {
             return $this->createResult($this->client->post($method, $form_params));
         } catch (Exception $e) {
             Sentry\captureException($e);
-            return new ResultDto(400, $e->getMessage());
+            return new ResultDto(0, $e->getMessage(), [], 400);
         }
     }
 
@@ -142,7 +151,7 @@ class Handler {
             return $this->createResult($this->client->get($method, $query));
         } catch (Exception $e) {
             Sentry\captureException($e);
-            return new ResultDto(400, $e->getMessage());
+            return new ResultDto(0, $e->getMessage(), [], 400);
         }
     }
 
@@ -167,7 +176,7 @@ class Handler {
             return $this->createResult($this->client->delete($method, $options));
         } catch (Exception $e) {
             Sentry\captureException($e);
-            return new ResultDto(400, $e->getMessage());
+            return new ResultDto(0, $e->getMessage(), [], 400);
         }
     }
 
@@ -192,10 +201,16 @@ class Handler {
             return $this->createResult($this->client->patch($method, $options));
         } catch (Exception $e) {
             Sentry\captureException($e);
-            return new ResultDto(400, $e->getMessage());
+            return new ResultDto(0, $e->getMessage(), [], 400);
         }
     }
 
+    /**
+     * @param array $input
+     * @param null  $files
+     *
+     * @return array
+     */
     public function prepareMultipartForm(array $input = [], $files = null) {
         $prepare = [];
 

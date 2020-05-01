@@ -41,15 +41,22 @@ class ResultDto {
     private $data;
 
     /**
+     *  HTTP code
+     * @var int
+     */
+    private $code;
+
+    /**
      * ResultDto constructor.
      * @param int $res
      * @param string $message
      * @param array $data
      */
-    function __construct(int $res, string $message, array $data = []) {
+    function __construct(int $res, string $message, array $data = [], $code = self::HTTP_SUCCESS) {
         $this->res = $res;
         $this->message = $message;
         $this->data = $data;
+        $this->code = $code;
     }
 
     /**
@@ -57,6 +64,7 @@ class ResultDto {
      */
     public function getResult(): array {
         return [
+            'code' => $this->code,
             'res' => $this->res,
             'message' => $this->message,
             'data' => $this->data
@@ -67,7 +75,7 @@ class ResultDto {
      * @return bool
      */
     public function isSuccess(): bool {
-        return in_array($this->res, [self::OK, self::HTTP_SUCCESS]);
+        return $this->res === self::OK;
     }
 
     /**
@@ -85,13 +93,6 @@ class ResultDto {
         return empty($key) ? $this->data : $this->data[$key];
     }
 
-    static public function createResult(int $code, string $message, array $data = []): array {
-        return [
-            'res' => $code,
-            'message' => $message,
-            'data' => $data
-        ];
-    }
 
     /**
      * @return int
@@ -99,4 +100,14 @@ class ResultDto {
     public function getRes(): int {
         return $this->res;
     }
+
+    /**
+     * @return int
+     */
+    public function getCode(): int
+    {
+        return $this->code;
+    }
+
+
 }

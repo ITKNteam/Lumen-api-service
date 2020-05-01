@@ -55,7 +55,7 @@ class UserController extends Controller {
             );
         } catch (Exception $e) {
             Sentry\captureException($e);
-            return ResultDto::createResult($e->getCode(), $e->getMessage());
+            return   (new ResultDto(0, $e->getMessage(), [], $e->getCode()))->getResult();
         }
 
         if (!$resProfile->isSuccess()) {
@@ -190,6 +190,11 @@ class UserController extends Controller {
     public function updateUser(Request $request) {
         $this->requestHas($request, $this->getUserFields());
 
+        if ($request->user() == null){
+            return $this->responseJSON(
+                new ResultDto(0, 'Невалидный токен', [], 400)
+            );
+        }
         $requestParams = [
             'id' => $request->user()->getId()
         ];
@@ -213,7 +218,7 @@ class UserController extends Controller {
         //TODO выполняет запрос верно, но отвечает 500
         if ($resSetPassword->isSuccess()) {
             return $this->responseJSON(
-                $this->authHandler->login(['user_id' => $resSetPassword->getData()['userId']])
+                $this->authHandler->login(['id' => $resSetPassword->getData()['data']['userId']])
             );
         } else {
             $this->sentryAbort(new Exception($resSetPassword->getMessage(), $resSetPassword->getRes()));
@@ -230,11 +235,12 @@ class UserController extends Controller {
         );
 
         if (!$profileHandler->isSuccess()) {
+            return $this->responseJSON($profileHandler);
             $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
         }
 
         //TODO выполняет запрос верно, но отвечает 500
-        return $this->responseJSON($this->authHandler->login(['user_id' => $profileHandler->getData()['userId']]));
+        return $this->responseJSON($this->authHandler->login(['id' => $profileHandler->getData()['userId']]));
     }
 
 
@@ -246,7 +252,13 @@ class UserController extends Controller {
     public function changeEmail(Request $request) {
         $this->requestHas($request, 'email');
 
-        $userId = $request->user()->getId();
+        if ($request->user() == null){
+            return $this->responseJSON(
+                new ResultDto(0, 'Невалидный токен', [], 400)
+            );
+        }
+        $userId =  $request->user()->getId();
+
         $email = $request->get('email');
         $profileHandler = $this->profileHandler->addNotActiveEmailToUser([
             'userId' => $userId,
@@ -276,7 +288,12 @@ class UserController extends Controller {
                 ))
             );
         } else {
-            abort(400, $profileHandler->getMessage());
+
+                return $this->responseJSON(
+                     $profileHandler
+                );
+
+
         }
     }
 
@@ -307,6 +324,11 @@ class UserController extends Controller {
         $number = $request->get('phone');
         $countryCode = $request->get('country_code');
 
+        if ($request->user() == null){
+            return $this->responseJSON(
+                new ResultDto(0, 'Невалидный токен', [], 400)
+            );
+        }
         $profileHandler = $this->profileHandler->addNotActivePhoneToUser([
             'phone' => $number,
             'userId' => $request->user()->getId(),
@@ -401,6 +423,11 @@ class UserController extends Controller {
      * @return array
      */
     public function setPushToken(Request $request) {
+        if ($request->user() == null){
+            return $this->responseJSON(
+                new ResultDto(0, 'Невалидный токен', [], 400)
+            );
+        }
         return $this->responseJSON(
             $this->profileHandler->setPushToken(
                 array_merge(

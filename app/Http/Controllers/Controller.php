@@ -17,9 +17,9 @@ class Controller extends BaseController {
     public function requestHas(Request $request, $key) {
         if (!$request->has($key)) {
             if (is_array($key)) {
-                abort(400, "Missing parameter one of: " . implode(',', $key));
+                return response()->json((new ResultDto(0, 'Missing parameter one of: ' . implode(',', $key),[], 400) )->getResult() );
             } else {
-                abort(400, "Missing parameter: $key");
+                return response()->json((new ResultDto(0, 'Missing parameter ' .$key,[], 400) )->getResult());
             }
         }
     }
@@ -29,7 +29,7 @@ class Controller extends BaseController {
         $requestFields = [];
 
         foreach ($fields as $field) {
-            $requestFields[$field] = $request->get($field);
+            $requestFields[$field] = $request->input($field);
         }
 
         return $requestFields;
@@ -37,10 +37,13 @@ class Controller extends BaseController {
 
     public function sentryAbort(Exception $e) {
         Sentry\captureException($e);
-        abort(in_array($e->getCode(), [200, 500, 409, 400, 404]) ? $e->getCode() : 500, $e->getMessage());
+        return response()->json((new ResultDto(0, $e->getMessage(), $e->getCode()) )->getResult());
+
+        //abort(in_array($e->getCode(), [200, 500, 409, 400, 404]) ? $e->getCode() : 500, $e->getMessage());
     }
 
     public function responseJSON(ResultDto $result) {
-        return response()->json($result->getResult());
+
+        return response()->json($result->getResult() );
     }
 }
