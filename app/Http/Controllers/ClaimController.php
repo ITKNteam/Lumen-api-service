@@ -59,7 +59,7 @@ class ClaimController extends Controller {
         if ($claimHandler->isSuccess()) {
             return $this->responseJSON($claimHandler);
         } else {
-            $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
+            return $this->failResponse($claimHandler);
         }
     }
 
@@ -86,7 +86,7 @@ class ClaimController extends Controller {
         if ($claimHandler->isSuccess()) {
             return $this->responseJSON($claimHandler);
         } else {
-            $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
+            return $this->failResponse($claimHandler);
         }
     }
 
@@ -98,7 +98,7 @@ class ClaimController extends Controller {
         if ($claimHandler->isSuccess()) {
             return $this->responseJSON($claimHandler);
         } else {
-            $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
+            return $this->failResponse($claimHandler);
         }
     }
 
@@ -115,7 +115,7 @@ class ClaimController extends Controller {
         if ($claimHandler->isSuccess()) {
             return $this->responseJSON($claimHandler);
         } else {
-            $this->sentryAbort(new Exception($claimHandler->getMessage(), $claimHandler->getRes()));
+            return $this->failResponse($claimHandler);
         }
     }
 

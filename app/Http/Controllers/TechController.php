@@ -73,7 +73,7 @@ class TechController extends Controller {
         ]);
 
         if (!$resTech->isSuccess()) {
-            $this->sentryAbort(new Exception($resTech->getMessage()));
+            return $this->failResponse($resTech);
         }
 
         $resBilling = $this->billingHandler->payRent([
@@ -82,7 +82,7 @@ class TechController extends Controller {
         ]);
 
         if (!$resBilling->isSuccess()) {
-            $this->sentryAbort(new Exception($resBilling->getMessage(), $resBilling->getRes()));
+            return $this->failResponse($resBilling);
         }
 
         $resTechData = (array)$resTech->getData('sessionInfo');
@@ -197,7 +197,7 @@ class TechController extends Controller {
         $res = $this->techHandler->onlineSessionCost($request->all());
 
         if (!$res->isSuccess()) {
-            $this->sentryAbort(new Exception($res->getMessage() ?? 'onlineSessionCost fail'));
+            return $this->failResponse($res);
         }
 
         $resTariff = $this->billingHandler->getTariffUser([
@@ -205,7 +205,7 @@ class TechController extends Controller {
         ]);
 
         if (!$resTariff->isSuccess()) {
-            $this->sentryAbort(new Exception($resTariff->getMessage() ?? 'onlineSessionCost tarif'));
+            return $this->failResponse($resTariff);
         }
 
         $rentCost = $resTariff->getData('usingCost');

@@ -49,7 +49,7 @@ class Handler {
 
         /**
         if (isset($response['code']) || isset($response['res'])) {
-            $code = ($response['code'] ?? $response['res']);
+            $code = ($response['res'] ?? $response['code']);
         }
          */
 

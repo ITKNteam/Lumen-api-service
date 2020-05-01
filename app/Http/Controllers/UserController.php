@@ -68,7 +68,7 @@ class UserController extends Controller {
         $resAuth = $this->authHandler->login(['id' => $user_id]);
 
         if (!$resAuth->isSuccess()) {
-            $this->sentryAbort(new Exception($resProfile->getMessage(), $resProfile->getRes()));
+            return $this->failResponse($resAuth);
         }
 
         return $this->responseJSON($resAuth);
@@ -92,7 +92,7 @@ class UserController extends Controller {
         $profileData = $resProfile->getData();
 
         if (!isset($profileData['hash'])) {
-            $this->sentryAbort(new Exception($resProfile->getMessage(), $resProfile->getRes()));
+            return $this->failResponse($resProfile);
         }
 
         $hashOrSmsCode = $profileData['hash'];
@@ -190,11 +190,6 @@ class UserController extends Controller {
     public function updateUser(Request $request) {
         $this->requestHas($request, $this->getUserFields());
 
-        if ($request->user() == null){
-            return $this->responseJSON(
-                new ResultDto(0, 'Невалидный токен', [], 400)
-            );
-        }
         $requestParams = [
             'id' => $request->user()->getId()
         ];
@@ -218,10 +213,10 @@ class UserController extends Controller {
         //TODO выполняет запрос верно, но отвечает 500
         if ($resSetPassword->isSuccess()) {
             return $this->responseJSON(
-                $this->authHandler->login(['id' => $resSetPassword->getData()['data']['userId']])
+                $this->authHandler->login(['user_id' => $resSetPassword->getData()['userId']])
             );
         } else {
-            $this->sentryAbort(new Exception($resSetPassword->getMessage(), $resSetPassword->getRes()));
+            return $this->failResponse($resSetPassword);
         }
     }
 
@@ -235,8 +230,7 @@ class UserController extends Controller {
         );
 
         if (!$profileHandler->isSuccess()) {
-            return $this->responseJSON($profileHandler);
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         //TODO выполняет запрос верно, но отвечает 500
@@ -307,7 +301,7 @@ class UserController extends Controller {
         $profileHandler = $this->profileHandler->activateEmail(['hash' => $request->get('hash')]);
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         return $this->responseJSON($profileHandler);
@@ -336,7 +330,7 @@ class UserController extends Controller {
         ]);
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $profileData = $profileHandler->getData();
@@ -376,7 +370,7 @@ class UserController extends Controller {
         $res = $this->profileHandler->generateNewHashEmail(['email' => $email]);
 
         if (!$res->isSuccess()) {
-            $this->sentryAbort(new Exception($res->getMessage(), $res->getRes()));
+            return $this->failResponse($res);
         }
 
         $emailActivationUri = env('EMAIL_ACTIVATION_URI');
@@ -400,13 +394,13 @@ class UserController extends Controller {
         $profileHandler = $this->profileHandler->generateNewHashPhone(['phone' => $phone, 'country_code' => $countryCode]);
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $hash = $profileHandler->getData()['hash'];
 
         if (empty($hash)) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $phoneNumber = $countryCode . $phone;
@@ -530,13 +524,13 @@ class UserController extends Controller {
         ));
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $hashOrSmsCode = $profileHandler->getData()['hash'];
 
         if (empty($hashOrSmsCode)) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         //notifier
@@ -571,7 +565,7 @@ class UserController extends Controller {
         );
 
         if (!$retProfile->isSuccess()) {
-            $this->sentryAbort(new Exception($retProfile->getMessage(), $retProfile->getRes()));
+            return $this->failResponse($retProfile);
         }
 
         return $this->responseJSON($this->authHandler->login([
@@ -613,13 +607,13 @@ class UserController extends Controller {
         );
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $hashOrSmsCode = $profileHandler->getData()['hash'];
 
         if (empty($hashOrSmsCode)) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         //notifier
@@ -645,7 +639,7 @@ class UserController extends Controller {
         );
 
         if (!$profileHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($profileHandler->getMessage(), $profileHandler->getRes()));
+            return $this->failResponse($profileHandler);
         }
 
         $data = $profileHandler->getData();
@@ -654,7 +648,7 @@ class UserController extends Controller {
         $authHandler = $this->authHandler->login(['id' => $data['userId']]);
 
         if (!$authHandler->isSuccess()) {
-            $this->sentryAbort(new Exception($authHandler->getMessage(), $authHandler->getRes()));
+            return $this->failResponse($authHandler);
         }
 
         $token = $authHandler->getData()['token'];
