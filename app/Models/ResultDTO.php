@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 /**
@@ -73,7 +74,7 @@ class ResultDto {
     /**
      * @return string
      */
-    public function getMessage():string {
+    public function getMessage(): string {
         return $this->message;
     }
 
@@ -82,7 +83,11 @@ class ResultDto {
      * @return array|mixed
      */
     public function getData(string $key = '') {
-        return empty($key) ? $this->data : $this->data[$key];
+        if (empty($key)) {
+            return $this->data;
+        }
+
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     static public function createResult(int $code, string $message, array $data = []): array {
@@ -99,4 +104,14 @@ class ResultDto {
     public function getRes(): int {
         return $this->res;
     }
+
+    /**
+     * @return int
+     */
+    public function getCode(): int {
+        return $this->code;
+    }
+
+}
+
 }
