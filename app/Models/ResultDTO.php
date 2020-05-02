@@ -111,7 +111,4 @@ class ResultDto {
     public function getCode(): int {
         return $this->code;
     }
-
-}
-
 }
