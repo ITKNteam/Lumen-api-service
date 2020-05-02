@@ -15,109 +15,139 @@ class RoutesHandler extends Handler {
         $this->serviceName = 'routes';
     }
 
-    public function index($input): ResultDto {
-        return $this->get('', $input);
-    }
-
     public function getHeadings(array $input): ResultDto {
-        return $this->get('headings', $this->prepareGetParams($input));
+        return $this->get('routes/headings', $this->prepareGetParams($input));
     }
 
     public function setHeading(array $input): ResultDto {
-        return $this->post('headings', [], [
+        return $this->post('routes/headings', [], [
             'multipart' => $this->prepareMultipartForm($input)
         ]);
     }
 
     public function updateHeading(array $input): ResultDto {
-        return $this->put('headings', [], [
-            'form_params' => $input
-        ]);
+        return $this->put('routes/headings', $input);
     }
 
-    public function getRoutes(array $input): ResultDto {
-        return $this->get('routes', $this->prepareGetParams($input));
+    public function deleteHeadings(array $input): ResultDto {
+        return $this->delete('routes/headings', $this->prepareGetParams($input));
     }
 
-    public function getUserRoutes(array $input): ResultDto {
-        return $this->get('routes/user', $this->prepareGetParams($input));
+    public function getRoutesShop(array $input): ResultDto {
+        return $this->get('routes/list/shop', $this->prepareGetParams($input));
+    }
+
+    public function getRoutesUser(array $input): ResultDto {
+        return $this->get('routes/list/user', $this->prepareGetParams($input));
     }
 
     public function setRoute(array $input, $files = null): ResultDto {
-        return $this->post('routes', [], [
-            'multipart' => $this->prepareMultipartForm($input, $files)
-        ]);
-    }
-
-    public function updatePosterRoute(array $input, $files = null): ResultDto {
-        return $this->post('routes/poster', [], [
+        return $this->post('routes/list', [], [
             'multipart' => $this->prepareMultipartForm($input, $files)
         ]);
     }
 
     public function updateRoute(array $input): ResultDto {
-        return $this->put('routes', [], [
-            'form_params' => $input
-        ]);
+        return $this->put('routes/list', $input);
     }
 
     public function deleteRoutes(array $input): ResultDto {
-        return $this->delete('routes', $this->prepareGetParams($input));
+        return $this->delete('routes/list', $this->prepareGetParams($input));
     }
 
-    public function paidRoute(array $input): ResultDto {
-        return $this->post('routes/paid', [], [
+    public function updatePosterRoute(array $input, $files = null): ResultDto {
+        return $this->post('routes/list/poster', [], [
+            'multipart' => $this->prepareMultipartForm($input, $files)
+        ]);
+    }
+
+    public function purchaseRoute(array $input): ResultDto {
+        return $this->post('routes/purchase', [], [
             'multipart' => $this->prepareMultipartForm($input)
         ]);
+    }
+
+    public function deletePurchasesRoutes(array $input): ResultDto {
+        return $this->delete('routes/purchase', $this->prepareGetParams($input));
     }
 
     public function getPoints(array $input): ResultDto {
-        return $this->get('points', $this->prepareGetParams($input));
+        return $this->get('routes/points', $this->prepareGetParams($input));
     }
 
-    public function setPoint(array $input): ResultDto {
-        return $this->post('points', [], [
-            'multipart' => $this->prepareMultipartForm($input)
-        ]);
-    }
-
-    public function setPointArr(array $input): ResultDto {
-        return $this->post('points/arr', [], [
+    public function setPoints(array $input): ResultDto {
+        return $this->post('routes/points', [], [
             'multipart' => $this->prepareMultipartForm($input)
         ]);
     }
 
     public function updatePoint(array $input): ResultDto {
-        return $this->put('points', [], [
-            'form_params' => $input
-        ]);
+        return $this->put('routes/points', $input);
     }
 
     public function deletePoints(array $input): ResultDto {
-        return $this->delete('points', $this->prepareGetParams($input));
+        return $this->delete('routes/points', $this->prepareGetParams($input));
     }
 
     public function getComments(array $input): ResultDto {
-        return $this->get('comments', $this->prepareGetParams($input));
+        return $this->get('routes/comments', $this->prepareGetParams($input));
     }
 
     public function setComment(array $input): ResultDto {
-        return $this->post('comments', [], [
+        return $this->post('routes/comments', [], [
             'multipart' => $this->prepareMultipartForm($input)
         ]);
     }
 
     public function updateComment(array $input): ResultDto {
-        return $this->put('comments', [], [
-            'form_params' => $input
-        ]);
+        return $this->put('routes/comments', $input);
     }
 
     public function deleteComments(array $input): ResultDto {
-        return $this->delete('comments', $this->prepareGetParams($input));
+        return $this->delete('routes/comments', $this->prepareGetParams($input));
+    }
+
+    public function getRouteCommentsRatingReviews(array $input): ResultDto {
+        return $this->get('routes/comments/rating_reviews', $this->prepareGetParams($input));
     }
 
     public function getAudit(array $input): ResultDto {
-        return $this->get('audit', $this->prepareGetParams($input));
+        return $this->get('routes/audit', $this->prepareGetParams($input));
+    }
+
+    public function getFilters(array $input): ResultDto {
+        return $this->get('routes/filters', $this->prepareGetParams($input));
+    }
+
+    public function setFilter(array $input): ResultDto {
+        return $this->post('routes/filters', [], [
+            'multipart' => $this->prepareMultipartForm($input)
+        ]);
+    }
+
+    public function updateFilter(array $input): ResultDto {
+        return $this->put('routes/filters', $input);
+    }
+
+    public function deleteFilters(array $input): ResultDto {
+        return $this->delete('routes/filters', $this->prepareGetParams($input));
+    }
+
+    public function getStatuses(array $input): ResultDto {
+        return $this->get('routes/statuses', $this->prepareGetParams($input));
+    }
+
+    public function setStatus(array $input): ResultDto {
+        return $this->post('routes/statuses', [], [
+            'multipart' => $this->prepareMultipartForm($input)
+        ]);
+    }
+
+    public function updateStatus(array $input): ResultDto {
+        return $this->put('routes/statuses', $input);
+    }
+
+    public function deleteStatuses(array $input): ResultDto {
+        return $this->delete('routes/statuses', $this->prepareGetParams($input));
     }
 }
