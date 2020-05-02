@@ -12,11 +12,11 @@ class NotificationsHandler extends Handler {
      */
     function __construct(string $url) {
         parent::__construct($url);
-        $this->serviceName = 'biz-claim';
+        $this->serviceName = 'notifications';
     }
 
     public function sendNotifications(array $input): ResultDto {
-        return $this->post('notifications/send', [
+        return $this->post('notifications/send', [], [
             'multipart' => $this->prepareMultipartForm($input)
         ]);
     }

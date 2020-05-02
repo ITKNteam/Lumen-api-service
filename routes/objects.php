@@ -13,43 +13,11 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     deprecated=false,
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
@@ -79,14 +47,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="id",
-     *                 description="Идентификатор созданной записи",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -94,14 +55,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -149,18 +103,48 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
     $router->put('/types', ['middleware' => 'auth', 'uses' => $controller . '@updateObjectType']);
+    /**
+     * @OA\Delete(
+     *     path="/objects/types",
+     *     tags={"Микросервис Объекты"},
+     *     summary="Удаление типов объектов",
+     *     description="Маршрут для удаления типов объектов",
+     *     operationId="deleteObjectTypes",
+     *     security={{"bearerAuth":{}}},
+     *     deprecated=false,
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="query",
+     *         description="Список идентификаторов через запятую",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успех"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Невалидное значения параметра"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Записи для удаления не найдены"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Ошибка удаления записи"
+     *     )
+     * )
+     */
+    $router->delete('/types', ['middleware' => 'auth', 'uses' => $controller . '@deleteObjectTypes']);
 
     /**
      * @OA\Get(
@@ -183,52 +167,19 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="typeId",
-     *                         description="Идентификатор типа",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Невалидное значения параметра"
      *     ),
      *     @OA\Response(
+     *         response=404,
+     *         description="Не найдено"
+     *     ),
+     *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
@@ -264,14 +215,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="id",
-     *                 description="Идентификатор созданной записи",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -279,14 +223,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -340,18 +277,48 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
     $router->put('/subtypes', ['middleware' => 'auth', 'uses' => $controller . '@updateObjectSubtype']);
+    /**
+     * @OA\Delete(
+     *     path="/objects/subtypes",
+     *     tags={"Микросервис Объекты"},
+     *     summary="Удаление подтипов объектов",
+     *     description="Маршрут для удаления подтипов объектов",
+     *     operationId="deleteObjectSubtypes",
+     *     security={{"bearerAuth":{}}},
+     *     deprecated=false,
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="query",
+     *         description="Список идентификаторов через запятую",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успех"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Невалидное значения параметра"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Записи для удаления не найдены"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Ошибка удаления записи"
+     *     )
+     * )
+     */
+    $router->delete('/subtypes', ['middleware' => 'auth', 'uses' => $controller . '@deleteObjectSubtypes']);
 
     /**
      * @OA\Get(
@@ -359,147 +326,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     tags={"Объекты"},
      *     summary="Список объектoв",
      *     description="Маршрут для получения списка объектов",
-     *     operationId="getListObjects",
-     *     security={{"bearerAuth":{}}},
-     *     deprecated=false,
-     *     @OA\Parameter(
-     *         name="filters",
-     *         in="query",
-     *         description="Фильтр для выборки",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="array",
-     *             @OA\Items(
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="property",
-     *                      description="Параметр поиска",
-     *                      type="string"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="value",
-     *                      description="Значение для поиска",
-     *                      type="string"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="operation",
-     *                      default="=",
-     *                      description="Операция для поиска (=, like, ilike, or, in)",
-     *                      type="string"
-     *                  )
-     *             )
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         description="Количество записей для выборки",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="offset",
-     *         in="query",
-     *         description="Смещение",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="subtypeId",
-     *                         description="Идентификатор подтипа",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="userId",
-     *                         description="Идентификатор пользователя, создавшего объект",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="lat",
-     *                         description="Широта",
-     *                         type="number"
-     *                     ),
-     *
-     *                     @OA\Property(
-     *                         property="lng",
-     *                         description="Долгота",
-     *                         type="number"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="description",
-     *                         description="Дополнительные данные о объекте в формате JSON",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="isPublic",
-     *                         description="Признак публичности",
-     *                         type="boolean"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="createdTs",
-     *                         description="Дата и время создания",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Невалидное значения параметра"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . '@getListObjects']);
-    /**
-     * @OA\Get(
-     *     path="/objects/user",
-     *     tags={"Микросервис Объекты"},
-     *     summary="Список объектов пользователя",
-     *     description="Маршрут для получения списка объектов пользователя",
-     *     operationId="getUserObjects",
+     *     operationId="getObjects",
      *     security={{"bearerAuth":{}}},
      *     deprecated=false,
      *     @OA\Parameter(
@@ -514,7 +341,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="offset",
+     *         name="start",
      *         in="query",
      *         description="Смещение",
      *         required=false,
@@ -524,202 +351,50 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *             format="int64"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="filter",
+     *         in="query",
+     *         description="Фильтрация по условию",
+     *         required=false,
+     *         example="[{'property':'name','value':'demo', 'operator':'='}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Сортировка по условию",
+     *         required=false,
+     *         example="[{'property':'name','direction':'desc'}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="subtypeId",
-     *                         description="Идентификатор подтипа",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="lat",
-     *                         description="Широта",
-     *                         type="number"
-     *                     ),
-     *
-     *                     @OA\Property(
-     *                         property="lng",
-     *                         description="Долгота",
-     *                         type="number"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="description",
-     *                         description="Дополнительные данные о объекте в формате JSON",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="isPublic",
-     *                         description="Признак публичности объекта",
-     *                         type="boolean"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="createdTs",
-     *                         description="Дата и время создания",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Невалидное значения параметра"
      *     ),
      *     @OA\Response(
-     *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    $router->get('/user', ['middleware' => 'auth', 'uses' => $controller . '@getUserObjects']);
-
-    /**
-     * @OA\Get(
-     *     path="/objects",
-     *     tags={"Микросервис Объекты"},
-     *     summary="Список публичных объектoв",
-     *     description="Маршрут для получения списка публичных объектов, включая все объекты, созданные пользователем",
-     *     operationId="getPublicObjects",
-     *     security={{"bearerAuth":{}}},
-     *     deprecated=false,
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         description="Количество записей для выборки",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             default=25,
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="offset",
-     *         in="query",
-     *         description="Смещение",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             default=0,
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="subtypeId",
-     *                         description="Идентификатор подтипа",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="userId",
-     *                         description="Идентификатор пользователя, создавшего объект",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="lat",
-     *                         description="Широта",
-     *                         type="number"
-     *                     ),
-     *
-     *                     @OA\Property(
-     *                         property="lng",
-     *                         description="Долгота",
-     *                         type="number"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="description",
-     *                         description="Дополнительные данные о объекте в формате JSON",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="isPublic",
-     *                         description="Признак публичности",
-     *                         type="boolean"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="createdTs",
-     *                         description="Дата и время создания",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Невалидное значения параметра"
+     *         response=404,
+     *         description="Не найдено"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
-    $router->get('/', ['middleware' => 'auth', 'uses' => $controller . '@getPublicObjects']);
+    $router->get('/list', ['middleware' => 'auth', 'uses' => $controller . '@getObjects']);
     /**
      * @OA\Post(
-     *     path="/objects",
+     *     path="/objects/list",
      *     tags={"Микросервис Объекты"},
      *     summary="Создание объекта",
      *     description="Маршрут для создания объекта. Может принимать любое количество дополнительных параметров, кроме указанных",
@@ -752,25 +427,13 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *                      property="name",
      *                      description="Название объекта",
      *                      type="string"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="is_public",
-     *                      description="Признак публичности объекта",
-     *                      type="boolean"
      *                  )
      *             )
      *         )
      *     ),
      *      @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="id",
-     *                 description="Идентификатор созданной записи",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *      @OA\Response(
      *         response=400,
@@ -778,21 +441,14 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *      @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
-    $router->post('/', ['middleware' => 'auth', 'uses' => $controller . '@setObject']);
+    $router->post('/list', ['middleware' => 'auth', 'uses' => $controller . '@setObject']);
     /**
      * @OA\Put(
-     *     path="/objects",
+     *     path="/objects/list",
      *     tags={"Микросервис Объекты"},
      *     summary="Редактирование объекта",
      *     description="Маршрут для редактирования объекта",
@@ -804,7 +460,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *                  required={"id", "subtypeId", "lat", "lng", "name"},
+     *                  required={"id"},
      *                  @OA\Property(
      *                      property="id",
      *                      description="Идентификатор объекта",
@@ -833,8 +489,8 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *                      type="string"
      *                  ),
      *                  @OA\Property(
-     *                      property="is_public",
-     *                      description="Признак публичности объекта",
+     *                      property="isPublished",
+     *                      description="Объект опубликован",
      *                      type="boolean"
      *                  )
      *             )
@@ -854,21 +510,14 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
-    $router->put('/', ['middleware' => 'auth', 'uses' => $controller . '@updateObject']);
+    $router->put('/list', ['middleware' => 'auth', 'uses' => $controller . '@updateObject']);
     /**
      * @OA\Delete(
-     *     path="/objects",
+     *     path="/objects/list",
      *     tags={"Микросервис Объекты"},
      *     summary="Удаление объектов",
      *     description="Маршрут для удаления объектов",
@@ -876,20 +525,10 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     security={{"bearerAuth":{}}},
      *     deprecated=false,
      *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         description="Идентификатор объекта",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Parameter(
      *         name="listId",
      *         in="query",
-     *         description="Список идентификаторов объектов через запятую",
-     *         required=false,
+     *         description="Список идентификаторов через запятую",
+     *         required=true,
      *         @OA\Schema(
      *             type="string"
      *         )
@@ -908,18 +547,11 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка удаления записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка удаления записи"
      *     )
      * )
      */
-    $router->delete('/', ['middleware' => 'auth', 'uses' => $controller . '@deleteObjects']);
+    $router->delete('/list', ['middleware' => 'auth', 'uses' => $controller . '@deleteObjects']);
 
     /**
      * @OA\Get(
@@ -952,7 +584,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="offset",
+     *         name="start",
      *         in="query",
      *         description="Смещение",
      *         required=false,
@@ -962,64 +594,43 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *             format="int64"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="filter",
+     *         in="query",
+     *         description="Фильтрация по условию",
+     *         required=false,
+     *         example="[{'property':'name','value':'demo', 'operator':'='}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Сортировка по условию",
+     *         required=false,
+     *         example="[{'property':'name','direction':'desc'}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="objectId",
-     *                         description="Идентификатор объекта",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="userId",
-     *                         description="Идентификатор пользователя",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="commentary",
-     *                         description="Комментарий пользователя к объекту",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="createdTs",
-     *                         description="Время создания",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Невалидное значения параметра"
      *     ),
      *     @OA\Response(
+     *         response=404,
+     *         description="Не найдено"
+     *     ),
+     *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
@@ -1055,14 +666,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="id",
-     *                 description="Идентификатор созданной записи",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -1070,14 +674,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -1125,14 +722,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -1147,20 +737,10 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     security={{"bearerAuth":{}}},
      *     deprecated=false,
      *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         description="Идентификатор комментария",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Parameter(
      *         name="listId",
      *         in="query",
-     *         description="Список идентификаторов комментариев через запятую",
-     *         required=false,
+     *         description="Список идентификаторов через запятую",
+     *         required=true,
      *         @OA\Schema(
      *             type="string"
      *         )
@@ -1179,14 +759,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка удаления записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка удаления записи"
      *     )
      * )
      */
@@ -1213,7 +786,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="offset",
+     *         name="start",
      *         in="query",
      *         description="Смещение",
      *         required=false,
@@ -1221,6 +794,28 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *             type="integer",
      *             default=0,
      *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="filter",
+     *         in="query",
+     *         description="Фильтрация по условию",
+     *         required=false,
+     *         example="[{'property':'name','value':'demo', 'operator':'='}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Сортировка по условию",
+     *         required=false,
+     *         example="[{'property':'name','direction':'desc'}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
      *         )
      *     ),
      *     @OA\Response(
@@ -1292,43 +887,11 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     deprecated=false,
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         description="Название",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
@@ -1358,14 +921,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="id",
-     *                 description="Идентификатор созданной записи",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -1373,14 +929,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -1428,18 +977,48 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
     $router->put('/file/types', ['middleware' => 'auth', 'uses' => $controller . '@updateFileType']);
+    /**
+     * @OA\Delete(
+     *     path="/objects/file/types",
+     *     tags={"Микросервис Объекты"},
+     *     summary="Удаление типов файлов",
+     *     description="Маршрут для удаления типов файлов",
+     *     operationId="deleteObjectsFileTypes",
+     *     security={{"bearerAuth":{}}},
+     *     deprecated=false,
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="query",
+     *         description="Список идентификаторов через запятую",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успех"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Невалидное значения параметра"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Записи для удаления не найдены"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Ошибка удаления записи"
+     *     )
+     * )
+     */
+    $router->delete('/file/types', ['middleware' => 'auth', 'uses' => $controller . '@deleteFileTypes']);
 
     /**
      * @OA\Get(
@@ -1472,7 +1051,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="offset",
+     *         name="start",
      *         in="query",
      *         description="Смещение",
      *         required=false,
@@ -1482,44 +1061,31 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *             format="int64"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="filter",
+     *         in="query",
+     *         description="Фильтрация по условию",
+     *         required=false,
+     *         example="[{'property':'name','value':'demo', 'operator':'='}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Сортировка по условию",
+     *         required=false,
+     *         example="[{'property':'name','direction':'desc'}]",
+     *         @OA\Schema(
+     *             type="string",
+     *             default=null
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Успех",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="items",
-     *                 description="Список записей",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         description="Идентификатор",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="fileTypeId",
-     *                         description="Идентификатор типа файла",
-     *                         type="integer"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="fileHash",
-     *                         description="Hash файла для получения URL с микросервиса Медиа",
-     *                         type="string"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="createdTs",
-     *                         description="Время создания",
-     *                         type="string"
-     *                     )
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="total",
-     *                 description="Количество записей",
-     *                 type="integer"
-     *             )
-     *         )
+     *         description="Успех"
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -1527,14 +1093,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка выборки данных",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка выборки данных"
      *     )
      * )
      */
@@ -1553,7 +1112,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *                  required={"objectId"},
+     *                  required={"objectId", "files"},
      *                  @OA\Property(
      *                      property="objectId",
      *                      description="Идентификатор объекта",
@@ -1561,7 +1120,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *                      format="int64"
      *                  ),
      *                  @OA\Property(
-     *                      property="file",
+     *                      property="files",
      *                      description="Выбранные файлы",
      *                      type="array",
      *                      @OA\Items(
@@ -1582,72 +1141,11 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
     $router->post('/file/attached', ['middleware' => 'auth', 'uses' => $controller . '@setAttachedFile']);
-    /**
-     * @OA\Delete(
-     *     path="/objects/file/attached",
-     *     tags={"Микросервис Объекты"},
-     *     summary="Удаление прикрепленных файлов к объекту",
-     *     description="Маршрут для удаления прикрепленных файлов к объекту",
-     *     operationId="deleteAttachedFiles",
-     *     security={{"bearerAuth":{}}},
-     *     deprecated=false,
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         description="Идентификатор файла",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="listId",
-     *         in="query",
-     *         description="Список идентификаторов файлов через запятую",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Успех"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Невалидное значения параметра"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Записи для удаления не найдены"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Ошибка удаления записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    $router->delete('/file/attached', ['middleware' => 'auth', 'uses' => $controller . '@deleteAttachedFiles']);
     /**
      * @OA\Put(
      *     path="/objects/file/attached",
@@ -1662,7 +1160,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *                  required={"id", "index"},
+     *                  required={"id"},
      *                  @OA\Property(
      *                      property="id",
      *                      description="Идентификатор прикрепленного файла",
@@ -1676,12 +1174,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *                      format="int64"
      *                  ),
      *                  @OA\Property(
-     *                      property="name",
-     *                      description="Альтернативное название файла",
-     *                      type="string"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="parentId",
+     *                      property="linkId",
      *                      description="Идентификатор родительского файла для прикрепления",
      *                      type="integer",
      *                      format="int64"
@@ -1703,18 +1196,48 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
     $router->put('/file/attached', ['middleware' => 'auth', 'uses' => $controller . '@updateAttachedFile']);
+    /**
+     * @OA\Delete(
+     *     path="/objects/file/attached",
+     *     tags={"Микросервис Объекты"},
+     *     summary="Удаление прикрепленных файлов к объекту",
+     *     description="Маршрут для удаления прикрепленных файлов к объекту",
+     *     operationId="deleteAttachedFiles",
+     *     security={{"bearerAuth":{}}},
+     *     deprecated=false,
+     *     @OA\Parameter(
+     *         name="listId",
+     *         in="query",
+     *         description="Список идентификаторов файлов через запятую",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успех"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Невалидное значения параметра"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Записи для удаления не найдены"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Ошибка удаления записи"
+     *     )
+     * )
+     */
+    $router->delete('/file/attached', ['middleware' => 'auth', 'uses' => $controller . '@deleteAttachedFiles']);
 
     /**
      * @OA\Post(
@@ -1756,7 +1279,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *                      )
      *                  ),
      *                  @OA\Property(
-     *                      property="file",
+     *                      property="files",
      *                      description="Выбранные файлы",
      *                      type="string",
      *                      format="binary"
@@ -1774,14 +1297,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка создания записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка создания записи"
      *     )
      * )
      */
@@ -1824,14 +1340,7 @@ $router->group(['prefix' => '/objects'], function () use ($router) {
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Ошибка сохранения записи",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="exception",
-     *                 description="Причина сбоя",
-     *                 type="string"
-     *             )
-     *         )
+     *         description="Ошибка сохранения записи"
      *     )
      * )
      */
