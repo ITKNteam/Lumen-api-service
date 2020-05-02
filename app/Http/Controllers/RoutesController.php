@@ -19,14 +19,6 @@ class RoutesController extends Controller {
     }
 
     /**
-     * Метод базового маршрута
-     */
-    public function index(Request $request) {
-        $params = $request->all();
-        return $this->responseJSON($this->routesHandler->index($params));
-    }
-
-    /**
      * Метод маршрута для получения списка рубрик.
      */
     public function getHeadings(Request $request) {
@@ -38,7 +30,6 @@ class RoutesController extends Controller {
      * Метод маршрута для создания рубрики.
      */
     public function setHeading(Request $request) {
-        $this->getRequestFields($request, ['name']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->setHeading($params));
@@ -48,55 +39,51 @@ class RoutesController extends Controller {
      * Метод маршрута для редактирования рубрики.
      */
     public function updateHeading(Request $request) {
-        $this->getRequestFields($request, ['id', 'name']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->updateHeading($params));
     }
 
     /**
-     * Метод маршрута для получения списка маршрутов.
+     * Метод маршрута для удаления рубрик.
      */
-    public function getRoutes(Request $request) {
+    public function deleteHeadings(Request $request) {
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
-        return $this->responseJSON($this->routesHandler->getRoutes($params));
+        return $this->responseJSON($this->routesHandler->deleteHeadings($params));
     }
 
     /**
-     * Метод маршрута для получения списка маршрутов.
+     * Метод маршрута для получения списка маршрутов для магазина.
      */
-    public function getUserRoutes(Request $request) {
+    public function getRoutesShop(Request $request) {
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
-        return $this->responseJSON($this->routesHandler->getUserRoutes($params));
+        return $this->responseJSON($this->routesHandler->getRoutesShop($params));
+    }
+
+    /**
+     * Метод маршрута для получения списка маршрутов пользователя.
+     */
+    public function getRoutesUser(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->getRoutesUser($params));
     }
 
     /**
      * Метод маршрута для создания маршрута.
      */
     public function setRoute(Request $request) {
-        $this->getRequestFields($request, ['name']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->setRoute($params, $request->allFiles()));
     }
 
     /**
-     * Метод маршрута для редактирования постера маршрута.
-     */
-    public function updatePosterRoute(Request $request) {
-        $this->getRequestFields($request, ['id']);
-        $params = $request->all();
-        $params['userId'] = $request->user()->getId();
-        return $this->responseJSON($this->routesHandler->updatePosterRoute($params, $request->allFiles()));
-    }
-
-    /**
      * Метод маршрута для редактирования маршрута.
      */
     public function updateRoute(Request $request) {
-        $this->getRequestFields($request, ['id', 'name']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->updateRoute($params));
@@ -106,57 +93,59 @@ class RoutesController extends Controller {
      * Метод маршрута для удаления маршрутов.
      */
     public function deleteRoutes(Request $request) {
-        if (!$request->has('id') && !$request->has('listId')) {
-            abort(400, 'Missing parameter: id or listId');
-        }
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->deleteRoutes($params));
     }
 
     /**
-     * Метод маршрута для покупки маршрута пользователем.
+     * Метод маршрута для редактирования постера маршрута.
      */
-    public function paidRoute(Request $request) {
-        $this->getRequestFields($request, ['routeId']);
+    public function updatePosterRoute(Request $request) {
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
-        return $this->responseJSON($this->routesHandler->paidRoute($params));
+        return $this->responseJSON($this->routesHandler->updatePosterRoute($params, $request->allFiles()));
+    }
+
+    /**
+     * Метод маршрута для покупки маршрута пользователем.
+     */
+    public function purchaseRoute(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->purchaseRoute($params));
+    }
+
+    /**
+     * Метод маршрута для удаления покупок.
+     */
+    public function deletePurchasesRoutes(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->deletePurchasesRoutes($params));
     }
 
     /**
      * Метод маршрута для получения списка точек.
      */
     public function getPoints(Request $request) {
-        $this->getRequestFields($request, ['routeId']);
         $params = $request->all();
         return $this->responseJSON($this->routesHandler->getPoints($params));
     }
 
     /**
-     * Метод маршрута для создания точки.
-     */
-    public function setPoint(Request $request) {
-        $this->getRequestFields($request, ['routeId', 'lat', 'lng', 'placeName']);
-        $params = $request->all();
-        $params['userId'] = $request->user()->getId();
-        return $this->responseJSON($this->routesHandler->setPoint($params));
-    }
-
-    /**
      * Метод маршрута для создания точек.
      */
-    public function setPointArr(Request $request) {
-        $this->getRequestFields($request, ['routeId', 'points']);
+    public function setPoints(Request $request) {
         $params = $request->all();
-        return $this->responseJSON($this->routesHandler->setPointArr($params));
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->setPoints($params));
     }
 
     /**
      * Метод маршрута для редактирования точки.
      */
     public function updatePoint(Request $request) {
-        $this->getRequestFields($request, ['id', 'lat', 'lng', 'placeName']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->updatePoint($params));
@@ -166,9 +155,6 @@ class RoutesController extends Controller {
      * Метод маршрута для удаления точек.
      */
     public function deletePoints(Request $request) {
-        if (!$request->has('id') && !$request->has('listId')) {
-            abort(400, 'Missing parameter: id or listId');
-        }
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->deletePoints($params));
@@ -178,7 +164,6 @@ class RoutesController extends Controller {
      * Метод маршрута для получения списка комментариев к маршруту.
      */
     public function getComments(Request $request) {
-        $this->getRequestFields($request, ['routeId']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->getComments($params));
@@ -188,7 +173,6 @@ class RoutesController extends Controller {
      * Метод маршрута для создания комментария к маршруту.
      */
     public function setComment(Request $request) {
-        $this->getRequestFields($request, ['routeId', 'commentary']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->setComment($params));
@@ -198,7 +182,6 @@ class RoutesController extends Controller {
      * Метод маршрута для редактирования комментария к маршруту.
      */
     public function updateComment(Request $request) {
-        $this->getRequestFields($request, ['id', 'commentary']);
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->updateComment($params));
@@ -208,12 +191,18 @@ class RoutesController extends Controller {
      * Метод маршрута для удаления комментария к маршруту.
      */
     public function deleteComments(Request $request) {
-        if (!$request->has('id') && !$request->has('listId')) {
-            abort(400, 'Missing parameter: id or listId');
-        }
         $params = $request->all();
         $params['userId'] = $request->user()->getId();
         return $this->responseJSON($this->routesHandler->deleteComments($params));
+    }
+
+    /**
+     * Метод маршрута для получения списка статистики оценок и отзывав.
+     */
+    public function getRouteCommentsRatingReviews(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->getRouteCommentsRatingReviews($params));
     }
 
     /**
@@ -223,5 +212,75 @@ class RoutesController extends Controller {
     public function getAudit(Request $request) {
         $params = $request->all();
         return $this->responseJSON($this->routesHandler->getAudit($params));
+    }
+
+    /**
+     * Метод маршрута для получения списка фильтров.
+     */
+    public function getFilters(Request $request) {
+        $params = $request->all();
+        return $this->responseJSON($this->routesHandler->getFilters($params));
+    }
+
+    /**
+     * Метод маршрута для создания фильтра.
+     */
+    public function setFilter(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->setFilter($params));
+    }
+
+    /**
+     * Метод маршрута для редактирования фильтра.
+     */
+    public function updateFilter(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->updateFilter($params));
+    }
+
+    /**
+     * Метод маршрута для удаления фильтров.
+     */
+    public function deleteFilters(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->deleteFilters($params));
+    }
+
+    /**
+     * Метод маршрута для получения списка статусов.
+     */
+    public function getStatuses(Request $request) {
+        $params = $request->all();
+        return $this->responseJSON($this->routesHandler->getStatuses($params));
+    }
+
+    /**
+     * Метод маршрута для создания статуса.
+     */
+    public function setStatus(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->setStatus($params));
+    }
+
+    /**
+     * Метод маршрута для редактирования статуса.
+     */
+    public function updateStatus(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->updateStatus($params));
+    }
+
+    /**
+     * Метод маршрута для удаления статусов.
+     */
+    public function deleteStatuses(Request $request) {
+        $params = $request->all();
+        $params['userId'] = $request->user()->getId();
+        return $this->responseJSON($this->routesHandler->deleteStatuses($params));
     }
 }
