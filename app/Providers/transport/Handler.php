@@ -46,7 +46,7 @@ class Handler {
         Sentry\addBreadcrumb(new Sentry\Breadcrumb(
             Sentry\Breadcrumb::LEVEL_ERROR,
             Sentry\Breadcrumb::TYPE_ERROR,
-            $this->serviceName,
+            $this->serviceName . '-response',
             json_encode($response)
         ));
 
