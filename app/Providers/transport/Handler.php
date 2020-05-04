@@ -233,10 +233,10 @@ class Handler {
         return $prepare;
     }
 
-    private function getFileContent($file) {
+    private function getFileContent(UploadedFile $file) {
         $fileName = time() . '_' . $file->getClientOriginalName();
         $pathFile = $this->tmpDir . $fileName;
-        
+
         $file->move($this->tmpDir, $fileName);
 
         $content = fopen($pathFile, 'r');
