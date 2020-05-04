@@ -202,6 +202,10 @@ class Handler {
         $prepare = [];
 
         foreach ($input as $key => $value) {
+            if (is_object($value) || is_array($value)) {
+                continue;
+            }
+
             $prepare[] = [
                 'name' => $key,
                 'contents' => $value
@@ -209,29 +213,44 @@ class Handler {
         }
 
         if (is_array($files)) {
-            foreach ($files as $file) {
-                $pathFile = $this->tmpDir . $input['userId'] . '_' . time() . '_' . $file->getPathName();
-                $file->move($pathFile);
-
-                $prepare[] = [
-                    'name' => 'files[]',
-                    'contents' => fopen($pathFile, 'r')
-                ];
-
-                if (is_file($pathFile)) {
-                    unlink($pathFile);
+            foreach ($files as $key => $file) {
+                if (is_array($file)) {
+                    foreach ($file as $item) {
+                        $prepare[] = [
+                            'name' => $key . '[]',
+                            'contents' => $this->getFileContent($item)
+                        ];
+                    }
                 } else {
-                    Sentry\addBreadcrumb(new Sentry\Breadcrumb(
-                        Sentry\Breadcrumb::LEVEL_ERROR,
-                        Sentry\Breadcrumb::TYPE_ERROR,
-                        $this->serviceName,
-                        'Cannot delete path to file: ' . $pathFile
-                    ));
+                    $prepare[] = [
+                        'name' => $key,
+                        'contents' => $this->getFileContent($file)
+                    ];
                 }
             }
         }
 
         return $prepare;
+    }
+
+    private function getFileContent($file) {
+        $pathFile = $this->tmpDir . time() . '_' . $file->getPathName();
+        $file->move($pathFile);
+
+        $content = fopen($pathFile, 'r');
+
+        if (is_file($pathFile)) {
+            unlink($pathFile);
+        } else {
+            Sentry\addBreadcrumb(new Sentry\Breadcrumb(
+                Sentry\Breadcrumb::LEVEL_ERROR,
+                Sentry\Breadcrumb::TYPE_ERROR,
+                $this->serviceName,
+                'Cannot delete path to file: ' . $pathFile
+            ));
+        }
+
+        return $content;
     }
 
     /**
