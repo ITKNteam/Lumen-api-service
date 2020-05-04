@@ -221,7 +221,7 @@ class ObjectsController extends Controller {
         $requestFields['userId'] = $request->user()->getId();
 
         return $this->responseJSON(
-            $request->hasFile()
+            $request->hasFile('file')
                 ? $this->objectsHandler->setAttachedFile($requestFields, $this->request->getUploadedFiles())
                 : $this->objectsHandler->setAttachedFile($requestFields)
         );
