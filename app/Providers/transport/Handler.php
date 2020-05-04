@@ -18,6 +18,8 @@ class Handler {
 
     protected $tmpDir;
 
+    private $url;
+
     /**
      * Handler constructor.
      * @param string $url
@@ -27,6 +29,8 @@ class Handler {
         if (empty($url)) {
             throw new Exception('Invalid constructor arg url');
         }
+
+        $this->url = $url;
 
         $this->client = new Client([
             'base_uri' => $url,
@@ -56,6 +60,10 @@ class Handler {
 
         if (isset($response['messages']) || isset($response['message'])) {
             $message = ($response['messages'] ?? $response['message']);
+        }
+
+        if (!in_array($code, [200, 1])) {
+            throw new Exception($message);
         }
 
         $data = $response['data'] ?? $response;
@@ -138,7 +146,10 @@ class Handler {
                 Sentry\Breadcrumb::LEVEL_ERROR,
                 Sentry\Breadcrumb::TYPE_ERROR,
                 $this->serviceName,
-                json_encode($query)
+                json_encode([
+                    'url' => $this->url . $method,
+                    'query' => $query
+                ])
             ));
 
             return $this->createResult($this->client->get($method, $query));
