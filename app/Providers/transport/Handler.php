@@ -32,6 +32,8 @@ class Handler {
             'base_uri' => $url,
             'http_errors' => false
         ]);
+
+        $this->tmpDir = env('TMP_DIR');
     }
 
     private function createResult($res): ResultDto {
