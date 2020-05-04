@@ -234,8 +234,10 @@ class Handler {
     }
 
     private function getFileContent($file) {
-        $pathFile = $this->tmpDir . time() . '_' . $file->getPathName();
-        $file->move($pathFile);
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $pathFile = $this->tmpDir . $fileName;
+        
+        $file->move($this->tmpDir, $fileName);
 
         $content = fopen($pathFile, 'r');
 
