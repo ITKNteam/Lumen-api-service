@@ -232,6 +232,7 @@ class ObjectsController extends Controller {
      */
     public function updateAttachedFile(Request $request) {
         $requestFields = $request->all();
+        $requestFields['userId'] = $request->user()->getId();
         return $this->responseJSON($this->objectsHandler->updateAttachedFile($requestFields));
     }
 
@@ -240,6 +241,7 @@ class ObjectsController extends Controller {
      */
     public function deleteAttachedFiles(Request $request) {
         $requestFields = $request->all();
+        $requestFields['userId'] = $request->user()->getId();
         return $this->responseJSON($this->objectsHandler->deleteAttachedFiles($requestFields));
     }
 
