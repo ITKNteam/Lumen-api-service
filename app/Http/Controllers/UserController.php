@@ -213,7 +213,7 @@ class UserController extends Controller {
         //TODO выполняет запрос верно, но отвечает 500
         if ($resSetPassword->isSuccess()) {
             return $this->responseJSON(
-                $this->authHandler->login(['user_id' => $resSetPassword->getData()['userId']])
+                $this->authHandler->login(['id' => $resSetPassword->getData('userId')])
             );
         } else {
             return $this->failResponse($resSetPassword);
@@ -233,8 +233,7 @@ class UserController extends Controller {
             return $this->failResponse($profileHandler);
         }
 
-        //TODO выполняет запрос верно, но отвечает 500
-        return $this->responseJSON($this->authHandler->login(['user_id' => $profileHandler->getData()['userId']]));
+        return $this->responseJSON($this->authHandler->login(['id' => $profileHandler->getData('userId')]));
     }
 
 
