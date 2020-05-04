@@ -219,12 +219,7 @@ class ObjectsController extends Controller {
     public function setAttachedFile(Request $request) {
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-
-        return $this->responseJSON(
-            $request->hasFile('files')
-                ? $this->objectsHandler->setAttachedFile($requestFields, $request->allFiles())
-                : $this->objectsHandler->setAttachedFile($requestFields)
-        );
+        return $this->responseJSON($this->objectsHandler->setAttachedFile($requestFields, $request->allFiles()));
     }
 
     /**
@@ -252,11 +247,7 @@ class ObjectsController extends Controller {
     public function linkFileToFile(Request $request) {
         $requestFields = $request->all();
         $requestFields['userId'] = $request->user()->getId();
-        return $this->responseJSON(
-            $request->hasFile('files')
-                ? $this->objectsHandler->linkFileToFile($requestFields, $request->allFiles())
-                : $this->objectsHandler->linkFileToFile($requestFields)
-        );
+        return $this->responseJSON($this->objectsHandler->linkFileToFile($requestFields, $request->allFiles()));
     }
 
     /**
