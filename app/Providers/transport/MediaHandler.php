@@ -4,6 +4,7 @@ namespace App\Providers\transport;
 
 use App\Models\ResultDto;
 use GuzzleHttp\Client;
+use Exception;
 
 class MediaHandler extends Handler {
     private $awsClient;
@@ -42,7 +43,7 @@ class MediaHandler extends Handler {
         $fileUrl = $this->get('file/fileUri?filehash=' . $options['filehash'], []);
 
         if (!$fileUrl->isSuccess()) {
-            abort(500, 'Not call aws');
+            throw new Exception($fileUrl->getMessage());
         }
 
         $data = $fileUrl->getData();
