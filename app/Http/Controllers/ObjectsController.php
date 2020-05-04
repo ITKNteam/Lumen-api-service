@@ -222,7 +222,7 @@ class ObjectsController extends Controller {
 
         return $this->responseJSON(
             $request->hasFile('file')
-                ? $this->objectsHandler->setAttachedFile($requestFields, $this->request->getUploadedFiles())
+                ? $this->objectsHandler->setAttachedFile($requestFields, $request->allFiles())
                 : $this->objectsHandler->setAttachedFile($requestFields)
         );
     }
@@ -252,7 +252,7 @@ class ObjectsController extends Controller {
         $requestFields['userId'] = $request->user()->getId();
         return $this->responseJSON(
             $request->hasFile()
-                ? $this->objectsHandler->linkFileToFile($requestFields, $this->request->getUploadedFiles())
+                ? $this->objectsHandler->linkFileToFile($requestFields, $request->allFiles())
                 : $this->objectsHandler->linkFileToFile($requestFields)
         );
     }
