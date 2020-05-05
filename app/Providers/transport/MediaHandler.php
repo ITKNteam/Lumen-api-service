@@ -40,7 +40,7 @@ class MediaHandler extends Handler {
     }
 
     public function fileContent(array $options) {
-        $fileUrl = $this->get('file/fileUri?filehash=' . $options['filehash'], []);
+        $fileUrl = $this->get('file/fileUri', ['filehash'=>$options['filehash']]);
 
         if (!$fileUrl->isSuccess()) {
             throw new Exception($fileUrl->getMessage());
